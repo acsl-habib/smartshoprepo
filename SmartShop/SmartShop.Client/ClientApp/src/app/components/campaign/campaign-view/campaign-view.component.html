@@ -1,0 +1,57 @@
+<div class="view-container">
+  <mat-card class="mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title> Campaign </mat-card-title>
+      <mat-card-subtitle>Campaigns and discounts</mat-card-subtitle>
+      <img mat-card-avatar src="../../../../assets/icons/discount-svgrepo-com.svg" class="avatar" />
+      <span class="filler"></span>
+      <a mat-mini-fab [routerLink]="['/campaign-create']" color="primary"><mat-icon>add</mat-icon></a>
+    </mat-card-header>
+    <mat-card-content>
+
+      <mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="campaignName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Campaign name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element?.campaignName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="startDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Starts on</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element?.startDate | date:'yyyy-MM-dd'}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="endDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Ends on</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element?.endDate | date:'yyyy-MM-dd'}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="discountType">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Discount type</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{getDisCountTypeName(element?.discountType)}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="discountAmount">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Discount amount</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element?.discountAmount | number:'2.2-2'}} {{element?.perOrderValue == 0 ? ' Fixed': ' / ' + (element?.perOrderValue|number:'2.2-2') }}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="ruleType">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Rule type</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{getRuleValue(element)}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef ></mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <a mat-icon-button [routerLink]="['/campaign-edit', element.campaignId]" color="primary"><mat-icon>edit</mat-icon></a>
+            <button (click)="delete(element)" mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnList"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnList;"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+  <!--<div style="position:absolute;right:25px; bottom:15px">
+    <a mat-mini-fab [routerLink]="['/project-create']"><mat-icon>add</mat-icon></a>
+  </div>-->
+</div>
+
+
+

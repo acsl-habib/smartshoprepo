@@ -1,0 +1,15 @@
+.settings-container{
+  width: calc(100%-50px);
+  margin: 0 auto;
+}
+.settings-card{
+  margin: 16px 32px;
+}
+.content-distrbuted{
+  padding: 8px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+

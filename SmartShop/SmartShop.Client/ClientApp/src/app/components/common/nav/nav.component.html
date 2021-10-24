@@ -1,0 +1,69 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="'over'"
+               [opened]="false">
+    <div class="app-view">
+      <mat-toolbar>
+        <mat-toolbar-row>
+          <span class="logo-image">
+            <img src="../../../../assets/shopping-bag-svgrepo-com.svg" style="width:45px" />
+          </span>
+          <span>{{appName ?? 'Online Shop'}}</span>
+
+
+        </mat-toolbar-row>
+        <mat-divider></mat-divider>
+        <mat-toolbar-row class="row-2">
+        <mat-icon style="margin-right:16px;">handyman</mat-icon><span>Tools &amp; menu</span>
+
+      </mat-toolbar-row>
+      </mat-toolbar>
+    </div>
+
+    <ng-material-multilevel-menu [configuration]='config'
+                                 [items]='appitems'>
+    </ng-material-multilevel-menu>
+    <mat-nav-list class="bottom-link">
+
+      <a mat-list-item  [routerLink]="['/settings']"><mat-icon style="margin-right:16px; ">settings</mat-icon> Settings</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="accent" class="mat-elevation-z10">
+
+      <button type="button"
+              aria-label="Toggle sidenav"
+              mat-icon-button
+              (click)="drawer.toggle()">
+
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span class="logo-image">
+        <img src="../../../../assets/shopping-bag-svgrepo-com.svg" style="width:45px" />
+      </span>
+      <span>{{appName ?? 'Online Shop'}}</span>
+      <span class="filler"></span>
+      <a  mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_vert</mat-icon></a>
+      <mat-menu #menu="matMenu">
+        <span mat-menu-item style="width: 150px;">
+          <mat-icon>person</mat-icon>
+          <span>{{userName !== '' ? userName : "Guset"}}</span>
+        </span>
+        <mat-divider></mat-divider>
+        <a mat-menu-item [routerLink]="['/login']" *ngIf="!isLogged">
+          <mat-icon>login</mat-icon>
+          <span>Login</span>
+        </a>
+        <button mat-menu-item *ngIf="isLogged" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </button>
+
+      </mat-menu>
+    </mat-toolbar>
+    <div class="main-container mat-typography">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

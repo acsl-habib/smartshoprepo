@@ -1,0 +1,12 @@
+D:\OL04\SmartShop\SmartShop.DataLib\bin\Debug\netcoreapp3.1\SmartShop.DataLib.deps.json
+D:\OL04\SmartShop\SmartShop.DataLib\bin\Debug\netcoreapp3.1\SmartShop.DataLib.runtimeconfig.json
+D:\OL04\SmartShop\SmartShop.DataLib\bin\Debug\netcoreapp3.1\SmartShop.DataLib.runtimeconfig.dev.json
+D:\OL04\SmartShop\SmartShop.DataLib\bin\Debug\netcoreapp3.1\SmartShop.DataLib.dll
+D:\OL04\SmartShop\SmartShop.DataLib\bin\Debug\netcoreapp3.1\SmartShop.DataLib.pdb
+D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.AssemblyInfoInputs.cache
+D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.AssemblyInfo.cs
+D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.csproj.CoreCompileInputs.cache
+D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.dll
+D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.pdb
+D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.genruntimeconfig.cache
+D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.csprojAssemblyReference.cache

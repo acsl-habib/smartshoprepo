@@ -1,0 +1,38 @@
+<div class="view-container">
+  <mat-card class="mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title> User List </mat-card-title>
+      <mat-card-subtitle>Back-end users</mat-card-subtitle>
+      <img mat-card-avatar src="../../../../../assets/icons/users-svgrepo-com.svg" class="avatar" />
+      <span class="filler"></span>
+      <a mat-mini-fab href=# color="primary"><mat-icon>add</mat-icon></a>
+    </mat-card-header>
+    <mat-card-content>
+
+      <mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="username">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>User Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element?.username}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="email">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>E-mail</mat-header-cell>
+          <mat-cell *matCellDef="let element"><a href="mailto:{{element?.email}}">{{element?.email}}</a></mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="roles">
+          <mat-header-cell *matHeaderCellDef>Roles Designated</mat-header-cell>
+          
+          <mat-cell *matCellDef="let element">{{getRoleString(element?.roles)}}</mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnList"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: columnList;"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+  <!--<div style="position:absolute;right:25px; bottom:15px">
+    <a mat-mini-fab [routerLink]="['/project-create']"><mat-icon>add</mat-icon></a>
+  </div>-->
+</div>
+
+

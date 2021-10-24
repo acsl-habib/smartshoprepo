@@ -1,0 +1,96 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 8px 0;
+}
+
+p {
+  margin: 0;
+}
+.main-container {
+    box-sizing:border-box;
+    width:calc(100vw - 50px);
+    margin:0 auto;
+    padding:0;
+}
+.filler {
+    flex: 1 1 auto;
+}
+.filler-column {
+  display: flex;
+  align-items:stretch;
+  justify-content:flex-end;
+}
+.filler-column > * {
+    flex:1;
+    display:block;
+}
+.mat-simple-snackbar-action  button{
+  color: white !important;
+}
+.f-w {
+  width: 100%;
+  margin-bottom: .5rem 16px;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+.view-container {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 16px 0;
+}
+.table-card {
+
+  padding: 0;
+}
+.card-container {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 16px 0 32px 0;
+}
+.form-card-container {
+  box-sizing: border-box;
+  width:450px;
+  padding: 0;
+  margin: 16px auto 32px auto;
+}
+.form-container {
+ 
+  margin: 25px auto;
+}
+.medium-form-card-container {
+  box-sizing: border-box;
+  width: 70%;
+  padding: 0;
+  margin: 16px auto;
+}
+
+.medium-form-container {
+  margin:8px 16px;
+}
+  .medium-form-container a {
+      margin-left:10px;
+      margin-bottom:32px;
+  }
+
+  @media screen and (max-width: 600px) {
+    .medium-form-card-container {
+    box-sizing: border-box;
+    width: 97%;
+    padding: 0;
+    margin: 16px auto;
+  }
+
+  .medium-form-container {
+    margin: 15px auto;
+  }
+}
