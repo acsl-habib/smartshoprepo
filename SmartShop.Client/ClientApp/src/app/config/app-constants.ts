@@ -1,0 +1,87 @@
+export class AppConstants {
+  static apiUrl = "http://localhost:5000";
+  static appName = "Shop Smart";
+  static navItems = [
+    {
+      label: 'Home',
+      icon: 'home',
+      link: '/home'
+    },
+    {
+      label: "Item setup",
+      icon: 'perm_data_setting',
+      items: [
+        {
+          "label": "Brands",
+          "icon": "perm_data_setting",
+          "link": '/brands'
+        },
+        {
+          "label": "Categories",
+          "icon": "category",
+          "link": '/categories'
+        },
+        {
+          "label": "Subcategories",
+          "icon": "subtitles",
+          "link": '/subcategories'
+        },
+        {
+          "label": "Colors",
+          "icon": "palette",
+          "link": '/color'
+        },
+        {
+          "label": "Sizes",
+          "icon": "fit_screen",
+          "link": '/sizes'
+        },
+        {
+          label: "Shipping",
+          icon: "local_shipping",
+          link: "/shipping"
+        }
+      ]
+    },
+    {
+      label: 'Products',
+      icon: 'category',
+      items: [
+        {
+          label: 'Campaigns',
+          icon: 'campaign',
+          link: '/campaigns'
+        },
+        {
+          label: 'Products',
+          icon: 'inventory_2',
+          link: '/products'
+        }
+        
+      ]
+    },
+    {
+      label: "Customers",
+      icon: "groups",
+      items: [
+        {
+          label: "Customer list",
+          icon: "format_list_bulleted",
+          link: "/customers"
+        }
+
+      ]
+    },
+    {
+      "label": "Users",
+      "icon": "group",
+      "items": [
+        {
+          "label": "User and Roles",
+          "icon": "manage_accounts",
+          "link":"/users"
+        }
+      ]
+    }
+  ];
+}

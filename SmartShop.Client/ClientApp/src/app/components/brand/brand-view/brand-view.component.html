@@ -1,0 +1,39 @@
+<div class="view-container">
+  <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  <mat-card class="table-card mat-elevation-z9">
+    <mat-card-header>
+      <mat-card-title>Brands</mat-card-title>
+      <mat-card-subtitle>Product brands</mat-card-subtitle>
+      <img src="../../../../assets/adobe-bridge-brand-svgrepo-com.svg" mat-card-avatar class="avatar" />
+      <span class="filler"></span>
+      <a mat-mini-fab [routerLink]="['/brand-create']" [title]="'Create new brand'"><mat-icon>add</mat-icon></a>
+    </mat-card-header>
+    <mat-card-content >
+
+      <mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="brandName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Brand Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.brandName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="products">
+          <mat-header-cell *matHeaderCellDef>Products</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <a mat-icon-button [routerLink]="['/brand-product', element.brandId]"><mat-icon>view_cozy</mat-icon> Products</a>
+            
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef>Edit/Delete</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-icon-button [routerLink]="['/brand-edit', element.brandId]"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button color="warn" (click)="confirmDelete(element)"><mat-icon>delete</mat-icon></button>
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnList"></mat-header-row>
+        <mat-row *matRowDef="let row;columns:columnList"></mat-row>
+      </mat-table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+      
+    </mat-card-content>
+  </mat-card>
+</div>

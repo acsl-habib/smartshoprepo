@@ -1,0 +1,19 @@
+<div class="view-container">
+    <mat-card class="form-card-container mat-elevation-z9">
+    <h2>Create new Size</h2>
+    <form #addFrm="ngForm" (ngSubmit)="create(addFrm)" class="form-container">
+      <mat-form-field class="f-w" appearance="standard">
+        <mat-label>Size Name</mat-label>
+        <input matInput type="text" name="sizeName" id="sizeName" [(ngModel)]="Size.sizeName" #sizeName="ngModel" required />
+        <mat-error *ngIf="sizeName.touched && sizeName.invalid">Size Name is required</mat-error>
+      </mat-form-field>
+      
+      <div class="f-w" style="display:flex;justify-content:flex-end">
+        <button type="reset" mat-raised-button>Reset</button>
+        &nbsp;
+        <button type="submit" mat-raised-button color="primary" [disabled]="addFrm.invalid"><mat-icon>save</mat-icon>Create</button>
+      </div>
+    </form>
+    <a mat-flat-button [routerLink]="['/sizes']" class="mt-1"><mat-icon>west</mat-icon> Back to Sizes</a>
+</mat-card>
+  </div>

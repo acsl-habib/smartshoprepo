@@ -1,0 +1,96 @@
+<div class="view-container">
+  <mat-card class="medium-form-card-container mat-elevation-z8">
+    <mat-card-header>
+
+      <mat-card-title>Create campaign</mat-card-title>
+      <mat-card-subtitle>New campaign and offers</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content class="medium-form-container" *ngIf="campaign">
+
+      <form #editFrm="ngForm" class="form-2-col" (ngSubmit)="save(editFrm)">
+
+        <mat-form-field class="f-w" appearance="standard">
+          <mat-label>Campaign Name</mat-label>
+          <input matInput type="text" name="name" id="name" [(ngModel)]="campaign.campaignName" #name="ngModel" required />
+          <mat-error *ngIf="name.touched && name.invalid">Campaign name required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="f-w" appearance="standard">
+          <mat-label>Sub-category</mat-label>
+          <mat-select matInput type="text" name="subcategoryId" id="subcategoryId" [(ngModel)]="campaign.subcategoryId" #subcategoryId="ngModel" required>
+            <mat-option value="undefined">None</mat-option>
+            <mat-option [value]="option.subcategoryId" *ngFor="let option of subcategories">{{ option.subcategoryName }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="subcategoryId.touched && subcategoryId.invalid">Sub-category required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="f-w" appearance="standard">
+          <mat-label>Start date</mat-label>
+          <input matInput [matDatepicker]="picker1" type="text" name="startDate" id="startDate" [(ngModel)]="campaign.startDate" #startDate="ngModel" required />
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+          <mat-error *ngIf="startDate.touched && startDate.invalid">Start date required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="f-w" appearance="standard">
+          <mat-label>End date</mat-label>
+          <input matInput [matDatepicker]="picker2" type="text" name="endDate" id="endDate" [(ngModel)]="campaign.endDate" #endDate="ngModel" required />
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+          <mat-error *ngIf="endDate.touched && endDate.invalid">End date required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="f-w" appearance="standard">
+          <mat-label>Discount type</mat-label>
+          <mat-select matInput type="text" name="discountType" id="discountType" (selectionChange)="onDiscountTypeChange($event)"
+                      [(ngModel)]="campaign.discountType" #discountType="ngModel" required>
+            <mat-option>None</mat-option>
+            <mat-option [value]="option.value" *ngFor="let option of discountAmountTypeOptions">{{ option.label }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="discountType.touched && discountType.invalid">Discount type required</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="f-w" appearance="standard">
+          <mat-label>Discount amount</mat-label>
+          <input matInput type="text" name="discountAmount" id="discountAmount" [(ngModel)]="campaign.discountAmount" #discountAmount="ngModel" required />
+          <mat-error *ngIf="discountAmount.touched && discountAmount.invalid">Discount amount required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="f-w" appearance="standard">
+          <mat-label>Discount/order amount</mat-label>
+          <input matInput type="text" name="perOrderValue" id="perOrderValue" [readonly]="!IsAmountRequred"
+                 [(ngModel)]="campaign.perOrderValue" #perOrderValue="ngModel" required />
+          <mat-error *ngIf="discountAmount.touched && discountAmount.invalid">Discount /order amount  required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="f-w" appearance="standard">
+          <mat-label>Rule type</mat-label>
+          <mat-select matInput type="text" name="ruleType" id="ruleType" (selectionChange)="onRuleTypeChange($event)"
+                      [(ngModel)]="campaign.ruleType" #ruleType="ngModel" required>
+            <mat-option>None</mat-option>
+            <mat-option [value]="option.value" *ngFor="let option of discountRuleTypeOptions">{{ option.label }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="ruleType.touched && ruleType.invalid">Discount type required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="f-w" appearance="standard">
+          <mat-label>Min. Order Amount</mat-label>
+          <input matInput type="text" name="minOrderValue" id="minOrderValue" [readonly]="!IsMinOrderValueRequired"
+                 [(ngModel)]="campaign.minOrderValue" #minOrderValue="ngModel" required />
+          <mat-error *ngIf="minOrderValue.touched && minOrderValue.invalid">Min. order amount  required</mat-error>
+        </mat-form-field>
+        <div class="f-w ">
+          <mat-checkbox class="check-section" name="isActive" [(ngModel)]="campaign.isActive" #isActive="ngModel">Active</mat-checkbox>
+
+        </div>
+        <div style="grid-column: span 2;display:flex; justify-content:flex-end" class="example-button-row">
+          <button class="circle-link" type="reset" mat-raised-button color="accent">Reset</button>
+          &nbsp;
+          <button  class="circle-link" type="submit" mat-raised-button color="primary">Submit</button>
+        </div>
+
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions class="medium-form-container">
+      <a mat-flat-button [routerLink]="['/campaigns']" class="mt-1"><mat-icon>west</mat-icon> back to list</a>
+    </mat-card-actions>
+
+  </mat-card>
+</div>

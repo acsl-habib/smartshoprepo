@@ -1,0 +1,32 @@
+<div class="view-container">
+  <mat-card class="medium-form-card-container mat-elevation-z8">
+    <mat-card-header>
+      <mat-card-title>Create new sub-category</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="medium-form-container">
+      <form #editFrm="ngForm" (ngSubmit)="update(editFrm)">
+        <mat-form-field class="f-w" appearance="standard" *ngIf="subcategory">
+          <mat-label>Sub-category Name</mat-label>
+          <input matInput type="text" name="name" id="name" [(ngModel)]="subcategory.subcategoryName" #name="ngModel" required />
+          <mat-error *ngIf="name.touched && name.invalid">Sub-category name is required</mat-error>
+        </mat-form-field>
+        <mat-form-field class="f-w" appearance="standard" *ngIf="subcategory">
+          <mat-label>Category</mat-label>
+          <mat-select [(ngModel)]="subcategory.categoryId" name="category" id="category" #category="ngModel" required>
+            <mat-option></mat-option>
+            <mat-option [value]="option.categoryId" *ngFor="let option of categories">{{ option.categoryName }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="category.touched && category.invalid">Category is required</mat-error>
+        </mat-form-field>
+        <div class="f-w" style="display:flex;justify-content:flex-end">
+          <button type="reset" mat-raised-button color="accent"><mat-icon style="margin-right:12px">restart_alt</mat-icon>Reset</button>
+          &nbsp;
+          <button type="submit" mat-raised-button color="primary" [disabled]="editFrm.invalid"><mat-icon style="margin-right:12px">save_alt</mat-icon>Update</button>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-card-actions class="medium-form-container">
+      <a mat-flat-button [routerLink]="['/subcategories']" class="mt-1"><mat-icon>west</mat-icon> Back to List</a>
+    </mat-card-actions>
+  </mat-card>
+</div>

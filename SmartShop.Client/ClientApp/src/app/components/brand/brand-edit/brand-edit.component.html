@@ -1,0 +1,17 @@
+<div class="form-container">
+    <h2>Edit Brand:</h2>
+    <form #updateFrm="ngForm" (ngSubmit)="edit(updateFrm)">
+      <mat-form-field class="f-w" appearance="standard">
+        <mat-label>Brand Name</mat-label>
+        <input matInput type="text" name="brandName" id="brandName" [(ngModel)]="Brand.brandName" #brandName="ngModel" required />
+        <mat-error *ngIf="brandName.touched && brandName.invalid">Brand Name is required</mat-error>
+      </mat-form-field>
+    
+      <div class="f-w">
+        &nbsp;
+        <button type="submit" mat-raised-button color="primary" [disabled]="updateFrm.invalid"><mat-icon style="margin-right:10px;">edit_note</mat-icon>Update</button>
+      </div>
+    </form>
+    <a mat-flat-button [routerLink]="['/brands']" class="mt-1"><mat-icon>west</mat-icon> Back to Brands</a>
+  </div>
+  

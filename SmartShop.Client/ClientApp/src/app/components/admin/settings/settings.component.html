@@ -1,0 +1,14 @@
+<div class="settings-container">
+  <mat-card class="settings-card mat-elevation-z8" *ngIf="!isDbCreated">
+    <mat-card-header>
+      <mat-card-title>Database setup</mat-card-title>
+      <mat-card-subtitle>Database initiation</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="content-distrbuted">
+        <span>Database not found or created.</span>
+        <button type="button" mat-raised-button color="primary" [disabled]="isDbCreated" (click)="initDb()">Initiate database</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

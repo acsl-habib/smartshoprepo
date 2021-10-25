@@ -1,0 +1,33 @@
+<div class="view-container">
+    <mat-card class="medium-form-card-container mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Edit Shipping</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="medium-form-container">
+        <form #editFrm="ngForm" (ngSubmit)="update(editFrm)">
+
+          <mat-form-field class="f-w" appearance="standard" *ngIf="shipping">
+            <mat-label>Shipping Address</mat-label>
+            <input matInput type="text" name="shippingAddress" id="shippingAddress" [(ngModel)]="shipping.shippingAddress" #shippingAddress="ngModel" required />
+            <mat-error *ngIf="shippingAddress.touched && shippingAddress.invalid">Required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="f-w" appearance="standard" *ngIf="shipping">
+            <mat-label>Shipping Cost</mat-label>
+            <input matInput type="text" name="shippingCost" id="shippingCost" [(ngModel)]="shipping.shippingCost" #shippingCost="ngModel" required />
+            <mat-error *ngIf="shippingCost.touched && shippingCost.invalid">Required</mat-error>
+          </mat-form-field>
+
+          <div class="f-w" align="end">
+            <button type="reset" mat-raised-button color="accent"><mat-icon style="margin-right:12px">restart_alt</mat-icon>Reset</button>
+            &nbsp;
+            <button type="submit" mat-raised-button color="primary" [disabled]="editFrm.invalid"><mat-icon style="margin-right:12px">save_alt</mat-icon>Update</button>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-flat-button [routerLink]="['/shipping']" class="mt-1"><mat-icon>west</mat-icon> Back to List</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  

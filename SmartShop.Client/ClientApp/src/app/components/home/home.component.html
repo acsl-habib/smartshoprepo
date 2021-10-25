@@ -1,0 +1,35 @@
+<div class="home-container">
+  <div class="banner-card-container mat-elevation-z0">
+    <span class="banner-image  mat-elevation-z9">
+      <img src="../../../assets/shopping-bag-svgrepo-com.svg" class="" style="width:120px" />
+    </span>
+    <mat-card class="banner-card mat-elevation-z9">
+      <h1>Shop Smart</h1>&nbsp;<span> - smart digital life</span>
+    </mat-card>
+  </div>
+  <div class="card-container">
+    <h2>Resources</h2>
+    <div class="link-container">
+      <a href="#" class="card-link"
+     >Normal products <mat-icon class="link-icon">chevron_right</mat-icon></a>
+      <a [routerLink]="['/brands']" class="card-link"  ><span matBadgeOverlap="false" matBadge="8" matBadgePosition="before"  matBadgeColor="accent" [matBadgeHidden]="false">Brands</span> <mat-icon class="link-icon">chevron_right</mat-icon></a>
+      <a href="#" class="card-link">Categories <mat-icon class="link-icon">chevron_right</mat-icon></a>
+      <a href="#" class="card-link">Subcategories <mat-icon class="link-icon">chevron_right</mat-icon></a>
+      <a href="#" class="card-link">Sizes <mat-icon class="link-icon">chevron_right</mat-icon></a>
+      <a href="#" class="card-link">Colors <mat-icon class="link-icon">chevron_right</mat-icon></a>
+      <a href="#" class="card-link">Normal products <mat-icon class="link-icon">chevron_right</mat-icon></a>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="card-container">
+    <h2>Control</h2>
+
+    <div class="link-container">
+      <a class="card-link" mat-raised-button><mat-icon class="link-icon">add</mat-icon>Warehouse</a>
+      <a class="card-link" mat-button [routerLink]="['/users']" ><mat-icon class="link-icon">add</mat-icon>Uers</a>
+      <a href="#" class="card-link" mat-button><mat-icon class="link-icon">add</mat-icon>Mails</a>
+
+    </div>
+  </div>
+</div>
+

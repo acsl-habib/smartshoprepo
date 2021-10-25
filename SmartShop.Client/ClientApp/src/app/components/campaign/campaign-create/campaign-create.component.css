@@ -1,0 +1,15 @@
+.form-2-col
+{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:12px;
+    align-content:center;
+    align-items:center;
+    justify-content:center
+}
+.check-section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
