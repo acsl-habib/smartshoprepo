@@ -20,7 +20,7 @@ import { SettingsComponent } from './components/admin/settings/settings.componen
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth-guard';
 import { JwtTokenInterceptor } from './interceptors/jwt-token-interceptor';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DbUtilityService } from './services/data/db/db-utility.service';
 import { BrandViewComponent } from './components/brand/brand-view/brand-view.component';
@@ -64,6 +64,8 @@ import { ProductCreateComponent } from './components/product/product-create/prod
 import { ProductEditComponent } from './components/product/product-edit/product-edit.component';
 import { BrandProductComponent } from './components/brand/brand-product/brand-product.component';
 import { ProductService } from './services/data/product.service';
+import { ConfigLabelComponent } from './components/subcategory/config-label/config-label.component';
+import { ProductConfigService } from './services/data/product-config.service';
 
 
 
@@ -98,7 +100,8 @@ import { ProductService } from './services/data/product.service';
     ProductViewComponent,
     ProductCreateComponent,
     ProductEditComponent,
-    BrandProductComponent
+    BrandProductComponent,
+    ConfigLabelComponent
   ],
   imports: [
     BrowserModule,
@@ -106,6 +109,7 @@ import { ProductService } from './services/data/product.service';
     BrowserAnimationsModule,
     LayoutModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule,
     HttpClientModule,
     NgMaterialMultilevelMenuModule,
@@ -129,6 +133,7 @@ import { ProductService } from './services/data/product.service';
     CustomerService,
     SignalrService,
     ProductService,
+    ProductConfigService,
     AuthGuard,
     SignalrService, {
       provide: APP_INITIALIZER, useFactory: (svc: SignalrService) => () => svc.initiateConnection(),

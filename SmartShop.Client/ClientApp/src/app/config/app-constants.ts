@@ -27,14 +27,9 @@ export class AppConstants {
           "link": '/subcategories'
         },
         {
-          "label": "Colors",
-          "icon": "palette",
-          "link": '/color'
-        },
-        {
-          "label": "Sizes",
-          "icon": "fit_screen",
-          "link": '/sizes'
+          "label": "Configuration labels",
+          "icon": 'tune',
+          "link": '/product-config'
         },
         {
           label: "Shipping",

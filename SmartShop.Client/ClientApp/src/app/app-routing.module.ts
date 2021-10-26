@@ -24,6 +24,7 @@ import { ShippingViewComponent } from './components/shipping/shipping-view/shipp
 import { SizeCreateComponent } from './components/size/size-create/size-create.component';
 import { SizeEditComponent } from './components/size/size-edit/size-edit.component';
 import { SizeViewComponent } from './components/size/size-view/size-view.component';
+import { ConfigLabelComponent } from './components/subcategory/config-label/config-label.component';
 import { SubcategoryCreateComponent } from './components/subcategory/subcategory-create/subcategory-create.component';
 import { SubcategoryEditComponent } from './components/subcategory/subcategory-edit/subcategory-edit.component';
 import { SubcategoryViewComponent } from './components/subcategory/subcategory-view/subcategory-view.component';
@@ -49,6 +50,7 @@ const routes: Routes = [
   { path: 'size-edit/:id', component: SizeEditComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
   { path: 'subcategories', component: SubcategoryViewComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
   { path: 'subcategory-create', component: SubcategoryCreateComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
+  { path: 'product-config', component: ConfigLabelComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
   { path: 'subcategory-edit/:id', component: SubcategoryEditComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
   { path: 'users', component: UserViewComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin"] } },
   { path: 'campaigns', component: CampaignViewComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },

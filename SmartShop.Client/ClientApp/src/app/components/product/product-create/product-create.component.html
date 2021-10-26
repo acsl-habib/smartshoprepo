@@ -4,30 +4,60 @@
       <mat-card-title>Create new brand</mat-card-title>
       <mat-card-subtitle>Fill up the form</mat-card-subtitle>
       <img src="../../../../assets/copy-svgrepo-com.svg" mat-card-avatar class="avatar" />
+      <span class="filler"></span>
+      <button mat-mini-fab *ngIf="productCreated" (click)="addMore()"><mat-icon>read_more</mat-icon></button>
     </mat-card-header>
     <mat-card-content>
       <mat-tab-group mat-align-tabs="start">
         <mat-tab label="Product info">
-          <form #addFrm="ngForm" class="medium-form-container">
+          <form [formGroup]="productForm" class="medium-form-container" (submit)="save()">
             <mat-form-field class="f-w" appearance="standard">
               <mat-label>Product Name</mat-label>
-              <input matInput type="text" required />
-
+              <input matInput type="text" formControlName="productName"  />
+              <mat-error *ngIf="f.productName.touched && f.productName.errors?.required">Product Name is <strong>required</strong></mat-error>
+              <mat-error *ngIf="f.productName.touched && f.productName.errors?.maxlength">Product Name must be within <strong>50 characters</strong></mat-error>
+            </mat-form-field>
+            <mat-form-field class="f-w" appearance="standard">
+              <mat-label>Brand</mat-label>
+              <mat-select formControlName="brandId">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let b of brands" [value]="b.brandId">{{b.brandName}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="f.brandId.touched && f.brandId.errors?.required">Brand is <strong>required</strong></mat-error>
             </mat-form-field>
             <mat-form-field class="f-w" appearance="standard">
               <mat-label>Category</mat-label>
-              <mat-select (selectionChange)="categoryChanged($event)">
+              <mat-select formControlName="categoryId" (selectionChange)="categoryChanged($event)">
                 <mat-option value="">None</mat-option>
                 <mat-option *ngFor="let cat of categories" [value]="cat.categoryId">{{cat.categoryName}}</mat-option>
               </mat-select>
             </mat-form-field>
             <mat-form-field class="f-w" appearance="standard">
               <mat-label>Subcategory</mat-label>
-              <mat-select>
+              <mat-select formControlName="subcategoryId">
                 <mat-option value="">None</mat-option>
                 <mat-option *ngFor="let cat of subCategories" [value]="cat.subcategoryId">{{cat.subcategoryName}}</mat-option>
+                <mat-error *ngIf="f.subcategoryId.touched && f.subcategoryId.errors?.required">Sub-category is <strong>required</strong></mat-error>
               </mat-select>
             </mat-form-field>
+            <mat-form-field class="f-w" appearance="standard">
+              <mat-label>Brief description</mat-label>
+              <textarea matInput formControlName="productDescription" placeholder="Brief marketing text"></textarea>
+              <mat-error *ngIf="f.productDescription.touched && f.productDescription.errors?.required">Sub-category is <strong>required</strong></mat-error>
+            </mat-form-field>
+            <mat-form-field class="f-w" appearance="standard">
+              <mat-label>Product Price</mat-label>
+              <input matInput type="text" formControlName="productPrice" />
+              <mat-error *ngIf="f.productPrice.touched && f.productPrice.errors?.required">Product Name is <strong>required</strong></mat-error>
+
+            </mat-form-field>
+            <div class="f-w right">
+              <button type="reset" mat-raised-button color="accent" [disabled]="productCreated"><mat-icon style="margin-right:12px">restart_alt</mat-icon>Reset</button>
+              &nbsp;
+              <button type="submit" *ngIf="!productCreated" mat-raised-button color="primary" [disabled]="productForm.invalid"><mat-icon style="margin-right:12px">save_alt</mat-icon>Create</button>
+              &nbsp;
+              <button type="button" *ngIf="productCreated" mat-raised-button color="primary" (click)="update()" [disabled]="productForm.invalid"><mat-icon style="margin-right:12px">save_alt</mat-icon>Update</button>
+            </div>
           </form>
         </mat-tab>
         <mat-tab label="Configuration" [disabled]="!productCreated">Content 2</mat-tab>

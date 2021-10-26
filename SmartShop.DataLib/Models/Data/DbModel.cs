@@ -217,7 +217,8 @@ namespace SmartShop.DataLib.Models.Data
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Subcategory> Subcategories { get; set; }
-        
+        public DbSet<ProductConfiguration> ProductConfigurations { get; set; }
+
         public DbSet<Shipping> Shippings { get; set; }
 
         /*
