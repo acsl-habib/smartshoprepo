@@ -66,6 +66,7 @@ import { BrandProductComponent } from './components/brand/brand-product/brand-pr
 import { ProductService } from './services/data/product.service';
 import { ConfigLabelComponent } from './components/subcategory/config-label/config-label.component';
 import { ProductConfigService } from './services/data/product-config.service';
+import { DecimalPipe } from '@angular/common';
 
 
 
@@ -119,6 +120,7 @@ import { ProductConfigService } from './services/data/product-config.service';
   entryComponents: [ConfirmDialogComponent],
   providers: [
     DatePipe,
+    DecimalPipe,
     MultilevelMenuService,
     NotifyService,
     AuthenticationService,

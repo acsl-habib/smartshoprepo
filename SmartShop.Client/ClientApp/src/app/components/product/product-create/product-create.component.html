@@ -45,12 +45,37 @@
               <textarea matInput formControlName="productDescription" placeholder="Brief marketing text"></textarea>
               <mat-error *ngIf="f.productDescription.touched && f.productDescription.errors?.required">Sub-category is <strong>required</strong></mat-error>
             </mat-form-field>
-            <mat-form-field class="f-w" appearance="standard">
-              <mat-label>Product Price</mat-label>
-              <input matInput type="text" formControlName="productPrice" />
-              <mat-error *ngIf="f.productPrice.touched && f.productPrice.errors?.required">Product Name is <strong>required</strong></mat-error>
-
-            </mat-form-field>
+            <div class="f-w" appearance="standard" style="display:flex; align-items:center;">
+              <mat-checkbox formControlName="priceControlPropery"
+                            (change)="priceControlProperyChanged($event)" style="margin-right:15px;">
+                Price with property
+              </mat-checkbox>
+              <mat-form-field class="f-w">
+                <mat-label>Price Determinig Property</mat-label>
+                <input type="text" matInput [disabled]="priceChangeWithProperty" formControlName="priceDeterminingProperty" />
+              </mat-form-field>
+              <span class="filler"></span>
+              <button type="button" mat-icon-button (click)="addPrice()" *ngIf="priceChangeWithProperty"><mat-icon>add</mat-icon></button>
+            </div>
+            <ng-container formArrayName="prices">
+              <ng-container *ngFor="let p of prices.controls; let i = index">
+                <div [formGroupName]="i" class="price-row">
+                  <mat-form-field class="f-w" appearance="standard">
+                    <mat-label>Property Value</mat-label>
+                    <input matInput
+                           formControlName="propertyValue">
+                  </mat-form-field>
+                  <mat-form-field class="f-w" appearance="standard">
+                    <mat-label>Price</mat-label>
+                    <input matInput
+                           formControlName="price">
+                  </mat-form-field>
+                  <div class="f-w">
+                    <button type="button" mat-icon-button (click)="remove(i)" *ngIf="priceChangeWithProperty"><mat-icon>delete</mat-icon></button>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
             <div class="f-w right">
               <button type="reset" mat-raised-button color="accent" [disabled]="productCreated"><mat-icon style="margin-right:12px">restart_alt</mat-icon>Reset</button>
               &nbsp;

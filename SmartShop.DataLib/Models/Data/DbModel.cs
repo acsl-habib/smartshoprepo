@@ -105,6 +105,7 @@ namespace SmartShop.DataLib.Models.Data
            
             this.ProductImages = new List<ProductImage>();
             this.ProductSpecs = new List<ProductSpec>();
+            this.ProductPrices = new List<ProductPrice>();
         }
         public int ProductId { get; set; }
 
@@ -114,9 +115,10 @@ namespace SmartShop.DataLib.Models.Data
         [Required, StringLength(200)]
         public string ProductDescription { get; set; }
 
-        [Required, Column(TypeName = "money")]
-        public decimal ProductPrice { get; set; }
-
+        //[Required, Column(TypeName = "money")]
+        //public decimal ProductPrice { get; set; }
+        [Required, StringLength(30)]
+        public string PriceDeterminingProperty { get; set; }
         
         public bool? ProductStatus { get; set; }
 
@@ -136,6 +138,20 @@ namespace SmartShop.DataLib.Models.Data
        
         public virtual ICollection<ProductImage> ProductImages { get; set; }
         public virtual ICollection<ProductSpec> ProductSpecs { get; set; }
+        public virtual ICollection<ProductPrice> ProductPrices { get; set; }
+    }
+    public class ProductPrice
+    {
+        public int ProductPriceId { get; set; }
+        [Required, StringLength(20)]
+        public string PropertyValue { get; set; }
+        [Required, Column(TypeName ="money")]
+        public decimal Price { get; set; }
+        //FK
+        [Required, ForeignKey("Product")]
+        public int ProductId { get; set; }
+        //navigation
+        public virtual Product Product { get; set; }
     }
     public class ProductSpec
     {
@@ -151,7 +167,7 @@ namespace SmartShop.DataLib.Models.Data
     {
         public int ProductImageId { get; set; }
         [Required, StringLength(150)]
-        public string IamgeName { get; set; }
+        public string ImageName { get; set; }
         [Required, ForeignKey("Product")]
         public int ProductId { get; set; }
         public virtual Product Product { get; set; }
@@ -230,7 +246,7 @@ namespace SmartShop.DataLib.Models.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
-
+        public DbSet<ProductPrice> ProductPrices { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
 
     }

@@ -90,6 +90,25 @@ p {
  
   box-shadow: 0px 1px 10px rgba(0, 0, 0,.5), 0px 1px 15px rgba(0, 0, 0,.25);
 }
+.circle-image {
+  height: 40px;
+  width: 40px;
+  border-radius: 40px;
+  margin: 8px;
+  background-color: transparent;
+  /*border: 1px solid #eeeeee;*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  transition: 1s ease-out;
+}
+
+  .circle-image:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+  }
   @media screen and (max-width: 600px) {
     .medium-form-card-container {
     box-sizing: border-box;

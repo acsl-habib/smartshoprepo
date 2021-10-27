@@ -17,4 +17,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Migrations\Data\" />
+    <Folder Include="Models\Data\" />
+  </ItemGroup>
+
 </Project>

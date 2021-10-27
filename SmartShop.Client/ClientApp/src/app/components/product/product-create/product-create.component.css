@@ -1,0 +1,9 @@
+.price-row {
+    display:grid;
+    grid-template-columns: auto auto 50px;
+    gap:8px;
+    align-items:center;
+    justify-items:self-end;
+    
+    
+}

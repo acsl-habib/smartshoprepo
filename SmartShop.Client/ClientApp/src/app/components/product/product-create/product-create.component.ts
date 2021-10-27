@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators } from '@angular/forms';
+import { FormArray } from '@angular/forms';
 import { FormControl } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { throwError } from 'rxjs';
@@ -24,16 +25,20 @@ export class ProductCreateComponent implements OnInit {
   categories: CategoryModel[] = [];
   subCategories: SubcategoryModel[] = [];
   brands: BrandModel[] = [];
+  //control field
+  priceChangeWithProperty: boolean = true;
   //form
   productForm: FormGroup = new FormGroup({
 
     productName: new FormControl('', [Validators.required, Validators.maxLength(50)]),
     productDescription: new FormControl('', Validators.required),
-    productPrice: new FormControl('', Validators.required),
-   
+       
     brandId: new FormControl('', Validators.required),
     categoryId: new FormControl(''),
-    subcategoryId: new FormControl('', Validators.required)
+    subcategoryId: new FormControl('', Validators.required),
+    priceDeterminingProperty: new FormControl('', Validators.required),
+    priceControlPropery: new FormControl(true),
+    prices: new FormArray([])
     
   });
   constructor(
@@ -48,10 +53,26 @@ export class ProductCreateComponent implements OnInit {
   get f() {
     return this.productForm.controls;
   }
+  get prices() {
+    return this.productForm.controls.prices as FormArray;
+  }
   /*
    * Handlers
    * 
    * */
+  priceControlProperyChanged(event: any) {
+    this.priceChangeWithProperty = event.checked;
+
+    this.prices.clear();
+    if (this.priceChangeWithProperty) {
+      this.productForm.controls['priceDeterminingProperty'].patchValue('');
+      this.addPrice();
+    }
+    else {
+      this.productForm.controls['priceDeterminingProperty'].patchValue('None');
+      this.addPriceDefault();
+    }
+  }
   categoryChanged(event: any) {
     console.log(event.value);
     if (event.value !== '') {
@@ -68,43 +89,32 @@ export class ProductCreateComponent implements OnInit {
       this.subCategories = [];
     }
   }
+  /*
+   * Methods
+   *
+   * */
+  
+  addPrice() {
+    this.prices.push(new FormGroup({
+      propertyValue: new FormControl('', Validators.required),
+      price: new FormControl(undefined, Validators.required)
+    }));
+  }
+  remove(index: number) {
+    this.prices.removeAt(index);
+  }
+  addPriceDefault() {
+    this.prices.push(new FormGroup({
+      propertyValue: new FormControl('None', Validators.required),
+      price: new FormControl(undefined, Validators.required)
+    }));
+  }
   save() {
-    if (this.productForm.invalid) return;
-    this.product.productName = this.f.productName.value;
-    this.product.productDescription = this.f.productDescription.value;
-    this.product.productPrice = this.f.productPrice.value;
-    this.product.brandId = this.f.brandId.value;
-    this.product.subcategoryId = this.f.subcategoryId.value;
-
-    this.productService.save(this.product)
-      .subscribe(r => {
-        this.product = r;
-        this.notifyService.success("Success: Product saved", "DISMISS");
-        this.productForm.markAsUntouched();
-        this.productForm.markAsPristine();
-      }, err => {
-        this.notifyService.fail("Falied to save product", "DISMISS");
-        throwError(err.error || err);
-      });
+    
    
   }
   update() {
-    if (this.productForm.invalid) return;
-    this.product.productName = this.f.productName.value;
-    this.product.productDescription = this.f.productDescription.value;
-    this.product.productPrice = this.f.productPrice.value;
-    this.product.brandId = this.f.brandId.value;
-    this.product.subcategoryId = this.f.subcategoryId.value;
-    this.productService.update(this.product)
-      .subscribe(r => {
-       
-        this.notifyService.success("Success: Product updated", "DISMISS");
-        this.productForm.markAsUntouched();
-        this.productForm.markAsPristine();
-      }, err => {
-        this.notifyService.fail("Falied to update product", "DISMISS");
-        throwError(err.error || err);
-      });
+    
   }
   addMore() {
     this.product = {};
@@ -117,6 +127,7 @@ export class ProductCreateComponent implements OnInit {
    * */
   ngOnInit(): void {
     console.log(this.productCreated);
+    if (this.priceChangeWithProperty) this.addPrice();
     this.categoryService.get()
       .subscribe(r => {
         this.categories = r;
@@ -131,6 +142,7 @@ export class ProductCreateComponent implements OnInit {
         this.notifyService.fail("Falied to load brands", "DISMISS");
         throwError(err.error || err);
       })
+    console.log(this.prices.controls)
   }
 
 }

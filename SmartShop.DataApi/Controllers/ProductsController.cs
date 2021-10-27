@@ -31,12 +31,12 @@ namespace SmartShop.DataApi.Controllers
          * 
          * */
         [HttpGet("Include")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductsIncludeAll()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductsWithPriceAndPic()
         {
             return await _context
                 .Products
+                .Include(x=> x.ProductPrices)
                 .Include(x=> x.ProductImages)
-                
                 .ToListAsync();
         }
         // GET: api/Products/5
@@ -112,20 +112,7 @@ namespace SmartShop.DataApi.Controllers
 
             return product;
         }
-        /*
-         * Custom
-         * 
-         * */
-        // api/Products/5/Sizes
-       
-        [HttpGet("{id}/Images")]
-        public async Task<ActionResult<IEnumerable<ProductImage>>> GetIamgess(int id /* product id */)
-        {
-            return await _context
-                .ProductImages
-                .Where(x => x.ProductId == id)
-                .ToListAsync();
-        }
+
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.ProductId == id);

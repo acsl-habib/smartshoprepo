@@ -16,10 +16,12 @@ export class ProductService {
   get(): Observable<ProductModel[]> {
     return this.http.get<ProductModel[]>(`${AppConstants.apiUrl}/api/Products`);
   }
-  getById(id: number) {
+  getById(id: number): Observable<ProductModel> {
     return this.http.get<ProductModel>(`${AppConstants.apiUrl}/api/Products/${id}`);
   }
-  getInclude() { }
+  getInclude(): Observable<ProductModel[]> {
+    return this.http.get<ProductModel[]>(`${AppConstants.apiUrl}/api/Products/Include`);
+  }
   getSizes() { }
   getColors() { }
   getImages() { }
