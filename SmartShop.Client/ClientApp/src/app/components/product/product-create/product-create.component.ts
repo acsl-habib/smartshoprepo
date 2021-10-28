@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 import { throwError } from 'rxjs';
 import { BrandModel } from '../../../models/data/brand-model';
 import { CategoryModel } from '../../../models/data/category-model';
+import { ProductAndPriceInputModel } from '../../../models/data/input/product-and-price-input-model';
 import { ProductModel } from '../../../models/data/product-model';
 import { SubcategoryModel } from '../../../models/data/subcategory-model';
 import { NotifyService } from '../../../services/common/notify.service';
@@ -21,6 +22,8 @@ import { ProductService } from '../../../services/data/product.service';
 export class ProductCreateComponent implements OnInit {
   //model
   product: ProductModel = {};
+  //for auto complete
+  propertyNames: string[] = [];
   // form select list
   categories: CategoryModel[] = [];
   subCategories: SubcategoryModel[] = [];
@@ -36,11 +39,13 @@ export class ProductCreateComponent implements OnInit {
     brandId: new FormControl('', Validators.required),
     categoryId: new FormControl(''),
     subcategoryId: new FormControl('', Validators.required),
-    priceDeterminingProperty: new FormControl('', Validators.required),
+    priceDeterminingProperty: new FormControl({ value: '', disabled: !this.priceChangeWithProperty }, Validators.required),
     priceControlPropery: new FormControl(true),
     prices: new FormArray([])
     
   });
+  //for price error
+  //priceError = false;
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
@@ -56,6 +61,10 @@ export class ProductCreateComponent implements OnInit {
   get prices() {
     return this.productForm.controls.prices as FormArray;
   }
+  get priceError() {
+    return this.prices.touched && !this.prices.value.length;
+  }
+  
   /*
    * Handlers
    * 
@@ -109,8 +118,36 @@ export class ProductCreateComponent implements OnInit {
       price: new FormControl(undefined, Validators.required)
     }));
   }
-  save() {
-    
+  saveProduct() {
+    //this.priceError = false;
+    if (this.productForm.invalid) return;
+    if (!this.prices.value.length) {
+      console.log("Price required");
+      //this.priceError = true;
+      return;
+    }
+    let data: ProductAndPriceInputModel = {
+      productName: this.productForm.value.productName,
+      brandId: this.productForm.value.brandId,
+      subcategoryId: this.productForm.value.subcategoryId,
+      productStatus: true,
+      priceDeterminingProperty: this.productForm.value.priceDeterminingProperty,
+      productDescription: this.productForm.value.productDescription
+    };
+   
+    data.priceInputModels = this.prices.value;
+    console.log(data);
+    this.productService.saveWithPrice(data)
+      .subscribe(x => {
+        this.notifyService.success("Product Saved", "DISMISS");
+        this.product.productId = x.productId;
+        this.productForm.markAsPristine();
+        this.productForm.markAsUntouched();
+        
+      }, err => {
+        this.notifyService.fail("Falied to save product", "DISMISS");
+        throwError(err.error || err);
+      });
    
   }
   update() {
@@ -141,8 +178,15 @@ export class ProductCreateComponent implements OnInit {
       }, err => {
         this.notifyService.fail("Falied to load brands", "DISMISS");
         throwError(err.error || err);
-      })
-    console.log(this.prices.controls)
+      });
+    this.productService.getProptertyNames()
+      .subscribe(r => {
+        this.propertyNames = r;
+      }, err => {
+        this.notifyService.fail("Falied to load property autocomplete list", "DISMISS");
+        throwError(err.error || err);
+      });
+    //console.log(this.prices.controls[0].get('propertyValue')?.errors?.required)
   }
 
 }

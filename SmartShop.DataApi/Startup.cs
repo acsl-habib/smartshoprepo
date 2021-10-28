@@ -83,7 +83,8 @@ namespace SmartShop.DataApi
                     };
                 });
             #endregion
-            services.AddControllersWithViews().AddNewtonsoftJson(option => {
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(option => {
                 option.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Serialize;
                 option.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
             });

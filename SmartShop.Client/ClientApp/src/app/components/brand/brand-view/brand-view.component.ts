@@ -45,7 +45,7 @@ export class BrandViewComponent implements OnInit {
               this.notifyService.fail("Failed to Delete Brand", "DISMISS")
             });
         }
-      })
+      });
   }
  
   ngOnInit(): void {

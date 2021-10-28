@@ -22,6 +22,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 const modules = [
   MatToolbarModule,
   MatButtonModule,
@@ -44,7 +46,8 @@ const modules = [
   MatBadgeModule,
   MatDatepickerModule,
   MatCheckboxModule,
-  MatTabsModule
+  MatTabsModule,
+  MatAutocompleteModule
 ];
 @NgModule({
   declarations: [],

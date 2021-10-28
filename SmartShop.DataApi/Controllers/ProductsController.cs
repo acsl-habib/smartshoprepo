@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SmartShop.DataApi.ViewModels.Input;
 using SmartShop.DataLib.Models.Data;
 
 namespace SmartShop.DataApi.Controllers
@@ -36,7 +37,7 @@ namespace SmartShop.DataApi.Controllers
             return await _context
                 .Products
                 .Include(x=> x.ProductPrices)
-                .Include(x=> x.ProductImages)
+                //.Include(x=> x.ProductImages)
                 .ToListAsync();
         }
         // GET: api/Products/5
@@ -52,7 +53,20 @@ namespace SmartShop.DataApi.Controllers
 
             return product;
         }
-
+        /*
+         * Custom to get determining property 
+         * 
+         * */
+        [HttpGet("PropNames")]
+        public async Task<IEnumerable<string>> GetPropertNames()
+        {
+            return await _context
+                            .Products
+                            .Select(x => x.PriceDeterminingProperty)
+                            .Where(x => x.ToLower() != "none")
+                            .Distinct()
+                            .ToListAsync();
+        }
         // PUT: api/Products/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -94,6 +108,29 @@ namespace SmartShop.DataApi.Controllers
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
+            return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
+        }
+        /*
+         * Custom: Save product and price
+         * 
+         * */
+        [HttpPost("WithPrice")]
+        public async Task<ActionResult<Product>> PostProductAndPrice(ProductAndPriceInputModel data)
+        {
+            var product = new Product {
+                ProductName = data.ProductName,
+                BrandId = data.BrandId,
+                ProductDescription = data.ProductDescription,
+                ProductStatus=data.ProductStatus,
+                SubcategoryId=data.SubcategoryId,
+                PriceDeterminingProperty=data.PriceDeterminingProperty
+            };
+            foreach(var p in data.PriceInputModels)
+            {
+                product.ProductPrices.Add(new ProductPrice { PropertyValue = p.PropertyValue, Price = p.Price });
+            }
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
             return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
         }
 

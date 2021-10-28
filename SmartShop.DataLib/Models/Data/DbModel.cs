@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SmartShop.DataLib.Models.Constants;
 using System;
 using System.Collections.Generic;
@@ -102,7 +103,7 @@ namespace SmartShop.DataLib.Models.Data
         public Product()
         {
             this.OrderDetails = new List<OrderDetail>();
-           
+
             this.ProductImages = new List<ProductImage>();
             this.ProductSpecs = new List<ProductSpec>();
             this.ProductPrices = new List<ProductPrice>();
@@ -134,11 +135,12 @@ namespace SmartShop.DataLib.Models.Data
         [ForeignKey("BrandId")]
         public virtual Brand Brand { get; set; }
 
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-       
-        public virtual ICollection<ProductImage> ProductImages { get; set; }
-        public virtual ICollection<ProductSpec> ProductSpecs { get; set; }
-        public virtual ICollection<ProductPrice> ProductPrices { get; set; }
+
+        public virtual IList<OrderDetail> OrderDetails { get; set; }
+
+        public virtual IList<ProductImage> ProductImages { get; set; }
+        public virtual IList<ProductSpec> ProductSpecs { get; set; }
+        public virtual IList<ProductPrice> ProductPrices { get; set; }
     }
     public class ProductPrice
     {

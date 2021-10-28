@@ -10,7 +10,7 @@
     <mat-card-content>
       <mat-tab-group mat-align-tabs="start">
         <mat-tab label="Product info">
-          <form [formGroup]="productForm" class="medium-form-container" (submit)="save()">
+          <form [formGroup]="productForm" class="medium-form-container" (submit)="saveProduct()">
             <mat-form-field class="f-w" appearance="standard">
               <mat-label>Product Name</mat-label>
               <input matInput type="text" formControlName="productName"  />
@@ -37,25 +37,36 @@
               <mat-select formControlName="subcategoryId">
                 <mat-option value="">None</mat-option>
                 <mat-option *ngFor="let cat of subCategories" [value]="cat.subcategoryId">{{cat.subcategoryName}}</mat-option>
-                <mat-error *ngIf="f.subcategoryId.touched && f.subcategoryId.errors?.required">Sub-category is <strong>required</strong></mat-error>
+
               </mat-select>
+              <mat-error *ngIf="f.subcategoryId.touched && f.subcategoryId.errors?.required">Sub-category is <strong>required</strong></mat-error>
             </mat-form-field>
             <mat-form-field class="f-w" appearance="standard">
               <mat-label>Brief description</mat-label>
               <textarea matInput formControlName="productDescription" placeholder="Brief marketing text"></textarea>
               <mat-error *ngIf="f.productDescription.touched && f.productDescription.errors?.required">Sub-category is <strong>required</strong></mat-error>
             </mat-form-field>
-            <div class="f-w" appearance="standard" style="display:flex; align-items:center;">
-              <mat-checkbox formControlName="priceControlPropery"
-                            (change)="priceControlProperyChanged($event)" style="margin-right:15px;">
-                Price with property
-              </mat-checkbox>
-              <mat-form-field class="f-w">
+            <div class="price-row-1"  >
+              <div class="f-w">
+                <mat-checkbox formControlName="priceControlPropery"
+                              (change)="priceControlProperyChanged($event)" style="margin-right:15px;">
+                  Price with property
+                </mat-checkbox>
+              </div>
+              <mat-form-field class="f-w" appearance="standard">
                 <mat-label>Price Determinig Property</mat-label>
-                <input type="text" matInput [disabled]="priceChangeWithProperty" formControlName="priceDeterminingProperty" />
+                <input type="text" matInput [matAutocomplete]="auto" formControlName="priceDeterminingProperty" />
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of propertyNames" [value]="option">
+                    {{option}}
+                  </mat-option>
+                </mat-autocomplete>
+                <mat-error *ngIf="f.priceDeterminingProperty.errors?.required">Determinig Property is <strong>required</strong></mat-error>
               </mat-form-field>
-              <span class="filler"></span>
-              <button type="button" mat-icon-button (click)="addPrice()" *ngIf="priceChangeWithProperty"><mat-icon>add</mat-icon></button>
+              <div>
+                <button type="button" mat-raised-button (click)="addPrice()" *ngIf="priceChangeWithProperty"><mat-icon>add</mat-icon></button>
+              </div>
+              
             </div>
             <ng-container formArrayName="prices">
               <ng-container *ngFor="let p of prices.controls; let i = index">
@@ -64,24 +75,30 @@
                     <mat-label>Property Value</mat-label>
                     <input matInput
                            formControlName="propertyValue">
+                    <mat-error *ngIf="prices.controls[i].get('propertyValue')?.errors?.required">Property value is <strong>required</strong></mat-error>
                   </mat-form-field>
                   <mat-form-field class="f-w" appearance="standard">
                     <mat-label>Price</mat-label>
                     <input matInput
                            formControlName="price">
+                    <mat-error *ngIf="prices.controls[i].get('price')?.errors?.required">Price is <strong>required</strong></mat-error>
                   </mat-form-field>
                   <div class="f-w">
                     <button type="button" mat-icon-button (click)="remove(i)" *ngIf="priceChangeWithProperty"><mat-icon>delete</mat-icon></button>
                   </div>
                 </div>
+
               </ng-container>
+              <div class="price-row">
+                <mat-error *ngIf="priceError" class="f-w" style="grid-column-start:span 3">At least one price required</mat-error>
+              </div>
             </ng-container>
             <div class="f-w right">
               <button type="reset" mat-raised-button color="accent" [disabled]="productCreated"><mat-icon style="margin-right:12px">restart_alt</mat-icon>Reset</button>
               &nbsp;
-              <button type="submit" *ngIf="!productCreated" mat-raised-button color="primary" [disabled]="productForm.invalid"><mat-icon style="margin-right:12px">save_alt</mat-icon>Create</button>
+              <button type="submit" *ngIf="!productCreated" mat-raised-button color="primary" [disabled]="productForm.invalid || priceError"><mat-icon style="margin-right:12px">save_alt</mat-icon>Create</button>
               &nbsp;
-              <button type="button" *ngIf="productCreated" mat-raised-button color="primary" (click)="update()" [disabled]="productForm.invalid"><mat-icon style="margin-right:12px">save_alt</mat-icon>Update</button>
+              <button type="button" *ngIf="productCreated" mat-raised-button color="primary" (click)="update()" [disabled]="productForm.invalid || priceError"><mat-icon style="margin-right:12px">save_alt</mat-icon>Update</button>
             </div>
           </form>
         </mat-tab>

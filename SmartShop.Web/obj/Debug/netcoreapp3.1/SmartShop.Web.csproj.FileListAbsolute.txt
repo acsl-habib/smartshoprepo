@@ -57,7 +57,7 @@ D:\OL04\SmartShop\SmartShop.Web\obj\Debug\netcoreapp3.1\staticwebassets\SmartSho
 D:\OL04\SmartShop\SmartShop.Web\obj\Debug\netcoreapp3.1\staticwebassets\SmartShop.Web.StaticWebAssets.xml
 D:\OL04\SmartShop\SmartShop.Web\obj\Debug\netcoreapp3.1\scopedcss\bundle\SmartShop.Web.styles.css
 D:\OL04\SmartShop\SmartShop.Web\obj\Debug\netcoreapp3.1\SmartShop.Web.RazorTargetAssemblyInfo.cache
-D:\OL04\SmartShop\SmartShop.Web\obj\Debug\netcoreapp3.1\SmartShop.Web.csproj.CopyComplete
 D:\OL04\SmartShop\SmartShop.Web\obj\Debug\netcoreapp3.1\SmartShop.Web.dll
 D:\OL04\SmartShop\SmartShop.Web\obj\Debug\netcoreapp3.1\SmartShop.Web.pdb
 D:\OL04\SmartShop\SmartShop.Web\obj\Debug\netcoreapp3.1\SmartShop.Web.genruntimeconfig.cache
+D:\OL04\SmartShop\SmartShop.Web\obj\Debug\netcoreapp3.1\SmartShop.Web.csproj.CopyComplete
