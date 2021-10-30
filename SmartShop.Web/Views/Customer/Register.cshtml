@@ -1,0 +1,52 @@
+﻿@model SmartShop.Web.ViewModels.Identity.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="login-form mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="card p-2 shadow-lg">
+                    <div class="card-body">
+                        <div class="login-form-container form-style">
+                            <h3 class="text-center">Sign Up</h3>
+                            <form method="post" asp-action="Register" asp-controller="Customer">
+                                <div asp-validation-summary="All" class="text-danger"></div>
+
+                                <div class="form-group ck-form-style">
+                                    <label asp-for="Username">User Name</label>
+                                    <input asp-for="Username" class="rounded-0 form-control" placeholder="Enter email" id="email">
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                                <div class="form-group ck-form-style">
+                                    <label asp-for="Email">Emaill</label>
+                                    <input asp-for="Email" class="rounded-0 form-control" placeholder="Enter email" id="email">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+
+                                <div class="form-group ck-form-style">
+                                    <label asp-for="Password">Password</label>
+                                    <input asp-for="Password" class="rounded-0 form-control " placeholder="Enter password" id="pwd">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-group ck-form-style">
+                                    <label asp-for="ConfirmPassword">Confirm Password</label>
+                                    <input asp-for="ConfirmPassword" class="rounded-0 form-control " placeholder="Enter password" id="pwd">
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                </div>
+                                <button type="submit" class=" btn-block btn btn-dark  text-white d-block" id="">Submit</button>
+                            </form>
+                            <div class="forgotpass text-center">
+                                <p class="">Already  have an account? <a href="login.html">Login here</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

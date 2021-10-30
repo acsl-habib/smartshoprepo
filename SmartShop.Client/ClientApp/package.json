@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/file-input": "^6.0.0",
     "@angular/animations": "~12.2.0",
     "@angular/cdk": "^12.2.8",
     "@angular/common": "~12.2.0",
@@ -22,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
     "@microsoft/signalr": "^5.0.11",
+    "ng-image-slider": "^2.8.0",
     "ng-material-multilevel-menu": "^5.5.3",
     "ngx-material-file-input": "^2.1.1",
     "rxjs": "~6.6.0",

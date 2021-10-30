@@ -28,7 +28,16 @@ namespace SmartShop.DataApi.Controllers
         {
             return await _context.Subcategories.ToListAsync();
         }
+        [HttpGet("{id}/SpecLabels")]
+        public async Task<IEnumerable<string>> GetSpecLabels(int id /* sub category id*/)
+        {
+            return await _context
+                .ProductConfigurations
+                .Where(x => x.SubcategoryId == id)
+                .Select(x => x.ConfigurationLabel)
+                .ToListAsync();
 
+        }
         // GET: api/Subcategories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Subcategory>> GetSubcategory(int id)

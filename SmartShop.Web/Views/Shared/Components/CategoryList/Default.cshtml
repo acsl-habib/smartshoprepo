@@ -1,0 +1,8 @@
+﻿@model SmartShop.Web.ViewModels.CategoryVM
+
+<div class="dropdown-menu rounded-0" aria-labelledby="navbarDropdown">
+    @foreach (var c in Model.Categories)
+    {
+        <a class="dropdown-item border-bottom" asp-action="CategoryProduct" asp-controller="Search" asp-route-Id="@c.CategoryId" >@c.CategoryName</a>
+    }
+    </div>

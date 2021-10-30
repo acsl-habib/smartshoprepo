@@ -37,8 +37,17 @@ namespace SmartShop.DataApi.Controllers
             return await _context
                 .Products
                 .Include(x=> x.ProductPrices)
-                //.Include(x=> x.ProductImages)
+                .Include(x=> x.ProductImages)
                 .ToListAsync();
+        }
+        [HttpGet("{id}/Include")]
+        public async Task<ActionResult<Product>> GetProductWithPriceAndPic(int id)
+        {
+            return await _context
+                .Products
+                .Include(x => x.ProductPrices)
+                .Include(x => x.ProductImages)
+                .FirstOrDefaultAsync(x => x.ProductId == id);
         }
         // GET: api/Products/5
         [HttpGet("{id}")]
@@ -67,6 +76,7 @@ namespace SmartShop.DataApi.Controllers
                             .Distinct()
                             .ToListAsync();
         }
+        
         // PUT: api/Products/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
@@ -133,7 +143,29 @@ namespace SmartShop.DataApi.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtAction("GetProduct", new { id = product.ProductId }, product);
         }
-
+        [HttpPost("Specs")]
+        public async Task<ActionResult> PostSpecs(ProductConfigInputModel model)
+        {
+            Product product = await _context.Products.FirstOrDefaultAsync(x => x.ProductId == model.ProductId);
+            foreach (var sp in model.Specs)
+            {
+                if (product != null)
+                {
+                    if (!_context.ProductConfigurations.Any(x =>
+                        x.SubcategoryId == product.SubcategoryId
+                        && x.ConfigurationLabel.ToLower() == sp.Label.ToLower()
+                    ))
+                    {
+                        _context.ProductConfigurations.Add(new ProductConfiguration { SubcategoryId = product.SubcategoryId.Value, ConfigurationLabel = sp.Label });
+                    }
+                }
+                var temp =new ProductSpec { ProductId = model.ProductId, Label = sp.Label, Value = sp.Value, IsChoosingLabel = true };
+                _context.ProductSpecs.Add(temp);
+            }
+            await _context.SaveChangesAsync();
+            
+            return Ok();
+        }
         // DELETE: api/Products/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Product>> DeleteProduct(int id)

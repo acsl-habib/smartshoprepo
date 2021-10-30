@@ -112,7 +112,7 @@ namespace SmartShop.DataApi.Controllers
         [HttpPost("Create")]
         public async Task<ActionResult<Order>> CreateOrder(OrderViewModel order)
         {
-            var orderNew = new Order { CustomerId = order.CustomerId, CampaignId = order.CampaignId, OrderDate = order.OrderDate };
+            var orderNew = new Order { CustomerId = order.CustomerId,  OrderDate = order.OrderDate };
             _context.Orders.Add(orderNew);
             await _context.SaveChangesAsync();
             await this._hubContext.Clients.All.SendAsync("orderCreated", new NotificationMessage { OrderId = orderNew.OrderId, CustomerId = orderNew.OrderId, Message = "Created" });

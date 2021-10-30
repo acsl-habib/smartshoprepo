@@ -1,0 +1,125 @@
+﻿@model SmartShop.Web.ViewModels.IndexVM
+<section class="slider">
+    <div id="demo" class="carousel slide demo-slider" data-ride="carousel">
+        <ul class="carousel-indicators">
+            <li data-target="#demo" data-slide-to="0" class="active"></li>
+            <li data-target="#demo" data-slide-to="1"></li>
+            <li data-target="#demo" data-slide-to="2"></li>
+        </ul>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="~/assets/img/slider1.jpg" alt="Los Angeles" width="1100" height="500">
+                <div class="div-center text-white">
+                    <h3>Big discount</h3>
+
+                    <p>Nice collection!</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/assets/img/slider2.jpg" alt="Chicago" width="1100" height="500">
+                <div class="div-center text-white">
+                    <h3>Buy Now</h3>
+                    <p>Big discount</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/assets/img/slider3.jpg" alt="New York" width="1100" height="500">
+                <div class="div-center text-white">
+                    <h3>Buy now</h3>
+                    <p>New Campaign</p>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#demo" data-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" href="#demo" data-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+        <div class="slider-overlay"></div>
+    </div>
+    @*<div class="owl-carousel home-carousel  owl-theme owl-loaded mb-3 mt-2 demo-slider">
+            <div class="owl-stage-outer">
+                <div class="owl-stage product_img_item ">
+                    <div class="owl-item border bx">
+                        <img src="~/assets/img/slider1.jpg" alt="New York" width="1100" height="500">
+
+                    </div>
+
+                    <div class="owl-item border bx">
+                        <img src="~/assets/img/slider3.jpg" alt="New York" width="1100" height="500">
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="slider-overlay"></div>
+        </div>*@
+
+
+
+
+</section>
+<!-- mobile view-->
+<div class="by-shop mt-5 d-block d-lg-none d-md-none d-xl-none">
+    <div class="container ck-cart-info">
+        <h5>Menu</h5>
+        <div class="owl-carousel menu-carousel owl-theme owl-loaded">
+            <div class="owl-stage-outer">
+                <div class="owl-stage round-box">
+                    <div class="owl-item">
+                        <a href="product.html">
+                            <img src="~/assets/img/menu1.png" alt="">
+                        </a>
+                        <p class="text-center">Campaign</p>
+                    </div>
+                    <div class="owl-item">
+                        <a href="product.html">
+                            <img src="~/assets/img/menu2.png" alt="">
+                        </a>
+                        <p class="text-center">Gift Card</p>
+                    </div>
+                    <div class="owl-item">
+                        <a href="product.html">
+                            <img src="~/assets/img/menu3.png" alt="">
+                        </a>
+                        <p class="text-center">Order</p>
+                    </div>
+                    <div class="owl-item">
+                        <a href="product.html">
+                            <img src="~/assets/img/menu1.png" alt="">
+                        </a>
+                        <p class="text-center">News Feed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- by products-->
+<div class="by-product mt-5 mb-5">
+    <div class="container ck-cart-info">
+        @if (Model != null)
+        {
+
+            @foreach (var c in Model.Subcategories)
+            {
+
+
+                <partial name="_ProductPartial" model="@Model.Products.Where(x => x.Subcategory.SubcategoryName.Equals(c.SubcategoryName))" />
+
+            }
+        }
+
+
+    </div>
+</div>
+
+
+@section scripts {
+
+   
+}

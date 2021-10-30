@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using SmartShop.DataApi.HostedServices;
 using SmartShop.DataApi.Hubs;
 using SmartShop.DataApi.Models.Identity;
 using SmartShop.DataLib.Models.Data;
@@ -49,6 +50,11 @@ namespace SmartShop.DataApi
                             .Build();
                     });
             });
+            #endregion
+            #region identity seederservice injectors
+
+            services.AddScoped<IdentityDbInitializer>();
+            services.AddHostedService<SetupIdentityDataSeeder>();
             #endregion
             #region Identy Configurations
             services.AddIdentity<IdentityUser, IdentityRole>(option =>

@@ -102,8 +102,71 @@
             </div>
           </form>
         </mat-tab>
-        <mat-tab label="Configuration" [disabled]="!productCreated">Content 2</mat-tab>
-        <mat-tab label="Images" [disabled]="!productCreated">Content 3</mat-tab>
+        <mat-tab label="Configuration" >
+          <form [formGroup]="productConfigForm" class="medium-form-container" (submit)="saveConfig()">
+            <div class="f-w right"><button mat-raised-button (click)="addSpec()" type="button"><mat-icon>add</mat-icon></button></div>
+            <ng-container formArrayName="productSpecs">
+              <ng-container *ngFor="let p of productSpecs.controls; let i = index">
+                <div [formGroupName]="i" class="price-row">
+                  <mat-form-field class="f-w" appearance="standard">
+                    <mat-label>Label</mat-label>
+                    <input matInput [matAutocomplete]="auto"
+                           formControlName="label">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of specLabels" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="productSpecs.controls[i].get('label')?.errors?.required">Property value is <strong>required</strong></mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="f-w" appearance="standard">
+                    <mat-label>Value</mat-label>
+                    <input matInput
+                           formControlName="value">
+                    <mat-error *ngIf="productSpecs.controls[i].get('value')?.errors?.required">Price is <strong>required</strong></mat-error>
+                  </mat-form-field>
+                  <div class="f-w">
+                    <button type="button" mat-icon-button *ngIf="productSpecs.controls.length> 1" (click)="removeSpec(i)"><mat-icon>delete</mat-icon></button>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+            <div class="f-w right">
+              <button type="reset" mat-raised-button color="accent" ><mat-icon style="margin-right:12px">restart_alt</mat-icon>Reset</button>
+              &nbsp;
+              <button type="submit"  mat-raised-button color="primary" [disabled]="productConfigForm.invalid"><mat-icon style="margin-right:12px">save_alt</mat-icon>Create</button>
+             
+            </div>
+          </form>
+        </mat-tab>
+        <mat-tab label="Images" >
+          <form [formGroup]="imagesForm" class="medium-form-container" (submit)="saveImages()" (reset)="resetImages()">
+            <mat-form-field appearance="standard" class="f-w">
+              <ngx-mat-file-input formControlName="images" [multiple]="true" [accept]="'image/*'" color="primary">
+                <mat-icon ngxMatFileInputIcon>folder</mat-icon>
+              </ngx-mat-file-input>
+              <mat-error *ngIf="fimg.images.errors?.required">Image is <strong>required</strong></mat-error>
+            </mat-form-field>
+            
+            <div class="f-w" *ngIf="imagesLen>0">
+              <div class="title">Selected file(s):</div>
+              <div class="value">
+                <ul>
+                  <li *ngFor="let item of files">{{item?.name}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="f-w" *ngIf="isUploading">
+              <mat-progress-bar mode="determinate" [value]="uploadCount"></mat-progress-bar>
+            </div>
+            <div class="f-w right" style="margin-top:30px;">
+              <button type="reset" mat-raised-button color="accent"><mat-icon style="margin-right:12px">restart_alt</mat-icon>Reset</button>
+              &nbsp;
+              <button type="submit" mat-raised-button color="primary" [disabled]="imagesForm.invalid"><mat-icon style="margin-right:12px">save_alt</mat-icon>Create</button>
+
+            </div>
+          </form>
+        </mat-tab>
       </mat-tab-group>
     </mat-card-content>
   </mat-card>

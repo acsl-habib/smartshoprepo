@@ -57,6 +57,11 @@ namespace SmartShop.DataLib.Models.Data
     }
     public class Customer
     {
+        public Customer()
+        {
+            this.Orders = new List<Order>();
+            this.Reviews = new List<Review>();
+        }
         public int CustomerId { get; set; }
         [StringLength(50)]
         public string CustomerName { get; set; }
@@ -66,6 +71,8 @@ namespace SmartShop.DataLib.Models.Data
         public string Phone { get; set; }
         [Required, StringLength(450)]
         public string UserId { get; set; }
+        public ICollection<Order> Orders { get; set; }
+        public ICollection<Review> Reviews { get; set; }
     }
 
     /*
@@ -107,6 +114,7 @@ namespace SmartShop.DataLib.Models.Data
             this.ProductImages = new List<ProductImage>();
             this.ProductSpecs = new List<ProductSpec>();
             this.ProductPrices = new List<ProductPrice>();
+            this.Reviews = new List<Review>();
         }
         public int ProductId { get; set; }
 
@@ -141,6 +149,7 @@ namespace SmartShop.DataLib.Models.Data
         public virtual IList<ProductImage> ProductImages { get; set; }
         public virtual IList<ProductSpec> ProductSpecs { get; set; }
         public virtual IList<ProductPrice> ProductPrices { get; set; }
+        public IList<Review> Reviews { get; set; }
     }
     public class ProductPrice
     {
@@ -196,12 +205,31 @@ namespace SmartShop.DataLib.Models.Data
         public DateTime? DeliveryDate { get; set; }
         [Required, ForeignKey("Customer")]
         public int CustomerId { get; set; }
-
-        public int CampaignId { get; set; }
+        [StringLength(30)]
+        public string TrxId { get; set; }
+        [StringLength(30)]
+        public string PaymentName { get; set; }
+        public bool IsConfirmed { get; set; }
+        public OrderStatus OrderStatus { get; set; }
+        public string Comment { get; set; }
 
 
         public virtual Customer Customer { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
+    }
+    public class Payment
+    {
+        public int PaymentId { get; set; }
+        [Required, StringLength(50)]
+        public string PaymentName { get; set; }
+        [StringLength(30)]
+        public string ShortName { get; set; }
+        [StringLength(30)]
+        public string PaymentType { get; set; }
+        [StringLength(50)]
+        public string AccountNo { get; set; }
+
+
     }
 
     public class OrderDetail
@@ -221,6 +249,22 @@ namespace SmartShop.DataLib.Models.Data
         [Required, ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
     }
+    public class Review
+    {
+        public int ReviewId { get; set; }
+
+        [StringLength(300)]
+        public string Comment { get; set; }
+
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
+        public int Rating { get; set; }
+        [ForeignKey("Customer")]
+        public int CustomerId { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Product Product { get; set; }
+    }
+
     public class SmartShopDbContext : DbContext
     {
         public SmartShopDbContext(DbContextOptions<SmartShopDbContext> options) : base(options) { }
@@ -249,7 +293,10 @@ namespace SmartShop.DataLib.Models.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<ProductPrice> ProductPrices { get; set; }
+        public DbSet<ProductSpec> ProductSpecs { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<Review> Reviews { get; set; }
 
     }
 }

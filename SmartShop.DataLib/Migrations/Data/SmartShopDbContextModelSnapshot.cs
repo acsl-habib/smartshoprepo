@@ -135,8 +135,8 @@ namespace SmartShop.DataLib.Migrations.Data
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CampaignId")
-                        .HasColumnType("int");
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -144,8 +144,22 @@ namespace SmartShop.DataLib.Migrations.Data
                     b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("date");
 
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("date");
+
+                    b.Property<int>("OrderStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PaymentName")
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("TrxId")
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
 
                     b.HasKey("OrderId");
 
@@ -180,6 +194,35 @@ namespace SmartShop.DataLib.Migrations.Data
                     b.HasIndex("ProductId");
 
                     b.ToTable("OrderDetails");
+                });
+
+            modelBuilder.Entity("SmartShop.DataLib.Models.Data.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AccountNo")
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PaymentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("PaymentType")
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("ShortName")
+                        .HasColumnType("nvarchar(30)")
+                        .HasMaxLength(30);
+
+                    b.HasKey("PaymentId");
+
+                    b.ToTable("Payments");
                 });
 
             modelBuilder.Entity("SmartShop.DataLib.Models.Data.Product", b =>
@@ -314,7 +357,36 @@ namespace SmartShop.DataLib.Migrations.Data
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductSpec");
+                    b.ToTable("ProductSpecs");
+                });
+
+            modelBuilder.Entity("SmartShop.DataLib.Models.Data.Review", b =>
+                {
+                    b.Property<int>("ReviewId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReviewId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("SmartShop.DataLib.Models.Data.Shipping", b =>
@@ -371,7 +443,7 @@ namespace SmartShop.DataLib.Migrations.Data
             modelBuilder.Entity("SmartShop.DataLib.Models.Data.Order", b =>
                 {
                     b.HasOne("SmartShop.DataLib.Models.Data.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -436,6 +508,21 @@ namespace SmartShop.DataLib.Migrations.Data
                 {
                     b.HasOne("SmartShop.DataLib.Models.Data.Product", "Product")
                         .WithMany("ProductSpecs")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SmartShop.DataLib.Models.Data.Review", b =>
+                {
+                    b.HasOne("SmartShop.DataLib.Models.Data.Customer", "Customer")
+                        .WithMany("Reviews")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartShop.DataLib.Models.Data.Product", "Product")
+                        .WithMany("Reviews")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

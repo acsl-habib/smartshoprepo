@@ -1,0 +1,249 @@
+﻿@model CheckoutVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="checkout mt-5">
+    <div class="container">
+
+
+        <div class="order-details">
+            <div class="row">
+                <div class="col-lg-10 mx-auto">
+                    <div class="card">
+
+                        <div class="card-body ck-cart-info" style="background-color:#F4F7F8;">
+                            <h5>
+                                Order Details
+                            </h5>
+                            @if (Model.Carts.Count > 0)
+                            {
+
+
+
+                                <div class="table-responsive mt-3">
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr class="text-muted">
+
+                                                <th scope="col">Product Name</th>
+                                                <th scope="col">Brand</th>
+                                                <th scope="col">Price</th>
+
+                                                <th scope="col" width="14%">Qty</th>
+                                                <th scope="col">Sub Total</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var c in Model.Carts)
+                                            {
+
+                                            <tr>
+                                                <td>
+                                                    @c.Product.ProductName
+
+                                                </td>
+                                                <td>@c.Product.Brand.BrandName</td>
+
+                                                <td></td>
+                                                <td>
+
+                                                    @c.Quantity
+                                                </td>
+                                                <td>
+                               
+                                                                                    @{
+
+                                                            var subtotal = c.ProductPrice * c.Quantity;
+                                                        }
+
+                                                        $@String.Format("{0:0.00}", subtotal)
+                                                        </td>
+
+                                                    </tr>
+
+                                                    }
+                                                    <tr>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td>Total</td>
+                                                        <td>
+                                                            <p>
+                                                                <strong>
+                                                                    $ @Model.Total
+                                                                </strong>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+
+                                    }
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="card mt-3">
+                            <div class="card-body" style="background-color:#F4F7F8;">
+                                <div class="checkout-form-container">
+                                    <h2 class="pb-4" style="    font-size: 24px;
+                                      color: #333;
+                                      text-align: center;
+                                      font-weight: 700;
+                                      line-height: 27px;">
+                                        MAKE YOUR CHECKOUT HERE
+                                    </h2>
+                                    <form method="post" asp-action="OrderStore" asp-controller="Order">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group ck-form-style">
+                                                    <label for="CustomerName"> Name *</label>
+                                                    <input asp-for="CustomerName" type="text" class="rounded-0 form-control" placeholder="Enter Name" id="CustomerName" value="@Model.Customer.CustomerName">
+                                                </div>
+                                                <div class="form-group ck-form-style">
+                                                    <label for="Message">Message</label>
+                                                    <textarea asp-for="Message" class="rounded-0 form-control"></textarea>
+                                                </div>
+
+                                                <div class="form-group ck-form-style">
+                                                    <label for="pwd">Shipping *</label>
+                                                    <select asp-for="ShippingId" class="form-control" asp-items="@(new SelectList(@Model.Shipping, "ShippingId", "ShippingAddress"))" required>
+                                                        <option selected="selected" value="">Select Shipping</option>
+                                                    </select>
+                                                    <span asp-validation-for="ShippingId" class="text-danger" />
+                                                </div>
+
+                                            </div>
+                                            <div class="col-lg-6">
+
+
+                                                <div class="form-group ck-form-style">
+                                                    <label for="Phone">Phone *</label>
+                                                    <input asp-for="Phone" type="number" class="rounded-0 form-control" placeholder="Enter Phone" id="Phone" value="@Model.Customer.Phone">
+                                                </div>
+                                                <div class="form-group ck-form-style">
+                                                    <label for="Address">Address</label>
+                                                    <textarea asp-for="Address" class="rounded-0 form-control" >@Model.Customer.Address</textarea>
+                                                </div>
+
+                                                <div class="form-group ck-form-style">
+                                                    <label for="pwd">Select Payment</label>
+
+                                                    <select asp-for="PaymentName" id="payments" class="form-control" asp-items="@(new SelectList(@Model.Payments, "ShortName", "PaymentName"))" required>
+                                                        <option selected="selected" value="">Select Payment</option>
+                                                    </select>
+                                                    <span asp-validation-for="PaymentId" class="text-danger" />
+                                                </div>
+
+
+                                            </div>
+
+
+
+
+                                                <div class="col-lg-12">
+                                                    @foreach (var payment in Model.Payments)
+                                                    {
+
+
+                                                        @if (payment.ShortName == "cod")
+                                                        {
+
+                                                            <div id="payment_@payment.ShortName" class="alert alert-success  text-center d-none" style="margin-top: 10px;">
+                                                                <h3>
+                                                                    Cash on delivery<br>
+                                                                    <small>For Cash in there is nothing necessary. Just click Finish Order.</small>
+                                                                </h3>
+
+
+
+
+                                                            </div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div id="payment_@payment.ShortName" class="alert alert-success  text-center d-none" style="margin-top: 10px;">
+                                                                <h3>@payment.PaymentName Payment</h3>
+                                                                <p>
+                                                                    <strong>@payment.PaymentName No :  @payment.AccountNo</strong>
+                                                                    <br>
+
+                                                                </p>
+                                                                <div class="alert alert-success">
+                                                                    Please send the above money to this Bkash No and write your transaction code below there..
+                                                                </div>
+
+                                                            </div>
+                                                        }
+                                                    }
+                                                    <input type="text" name="transaction_id" id="transaction_id" class="form-control d-none" placeholder="Enter transaction code">
+                                                </div>
+
+
+
+
+
+
+                                        </div>
+                                        <div class="d-flex justify-content-center mt-2">
+                                            <input class="btn btn-dark text-white" type="submit" value="Place Order" />
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+        </section>
+
+
+        @section scripts {
+            <script type="text/javascript">
+                $("#payments").change(function () {
+                    $payment_method = $("#payments").val();
+                    console.log($payment_method);
+                    if ($payment_method == "cod") {
+                        console.log("COD");
+                        $("#payment_cod").removeClass('d-none');
+                        $("#payment_bkash").addClass('d-none');
+                        $("#payment_rocket").addClass('d-none');
+                        $("#transaction_id").addClass('d-none');
+                    } else if ($payment_method == "bkash") {
+                        console.log("Baksh");
+                        $("#payment_bkash").removeClass('d-none');
+                        $("#payment_cod").addClass('d-none');
+                        $("#payment_rocket").addClass('d-none');
+                        $("#transaction_id").removeClass('d-none');
+                    } else if ($payment_method == "rocket") {
+                        console.log("Rocket");
+                        $("#payment_rocket").removeClass('d-none');
+                        $("#payment_bkash").addClass('d-none');
+                        $("#payment_cod").addClass('d-none');
+                        $("#transaction_id").removeClass('d-none');
+                    }
+                })
+            </script>
+        }

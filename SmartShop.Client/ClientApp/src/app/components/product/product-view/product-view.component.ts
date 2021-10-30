@@ -29,7 +29,7 @@ export class ProductViewComponent implements OnInit {
   dataSource: MatTableDataSource<ProductModel> = new MatTableDataSource(this.products);
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: false }) paginator!: MatPaginator;
-  columnList: string[] = ["pic", "productName","price", "actions"]
+  columnList: string[] = ["pic", "productName","price","details", "actions"]
   //Image location
   imagePath: string = AppConstants.apiUrl;
   constructor(

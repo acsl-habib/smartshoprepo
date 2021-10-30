@@ -67,8 +67,9 @@ import { ProductService } from './services/data/product.service';
 import { ConfigLabelComponent } from './components/subcategory/config-label/config-label.component';
 import { ProductConfigService } from './services/data/product-config.service';
 import { DecimalPipe } from '@angular/common';
-
-
+import { NgxMatFileInputModule } from '@angular-material-components/file-input';
+import { ProductInfoComponent } from './components/product/product-info/product-info.component';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import { DecimalPipe } from '@angular/common';
     ProductCreateComponent,
     ProductEditComponent,
     BrandProductComponent,
-    ConfigLabelComponent
+    ConfigLabelComponent,
+    ProductInfoComponent
   ],
   imports: [
     BrowserModule,
@@ -114,6 +116,8 @@ import { DecimalPipe } from '@angular/common';
     RouterModule,
     HttpClientModule,
     NgMaterialMultilevelMenuModule,
+    NgxMatFileInputModule,
+    NgImageSliderModule,
     MatImportModule,
     MatNativeDateModule
   ],

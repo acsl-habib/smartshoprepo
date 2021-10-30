@@ -1,0 +1,6 @@
+.product-row
+{
+    display:grid;
+    grid-template-columns: 1fr 350px;
+    grid-gap:16px;
+}

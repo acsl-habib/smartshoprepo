@@ -1,0 +1,172 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "ProductDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container " style="margin-bottom:80px; ">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="card mt-5">
+                <div class="card-body">
+                    <div class="row ">
+                        <div class="col-lg-6">
+                            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-ride="carousel">
+                                <div class="carousel-inner">
+                               
+                                        @{int i = 0;}
+                                        @foreach (var img in Model.ProductImages)
+                                        {
+                                            i++;
+                                            var active = i == 1 ? "active" : "";
+                                            <div class=" carousel-item @active" style="border:1px solid #dddd;">
+                                                <img src="~/assets/img/@img.ImageName" class="img-fluid w-100" alt="...">
+                                            </div>
+                                        }
+                                    
+
+
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleFade" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            <div class="modal-product">
+                                @*<img src="~/assets/img/@Model.ProductImage" class="w-100" style="height:400px;" />*@
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+
+                            <div>
+                                <h2>@Model.ProductName</h2>
+                                <p>Some Description</p>
+                            </div>
+
+
+                            @if (Model.ProductSpecs.Count() > 0)
+                            {
+                                <p class="mt-2 mb-2"><strong>Specification of @Model.ProductName</strong> </p>
+                                <div class="row">
+
+                                    @foreach (var sp in Model.ProductSpecs)
+                                    {
+
+
+                                        <div class="col-lg-6 ">
+                                            <p> <span class="text-muted">@sp.Label :</span> @sp.Value</p>
+                                        </div>
+
+                                    }
+                                </div>
+
+                            }
+
+
+                            @if (Model.ProductPrices.Count() > 0)
+                            {
+                                <p class="mt-2 mb-2"><strong>Price</strong> </p>
+                                <div class="row">
+                                    @foreach (var price in Model.ProductPrices)
+                                    {
+
+
+                                        <div class="col-lg-6 ">
+                                            <p> <span class="text-muted">@price.PropertyValue :</span>  @price.Price</p>
+                                        </div>
+
+                                    }
+                                </div>
+
+                            }
+
+
+         
+
+
+
+                            <div class="">
+                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ProductId" class="btn btn-default btn-dark text-white  mt-2"><strong>ADD TO CART</strong></a>
+                            </div>
+
+
+                        </div>
+                       
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-12">
+                            <div class="review">
+                                <ul class="nav nav-tabs">
+                                    <li class=" list-group-item "><a class="btn" data-toggle="tab" href="#home">Description</a></li>
+                                    <li class="list-group-item "><a class="btn" data-toggle="tab" href="#review">Reviews</a></li>
+
+
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div id="home" class="tab-pane fade in active">
+
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                    </div>
+                                    <div id="review" class="tab-pane fade">
+                                        @if (Model.Reviews.Count > 0)
+                                        {
+
+
+                                            @foreach (var r in Model.Reviews)
+                                            {
+                                                <div class="card mt-2 ">
+                                                    <div class="card-body clearfix">
+                                                        <div class="float-left">
+                                                            <img src="~/assets/img/profile.png" height="50" width="50" />
+                                                            <h6 class="text-muted">  @r.Customer.CustomerName</h6>
+                                                        </div>
+
+
+
+
+
+                                                        <p class="float-left ml-2 ">@r.Comment</p>
+
+
+
+                                                    </div>
+                                                </div>
+
+
+
+                                            }
+
+
+
+
+                                        }
+                                        else
+                                        {
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <p class="text-info">No review</p>
+                                                </div>
+                                            </div>
+
+                                        }
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+      
+</div>
+

@@ -16,6 +16,9 @@ export class SubcategoryService {
   getById(id: number): Observable<SubcategoryModel> {
     return this.http.get<SubcategoryModel>(`${AppConstants.apiUrl}/api/Subcategories/${id}`);
   }
+  getSpecLabels(id: number): Observable<string[]> {
+    return this.http.get<string[]>(`${AppConstants.apiUrl}/api/Subcategories/${id}/SpecLabels`);
+  }
   create(subcategory: SubcategoryModel): Observable<SubcategoryModel> {
     return this.http.post<SubcategoryModel>(`${AppConstants.apiUrl}/api/Subcategories`, subcategory);
   }

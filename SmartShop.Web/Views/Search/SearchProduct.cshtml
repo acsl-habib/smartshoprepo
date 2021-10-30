@@ -1,0 +1,49 @@
+﻿@model SmartShop.Web.ViewModels.IndexVM
+@{
+    ViewData["Title"] = "SearchProduct";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="products mt-4">
+    <div class="container ck-cart-info">
+        <h5>Products</h5>
+        <div class="row">
+            @if (Model.Products.Count > 0)
+            {
+                @foreach (var p in Model.Products)
+                {
+                    <div class="col-lg-2 col-6 col-xs-6 mt-3">
+                        <div class="border w-100 bx">
+                            <a asp-action="ProductDetails" asp-controller="Product" asp-route-Id="@p.ProductId"><img src="~/assets/img/@p.ProductImages.First().ImageName" alt="" class="w-100"></a>
+                            <div class="text-center p-2">
+                                <h6>@p.ProductName</h6>
+
+                                <p><strong>$</strong></p>
+                            </div>
+
+
+
+
+                            <a asp-route-Id="@p.ProductId" onclick="addToCart(@p.ProductId)" class="btn btn-outline-danger rounded-0 border-0 btn-block"><i class="fa fa-shopping-cart"> Add to cart</i></a>
+
+                        </div>
+                    </div>
+
+
+
+                }
+
+
+
+            }
+            else
+            {
+                <p class="text-danger text-center">No product found</p>
+            }
+
+
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,354 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecommerce</title>
+    <link rel="stylesheet" href="~/assets/css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="~/assets/css/responsive.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
+    <!-- Fontawesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="~/assets/css/slider/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/assets/css/slider/owl.theme.default.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @await RenderSectionAsync("styles", false)
+</head>
+<body>
+    <!-- Add loader-wrapper just below the body tag -->
+
+    <div class="overlay"></div>
+
+    <div class="utility-nav d-none d-md-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-lg-6">
+                    <p class="small">
+                        <i class="fa fa-envelope"></i> example@com | <i class="fa fa-phone"></i> +91-9876543210
+                    </p>
+                </div>
+                <div class="col-12 col-md-6 text-right">
+                    <p class="small">Free shipping on total of $99 of all products</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div data-toggle="sticky-onscroll">
+        <nav class="navbar navbar-expand-md navbar-light bg-light main-menu pd-2" style="box-shadow:none">
+            <div class="container">
+                <button type="button" id="sidebarCollapse" class="btn btn-link d-block d-md-none btn-color">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <ul class="mr-auto d-block d-lg-none d-md-none d-xl-none" style="width:85%">
+                    @*for small device search bar *@
+                    <div class="input-group mt-3">
+                        <input type="text" class="form-control top-sm-searchbar" placeholder="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-bg text-white" type="submit">Go</button>
+                        </div>
+                    </div>
+                </ul>
+                <div class="d-none d-lg-block d-xl-block">
+                    <a class="navbar-brand" href="#" style="font-weight: 800; font-size: 22px; color: #222f3e ">SMARTSHOP</a>
+                </div>
+                <div class="collapse navbar-collapse ">
+                    <form method="get" asp-action="SearchProduct" asp-controller="Search" class="form-inline my-2 my-lg-0 mx-auto ">
+                        <input class="form-control rounded-0 top-search-input" type="text" name="search" placeholder="Search for products..." aria-label="Search" required>
+                        <button type="submit" class="btn btn-default btn-bg top-search-btn  rounded-0 text-white"><i class="fa fa-search"></i></button>
+                    </form>
+                    <ul class="navbar-nav">
+
+                        <li class="nav-item icon-pad"><a asp-action="Index" asp-controller="Cart"><i class="fa fa-shopping-cart"></i><span class="badge btn-bg cart-qty-badge text-white" id="total_cart"> @await Component.InvokeAsync("CartSummary")</span></a></li>
+                        <li class="nav-item  icon-pad"><i class="fa fa-bell"></i><span class="badge btn-bg cart-qty-badge text-white">0</span></li>
+
+
+
+                        <li class="nav-item  icon-pad"><a asp-action="Index" asp-controller="User"><i class="fa fa-user"></i></a></li>
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- cart modal -->
+
+        <nav class="navbar navbar-expand-md nav-bg sub-menu pd-0">
+            <div class="container">
+                <div class="collapse navbar-collapse" id="navbar">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+                            <a class="btn-bg nav-link dropdown-toggle text-uppercase pl-5 pr-5" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span style="padding-right: 15px;">
+                                    <i style="color:#ffff" class="fa fa-bars"></i>
+                                </span>
+                                Categories
+                            </a>
+                            @await Component.InvokeAsync("CategoryList")
+                        </li>
+                        <li class="nav-item active">
+                            <a class="nav-link " asp-action="Index" asp-controller="Home">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="Product">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Campaign</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-action="Index" asp-controller="Contact">Contact</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link pr-0" href="#">Help</a>
+                        </li>
+
+                    </ul>
+                    <ul class="navbar-nav ml-auto">
+
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item ">
+                                <a class="nav-link pr-0" asp-action="Index" asp-controller="User"> @User.Identity.Name</a>
+                            </li>
+
+                        }
+                        else
+                        {
+
+                            <li class="nav-item">
+
+                                <a class="nav-link" asp-action="Login" asp-controller="Customer">
+                                    <i class="fa fa-sign-in"></i>
+                                    Sign In
+                                </a>
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link pr-0" asp-action="Register" asp-controller="Customer">
+                                    <i class="fa fa-user-plus"></i>
+                                    Sign Up
+                                </a>
+                            </li>
+                        }
+
+
+
+
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+
+
+
+    <!-- Sidebar for small device-->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-10 pl-0">
+                        <a class="btn btn-outline-light text-dark border btn-block rounded-0" href="#"><i class="fa fa-user mr-1"></i> Log In</a>
+                    </div>
+                    <div class="col-2 text-left">
+                        <button type="button" id="sidebarCollapseX" class="btn btn-link">
+                            <i class="fa fa-close"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="list-unstyled components links">
+            <li class="active rounded-0">
+                <a asp-action="Index" asp-controller="User"><i class="fa fa-dashboard mr-3"></i> Dashboard</a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Order"><i class="fa fa-cart-plus mr-3"></i>Order</a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Product"><i class="fa fa-product-hunt mr-3"></i>Products</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-gift mr-3"></i>Gift Card</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-bell mr-3"></i>Notification</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-newspaper-o mr-3"></i> News</a>
+            </li>
+            <li>
+                <a asp-action="Index" asp-controller="Contact"><i class="fa fa-address-book mr-3"></i>Contact</a>
+            </li>
+
+        </ul>
+    </nav>
+    @RenderBody()
+    <section class="footer-nav nav-bg d-block d-lg-none d-md-none d-xl-none mt-5">
+        <div class="containr">
+            <div class="footer-icon-bar">
+                <a href="#"><i class="fa fa-search"></i></a>
+                <a href="#"><i class="fa fa-envelope"></i></a>
+                <a asp-action="Index" asp-controller="Home"><i class="fa fa-home"></i></a>
+                <a asp-action="Index" asp-controller="Cart"><i class="fa fa-cart-plus"></i></a>
+                <a asp-action="Index" asp-controller="User"><i class="fa fa-user"></i></a>
+            </div>
+        </div>
+    </section>
+    <section class="footer section-bg text-white mt-5 pt-5  d-none d-sm-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-6">
+                    <div class="footer-content ck-cart-info">
+                        <h5>CONTACT</h5>
+                        <p>118/F, West Shewrapara,Shewrapara, Ananda Bazar ,Mirpur-1216</p>
+                        <p class="mt-1"><i class="fa fa-envelope"></i> rakibinfo832@gmail.com</p>
+                        <p><i class="fa fa-phone"></i> +8801761518709</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="footer-content ck-cart-info">
+                        <h5>QUICK INFO</h5>
+                        <p><a href="#">About BDSHOP</a></p>
+                        <p><a href="#">My Account</a></p>
+                        <p><a href="#">Marchant</a></p>
+                        <p><a href="#">Career</a></p>
+                        <p><a href="#">Seller information</a></p>
+                        <p><a href="#">News</a></p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="footer-content ck-cart-info">
+                        <h5>HELP</h5>
+                        <p><a href="#">Payment</a></p>
+                        <p><a href="#">Cancallation & Returns</a></p>
+                        <p><a href="#">About Premium Membership</a></p>
+                        <p><a href="#">Terms & Condition</a></p>
+                        <p><a href="#">Privacy & Policy</a></p>
+                        <p><a href="#">Help Center</a></p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <div class="footer-content ck-cart-info">
+                        <h5>NEWS LETTER</h5>
+                        <form>
+                            <div class="input-group mb-3 input-group-sm">
+                                <input type="email" class="form-control">
+                                <div class="input-group-prepend">
+                                    <button class="btn btn-bg text-white">Subscribe</button>
+                                </div>
+                            </div>
+                        </form>
+                        <h5>FOLLOW US</h5>
+                        <ul class="mt-2">
+                            <li><a href=""><i class="fa fa-facebook icon"></i></a></li>
+                            <li><a href=""><i class="fa fa-youtube icon"></i></a></li>
+                            <li><a href=""><i class="fa fa-linkedin icon"></i></a></li>
+                            <li><a href=""><i class="fa fa-twitter icon"></i></a></li>
+                            <li class="float-right"> <a id="back-to-top" href="#" class="back-to-top" role="button"><i class="fa fa-chevron-up rounded-0 btn-bg mr-0 border-0"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr style="border: 1px solid #2d3e52;">
+            <p class="text-center p-1 font">&copy Right all right reserved Rakib Hosen 2021</p>
+        </div>
+    </section>
+
+    <!-- all js -->
+    <script src="~/assets/js/bootstrap/jquery.min.js"></script>
+    <!-- jQuery library -->
+    <!-- Popper JS -->
+    <script src="~/assets/js/bootstrap/propper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="~/assets/js/bootstrap/bootstrap.min.js"></script>
+    <!-- <script src="jquery.min.js"></script> -->
+    <script src="~/assets/js/owl.carousel.min.js"></script>
+    <script src="~/assets/js/index.js"></script>
+    <script>
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 400);
+                return false;
+            });
+        });
+    </script>
+    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var hub = $.connection.notificationHub;
+            $.connection.hub.start()
+                .done(function () {
+                    console.log("Hub Connected!");
+
+                })
+                .fail(function () {
+                    console.log("Could not Connect!");
+                });
+        });
+    </script>
+
+
+
+    <script>
+
+        function addToCart(product_id) {
+            event.preventDefault();
+
+            let id = product_id;
+
+            console.log(id);
+
+
+            $.ajax({
+                url: `http://localhost:18276/Cart/AddToCart/${id}`,
+                type: "GET",
+                dataType: 'json',
+                success: function (response) {
+
+                    if (response.success) {
+                       
+                        $('#total_cart').html(response.total_cart);
+                      
+                    } else {
+                        console.log(response);
+                      
+                    }
+
+
+
+
+                },
+            });
+        }
+    </script>
+
+
+
+
+    @await Component.InvokeAsync("Notyf")
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+
+

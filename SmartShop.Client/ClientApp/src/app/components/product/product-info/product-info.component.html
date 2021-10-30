@@ -1,0 +1,25 @@
+<div class="view-container">
+  <!--<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>-->
+  <mat-card class="table-card mat-elevation-z9">
+    <mat-card-header>
+      <mat-card-title>{{product?.productName}}</mat-card-title>
+      <mat-card-subtitle>Product details</mat-card-subtitle>
+      <img src="{{imagePath}}/{{getImageName()}}" mat-card-avatar class="avatar" />
+     
+    </mat-card-header>
+
+    <mat-card-content class="card-container">
+      <div class="f-w product-row">
+        <div>
+
+        </div>
+        <div>
+          <div #container [ngStyle]="{width: 300+'px'}" style="height: 5100px; text-align:center;margin:0; padding:0;">
+            <ng-image-slider #nav [images]="imageObject" [infinite]="false" [manageImageRatio]=true [autoSlide]="1"
+                             [animationSpeed]="0.1" [imageSize]="{width: container.style.width, space:0}" slideImage="1"></ng-image-slider>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,193 @@
+﻿@model OrderVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="tab-pane mt-5" id="order-list">
+  
+        <div class="row">
+            <div class="col-lg-8 mx-auto ck-cart-info ">
+                <h5 class="mb-3">YOUR PLACED ORDERS</h5>
+                @if (Model.Orders.Count > 0)
+                {
+                    @foreach (var o in Model.Orders)
+                    {
+                        <div class="card shadow-lg mt-2">
+                            <div class="card-body">
+
+                                <div class="row d-flex align-items-center">
+
+
+                                    <div class="col-lg-4 col-6">
+                                        <p>Order ID : <strong>#0000 @o.OrderId</strong></p>
+
+                                        <p>Total Amount : <strong>$     @String.Format("{0:0.00}", Model.Total)</strong></p>
+                                        <p>
+                                            <small> @o.OrderDate</small>
+                                        </p>
+                                    </div>
+
+                                    <div class="col-lg-4 col-4">
+                                        <p class="text-center">
+                                            <span class="badge badge-warning">
+                                               
+                                                    <span class="badge badge-sccess">Unpaid</span>
+                                            
+                                                    <span class="badge badge-danger">Unpaid</span>
+                                                
+                                            </span>
+
+                                        </p>
+                                        <p class="text-center"><small>Expected delivery by: To be Determined</small></p>
+                                    </div>
+                                    <div class="col-lg-4 col-2">
+                                        <a asp-action="OrderDetails" asp-controller="Order" class="btn btn-info btn-sm  rounded-0 text-white float-right d-lg-none d-md-none d-xl-none"><i class="fa fa-eye"></i></a>
+
+                                        <a class="btn btn-info btn-sm  rounded-0 text-white float-right d-none d-sm-block" data-toggle="modal" data-target="#productView-@o.OrderId"><i class="fa fa-eye"></i>View</a>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="modal fade modal-center" id="productView-@o.OrderId">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <!-- Modal Header -->
+                                    <div class="modal-header border-0 ck-cart-info">
+                                        <h5>Product Description</h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <!-- Modal body -->
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="card">
+                                                    <div class="card-body p-0 table-responsive">
+                                                        <table class="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+
+                                                                    <th scope="col">Product Name</th>
+                                                                    <th scope="col">Price</th>
+
+                                                                    <th scope="col" width="14%">Qty</th>
+                                                                    <th scope="col">Sub Total</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @{
+                                                                    decimal total = 0;
+                                                                }
+                                                                @foreach (var c in o.OrderDetails)
+                                                                {
+
+                                                                <tr>
+                                                                    <td>@c.Product.ProductName</td>
+
+                                                                    <td>  @String.Format("{0:0.00}", c.ProductPrice) </td>
+                                                                    <td>@c.Quantity</td>
+                                                                    <td>
+                                                                        @{
+                                                                            var subtotal = c.ProductPrice * c.Quantity;
+                                                                            total = total + subtotal;
+                                                                        }
+                                                                   
+                                                                        @String.Format("{0:0.00}", subtotal)
+
+                                                                    </td>
+                                                              
+                                                                        <td><a class="btn btn-info rounded-0 btn-sm" asp-action="Index" asp-controller="Review" asp-route-Id="@c.ProductId">Add Review</a></td>
+                                                             
+                                                                        <td><a class="btn btn-info rounded-0 btn-sm" asp-action="Edit" asp-controller="Review" asp-route-Id="@c.ProductId">Update Review</a></td>
+                                                                    
+                                                                </tr>
+
+                                                                }
+
+                                                                <tr>
+                                                                    <td></td>
+                                                                    <td></td>
+                                                                    <td>Total</td>
+                                                                    <td>
+                                                                        <p>
+                                                                            <strong>
+                                                                             
+                                                                                String.Format("{0:0.00}", Model.Total)
+                                                                            </strong>
+                                                                        </p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <div class="card mt-4">
+                                                    <div class="card-body">
+                                                        <h4>Timeline</h4>
+                                                        <ul class="timeline">
+                                                            <li class="active">
+                                                                <h6>PICKED</h6>
+                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque Lorem ipsum dolor</p>
+                                                                <o class="text-muted">
+                                                                    21 March, 2014
+                                                                </o>
+                                                            </li>
+                                                            <li>
+                                                                <h6>PICKED</h6>
+                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
+                                                                <o class="text-muted">
+                                                                    21 March, 2014
+                                                                </o>
+                                                            </li>
+                                                            <li>
+                                                                <h6>PICKED</h6>
+                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
+                                                                <o class="text-muted">
+                                                                    21 March, 2014
+                                                                </o>
+                                                            </li>
+                                                            <li>
+                                                                <h6>PICKED</h6>
+                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
+                                                                <o class="text-muted">
+                                                                    21 March, 2014
+                                                                </o>
+                                                            </li>
+                                                            <li>
+                                                                <h6>PICKED</h6>
+                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
+                                                                <o class="text-muted">
+                                                                    21 March, 2014
+                                                                </o>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h4 class="text-info text-center">You hav no order </h4>
+                }
+
+            </div>
+        </div>
+      
+
+    </div>
+</div>

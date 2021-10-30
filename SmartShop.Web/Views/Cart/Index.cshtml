@@ -1,0 +1,156 @@
+﻿
+@model CartVM
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="cart mt-4">
+    <div class="container ck-cart-info">
+        @if (Model.Carts.Count > 0)
+        {
+
+            <h5>Your Carts</h5>
+            <div class="row">
+
+                <div class="col-lg-9">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <thead>
+                                        <tr class="text-muted">
+                                            <th scope="col">Image</th>
+                                            <th scope="col"> Name</th>
+                                            <th scope="col">Price</th>
+
+                                            <th scope="col" width="14%">Qty</th>
+                                            <th scope="col">Sub Total</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var c in Model.Carts)
+                                        {
+
+
+                                        <tr>
+
+                                            <td><img src="~/assets/img/@c.Product.ProductImages.First().ImageName" height="80" width="80" /></td>
+                                            <td class="align-middle">
+                                                @c.Product.ProductName <br />
+                                                <p class="text-muted">@c.Product.Brand.BrandName</p>
+                                            </td>
+
+                                         
+                                         
+                                            <td class="align-middle">
+                                                $@String.Format("{0:0.00}", c.ProductPrice)
+                                              
+                                            </td>
+                                            <td class="clearfix align-middle">
+
+                                                <form method="post" asp-action="AddQuantity" asp-controller="Cart" asp-route-Id="@c.Product.ProductId">
+
+                                                    <input asp-for="Quantity" class="form-control form-control-sm float-left" style="width: 50px!important;" value="@c.Quantity" />
+                                                    <button type="submit" class="btn btn-primary btn-sm rounded-0 float-right" value="Save"><i class="fa fa-save"></i></button>
+                                                </form>
+                                            </td>
+                                            <td class="align-middle">
+                                                @{
+
+                                                    var subtotal = c.ProductPrice * c.Quantity;
+                                                }
+                    
+                                                $@String.Format("{0:0.00}", subtotal)
+                                            </td>
+                                            <td class="align-middle">
+                                                <a asp-controller="Cart" asp-action="RemoveCart" asp-route-Id="@c.ProductId" class="btn btn-danger btn-sm rounded-0">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        }
+
+
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+
+
+
+
+
+
+
+
+                        </div>
+
+
+                        <div class="card-footer">
+                            <div class="clearfix">
+                                <div class="float-left">
+                                    <a class="btn btn-info" asp-controller="Product" asp-action="Index">Continue Shopping.....</a>
+                                </div>
+                                <div class="float-right"><a class="btn btn-dark text-white " asp-action="Index" asp-controller="Checkout">Checkout</a></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="clearfix">
+                                <div class="float-left">Total Price</div>
+                    
+                                <div class="float-right">$ @String.Format("{0:0.00}", Model.Total)</div>
+                            </div>
+
+                            <div class="clearfix">
+                                <div class="float-left">Discount</div>
+                                <div class="float-right"> $0</div>
+                            </div>
+
+                            <div class="clearfix">
+                                <div class="float-left">Total</div>
+                                <div class="float-right"><strong>$ @String.Format("{0:0.00}", Model.Total)</strong> </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <img src="~/assets/img/payment.png" style="width:100%;" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        }
+        else
+        {
+                                                            <div class="row">
+                                                                <div class="col-lg-4 mx-auto">
+                                                                    <div class="card">
+                                                                        <div class="card-body">
+                                                                            <h4 class="text-center text-danger">Empty Cart</h4>
+                                                                            <p class="text-center mt-2"><a asp-action="Index" asp-controller="Home" class="btn btn-dark btn-sm">Shop Now</a></p>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+        }
+
+    </div>
+
+</section>
+

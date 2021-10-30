@@ -7,12 +7,15 @@ import { throwError } from 'rxjs';
 import { BrandModel } from '../../../models/data/brand-model';
 import { CategoryModel } from '../../../models/data/category-model';
 import { ProductAndPriceInputModel } from '../../../models/data/input/product-and-price-input-model';
+import { ProductConfigurationInputModel } from '../../../models/data/input/product-configuration-input-model';
 import { ProductModel } from '../../../models/data/product-model';
 import { SubcategoryModel } from '../../../models/data/subcategory-model';
 import { NotifyService } from '../../../services/common/notify.service';
 import { BrandService } from '../../../services/data/brand.service';
 import { CategoryService } from '../../../services/data/category.service';
 import { ProductService } from '../../../services/data/product.service';
+import { SubcategoryService } from '../../../services/data/subcategory.service';
+import { AcceptValidator } from '@angular-material-components/file-input';
 
 @Component({
   selector: 'app-product-create',
@@ -24,10 +27,15 @@ export class ProductCreateComponent implements OnInit {
   product: ProductModel = {};
   //for auto complete
   propertyNames: string[] = [];
+  specLabels: string[] = []
   // form select list
   categories: CategoryModel[] = [];
   subCategories: SubcategoryModel[] = [];
   brands: BrandModel[] = [];
+ //Images
+  files: File[] = [];
+  uploadCount = 0;
+  isUploading = false;
   //control field
   priceChangeWithProperty: boolean = true;
   //form
@@ -44,11 +52,18 @@ export class ProductCreateComponent implements OnInit {
     prices: new FormArray([])
     
   });
+  productConfigForm: FormGroup = new FormGroup({
+    productSpecs: new FormArray([])
+  });
+  imagesForm: FormGroup = new FormGroup({
+    images: new FormControl(undefined, Validators.required)
+  });
   //for price error
   //priceError = false;
   constructor(
     private productService: ProductService,
     private categoryService: CategoryService,
+    private subategoryService: SubcategoryService,
     private brandService: BrandService,
     private notifyService: NotifyService
   ) { }
@@ -64,7 +79,16 @@ export class ProductCreateComponent implements OnInit {
   get priceError() {
     return this.prices.touched && !this.prices.value.length;
   }
-  
+  //specs
+  get productSpecs() {
+    return this.productConfigForm.controls.productSpecs as FormArray;
+  }
+  get fimg() {
+    return this.imagesForm.controls;
+  }
+  get imagesLen() {
+    return this.files.length;
+  }
   /*
    * Handlers
    * 
@@ -143,12 +167,22 @@ export class ProductCreateComponent implements OnInit {
         this.product.productId = x.productId;
         this.productForm.markAsPristine();
         this.productForm.markAsUntouched();
-        
+        this.loadSpecLabels(<number>x.subcategoryId);
       }, err => {
         this.notifyService.fail("Falied to save product", "DISMISS");
         throwError(err.error || err);
       });
    
+  }
+  loadSpecLabels(id: number) {
+    this.subategoryService.getSpecLabels(id)
+      .subscribe(r => {
+        this.specLabels = r;
+        console.log(r);
+      }, err => {
+        this.notifyService.fail("Falied to save spec labels", "DISMISS");
+        throwError(err.error || err);
+      });
   }
   update() {
     
@@ -158,12 +192,74 @@ export class ProductCreateComponent implements OnInit {
     this.productForm.reset({});
     console.log(this.productForm.value);
   }
+  //product specs
+  addSpec() {
+    this.productSpecs.push(new FormGroup({
+      label: new FormControl('', Validators.required),
+      value: new FormControl('', Validators.required)
+    }));
+  }
+  removeSpec(index: number) {
+    this.productSpecs.removeAt(index);
+  }
+  saveConfig() {
+    console.log(this.productConfigForm.value);
+    let data: ProductConfigurationInputModel = {
+      productId: this.product.productId,
+      specs: this.productConfigForm.get('productSpecs')?.value
+    };
+    console.log(data);
+    this.productService.saveSpecs(data)
+      .subscribe(r => {
+        this.notifyService.success("Product spec saved", "DISMISSS");
+      }, err => {
+        this.notifyService.fail("Falied to save product specs", "DISMISS");
+        throwError(err.error || err);
+      })
+  }
+  saveImages() {
+    this.isUploading = true;
+    let i = 1;
+    this.files.forEach(f => {
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.productService.uploadImage(<number>this.product.productId, f)
+          .subscribe(res => {
+            console.log(res);
+            this.uploadCount = 100 * (this.files.length / i)
+            if (i == this.uploadCount) this.isUploading = false;
+            i++;
+            
+          }, err => {
+            this.notifyService.fail("Falied to save product specs", "DISMISS");
+            throwError(err.error || err);
+            if (i == this.uploadCount) this.isUploading = false;
+            i++;
+          })
+      };
+
+      reader.readAsArrayBuffer(f);
+      
+    });
+    if (i >= this.uploadCount) this.isUploading = false;
+  }
+  resetImages() {
+    
+   
+    this.imagesForm.reset({});
+    this.files = [];
+    console.log(this.imagesLen)
+  }
+
+  
   /*
    * Lifecycle events
    *
    * */
   ngOnInit(): void {
-    console.log(this.productCreated);
+    this.addSpec();
+    //console.log(this.productCreated);
     if (this.priceChangeWithProperty) this.addPrice();
     this.categoryService.get()
       .subscribe(r => {
@@ -187,6 +283,16 @@ export class ProductCreateComponent implements OnInit {
         throwError(err.error || err);
       });
     //console.log(this.prices.controls[0].get('propertyValue')?.errors?.required)
+    
+   
+    this.fimg.images.valueChanges.subscribe((files: any) => {
+      if (!Array.isArray(files)) {
+        this.files = [files];
+      } else {
+        this.files = files;
+      }
+    });
+    console.log(this.fimg.images.errors?.required);
   }
 
 }

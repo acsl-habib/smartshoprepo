@@ -17,6 +17,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { ProductCreateComponent } from './components/product/product-create/product-create.component';
 import { ProductEditComponent } from './components/product/product-edit/product-edit.component';
+import { ProductInfoComponent } from './components/product/product-info/product-info.component';
 import { ProductViewComponent } from './components/product/product-view/product-view.component';
 import { ShippingCreateComponent } from './components/shipping/shipping-create/shipping-create.component';
 import { ShippingEditComponent } from './components/shipping/shipping-edit/shipping-edit.component';
@@ -59,7 +60,8 @@ const routes: Routes = [
   { path: 'customers', component: CustomerViewComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } }, 
   { path: 'products', component: ProductViewComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
   { path: 'product-create', component: ProductCreateComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
-  { path: 'product-edit/:id', component: ProductEditComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } }
+  { path: 'product-edit/:id', component: ProductEditComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
+  { path: 'product-info/:id', component: ProductInfoComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } }
 ];
 
 @NgModule({
