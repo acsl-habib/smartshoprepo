@@ -1,5 +1,6 @@
 export class AppConstants {
   static apiUrl = "http://localhost:5000";
+  static webUrl = "http://localhost:5001";
   static appName = "Shop Smart";
   static navItems = [
     {

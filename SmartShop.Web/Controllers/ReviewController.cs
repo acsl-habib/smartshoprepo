@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SmartShop.DataLib.Models.Data;
 using SmartShop.Web.ViewModels;
 using System;
@@ -19,38 +20,63 @@ namespace SmartShop.Web.Controllers
 
         public IActionResult Index(int id)
         {
-            ViewBag.ProductId = id;
-            return View();
+            var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+            var CustomerId = Customer.CustomerId;
+            ViewBag.Product = _db.Products.Where(x=>x.ProductId==id).FirstOrDefault();
+
+           
+     
+            return View(
+                _db.Reviews.Where(x => x.ProductId.Equals(id))
+                .Where(x => x.CustomerId.Equals(CustomerId)).
+                Include(x=>x.Product)
+                .FirstOrDefault()
+                );
         }
-        //public IActionResult ReviewStore(ProductReviewVM model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-                
-        //        var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //        var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
-        //        var CustomerId = Customer.CustomerId;
-        //        var  Review = new Review()
-        //        {
-        //            Rating = model.Rating,
-        //            Comment = model.Comment,
-        //            ProductId= model.ProductId,
-        //            CustomerId = CustomerId
-        //        };
-        //        _db.Reviews.Add(Review);
-        //        _db.SaveChanges();
-        //        var OrderDetail = _db.OrderDetails.Where(x=>x.ProductId.Equals(model.ProductId)).FirstOrDefault();
-        //        if (OrderDetail != null)
-        //        {
-        //            OrderDetail.ReviewStatus = true;
-        //            _db.SaveChanges();
-        //        }
-            
-               
-        //        return RedirectToAction("Index", "Order");
-        //    }
-        //    return View(model);
-        //}
+        public IActionResult ReviewStore(ProductReviewVM model)
+        {
+            if (ModelState.IsValid)
+            {
+                var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+                var CustomerId = Customer.CustomerId;
+                var checkReview = _db.Reviews
+                    .Where(x => x.ProductId.Equals(model.ProductId))
+                    .Where(x => x.CustomerId.Equals(CustomerId)).FirstOrDefault();
+                if (checkReview != null)
+                {
+                    var Review = _db.Reviews.Where(x => x.ProductId.Equals(model.ProductId)).Where(x => x.CustomerId.Equals(CustomerId)).FirstOrDefault();
+
+                    if (Review != null)
+                    {
+                        Review.Comment = model.Comment;
+                        Review.Rating = model.Rating;
+                        _db.SaveChanges();
+                        return RedirectToAction("Index", "Order");
+                    }
+                }
+                else
+                {
+                    var Review = new Review()
+                    {
+                        Rating = model.Rating,
+                        Comment = model.Comment,
+                        ProductId = model.ProductId,
+                        CustomerId = CustomerId
+                    };
+                    _db.Reviews.Add(Review);
+                    _db.SaveChanges();
+                    return RedirectToAction("Index", "Order");
+
+                }
+
+        
+     
+                return RedirectToAction("Index", "Order");
+            }
+            return RedirectToAction("Index", "Order");
+        }
 
 
         //public IActionResult Edit(int id)
@@ -69,10 +95,10 @@ namespace SmartShop.Web.Controllers
         //        Rating = review.Rating
 
         //    };
-        //   return View(reviewVM);
+        //    return View(reviewVM);
 
         //}
-      
+
         //public IActionResult UpdateReview(ProductReviewVM model)
         //{
 
@@ -87,8 +113,8 @@ namespace SmartShop.Web.Controllers
         //            _db.SaveChanges();
         //            return RedirectToAction("Index", "Order");
         //        }
-           
-              
+
+
         //    }
         //    return RedirectToAction("Index", "Order");
         //}

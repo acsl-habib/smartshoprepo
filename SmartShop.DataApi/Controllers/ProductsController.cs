@@ -47,6 +47,7 @@ namespace SmartShop.DataApi.Controllers
                 .Products
                 .Include(x => x.ProductPrices)
                 .Include(x => x.ProductImages)
+                .Include(x=> x.ProductSpecs)
                 .FirstOrDefaultAsync(x => x.ProductId == id);
         }
         // GET: api/Products/5

@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<Product>
 
-@if (Model != null)
+@if (Model != null )
 {
-    <h5>@Model.FirstOrDefault().Subcategory.SubcategoryName</h5>
+    <h5>@Model.FirstOrDefault()?.Subcategory.SubcategoryName</h5>
     @foreach (var p in Model)
     {
         <div class="owl-carousel product-carousel  owl-theme owl-loaded mb-3 mt-2">
@@ -13,19 +13,15 @@
                         <a asp-action="ProductDetails" asp-controller="Product" asp-route-Id="@p.ProductId"><img src="~/assets/img/@p.ProductImages.First().ImageName" alt="" class="image"></a>
                         <div class="text-center p-2">
                             <h6>@p.ProductName</h6>
-                            
+
                             @if (p.ProductPrices.Count > 0)
                             {
                                 <p><strong>$@String.Format("{0:0.00}", p.ProductPrices.FirstOrDefault().Price) </strong></p>
                             }
 
                         </div>
+            
 
-
-
-                     
-                            <a asp-route-Id="@p.ProductId" onclick="addToCart(@p.ProductId)" class="btn btn-outline-danger rounded-0 border-0 btn-block"><i class="fa fa-shopping-cart"> Add to cart</i></a>
-                     
                     </div>
                    
 

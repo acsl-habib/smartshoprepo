@@ -103,7 +103,7 @@ namespace SmartShop.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(user.Username, user.Password, true, true);
+                var result = await _signInManager.PasswordSignInAsync(user.Username, user.Password, true, false);
 
                 if (result.Succeeded)
                 {

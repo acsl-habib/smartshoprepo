@@ -12,7 +12,7 @@ namespace SmartShop.Web.ViewModels
         public Customer Customer { get; set; }
         public ICollection<Shipping> Shipping { get; set; }
         public ICollection<Payment> Payments { get; set; }
-        //public ICollection<Cart> Carts { get; set; }
+        public ICollection<Cart> Carts { get; set; }
 
         public decimal Total { get; set; }
         [StringLength(200)]

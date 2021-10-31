@@ -9,7 +9,7 @@
     <div class="col-lg-8 mx-auto">
         <div class="card mt-5 mb-2">
             <div class="card-body">
-                <h6>Add Review for-</h6>
+                <h6>Add Review for @ViewBag.Product.ProductName</h6>
                <table class="table table-borderless">
                <tr>
                    <th width="20%"></th>
@@ -18,7 +18,7 @@
              <tbody>
                  <tr>
                      <td><img src="~/assets/img/product.png" height="80" width="80" /></td>
-                     <td class="align-middle"> Mobile</td>
+                     <td class="align-middle"></td>
                  </tr>
              </tbody>
                </table>
@@ -26,8 +26,23 @@
         </div>
         <div class="card p-2 shadow-lg">
             <div class="card-body">
+                @if (Model != null)
+                {
+                    <div class="border mt-1 p-3">
+
+
+
+                        @foreach (var r in Model.Customer.Reviews)
+                        {
+                            <p class="text-muted">@r.Comment</p>
+                            <p class="text-muted">@r.Rating Star</p>
+                        }
+
+                    </div>
+                }
+
                 <div class="login-form-container form-style">
-          
+
 
                     <form method="post" asp-action="ReviewStore" asp-controller="Review">
                         <div asp-validation-summary="All" class="text-danger"></div>

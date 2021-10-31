@@ -34,6 +34,7 @@ export class ProductCreateComponent implements OnInit {
   brands: BrandModel[] = [];
  //Images
   files: File[] = [];
+  uploadMessages: string[] = [];
   uploadCount = 0;
   isUploading = false;
   //control field
@@ -218,38 +219,53 @@ export class ProductCreateComponent implements OnInit {
       })
   }
   saveImages() {
+    this.uploadMessages = [];
     this.isUploading = true;
-    let i = 1;
-    this.files.forEach(f => {
-      const reader = new FileReader();
-
-      reader.onload = (e: any) => {
-        this.productService.uploadImage(<number>this.product.productId, f)
-          .subscribe(res => {
-            console.log(res);
-            this.uploadCount = 100 * (this.files.length / i)
-            if (i == this.uploadCount) this.isUploading = false;
-            i++;
-            
-          }, err => {
-            this.notifyService.fail("Falied to save product specs", "DISMISS");
-            throwError(err.error || err);
-            if (i == this.uploadCount) this.isUploading = false;
-            i++;
-          })
-      };
-
-      reader.readAsArrayBuffer(f);
+    
+    this.files.forEach((f, i) => {
+      this.doSaveImages(i, f);
       
     });
-    if (i >= this.uploadCount) this.isUploading = false;
+    
+  }
+  doSaveImages(i: number, f: File) {
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      this.productService.uploadImage(<number>this.product.productId, f)
+        .subscribe(res => {
+          //console.log(res);
+          this.uploadCount = 100 * (this.files.length / i)
+          this.uploadMessages.push(`${f.name} uploaded`);
+          this.checkUploadDone();
+
+        }, err => {
+          this.notifyService.fail("Falied to upload "+ f.name, "DISMISS");
+          
+          
+          this.uploadMessages.push(`${f.name} upload failed`);
+          throwError(err.error || err);
+         
+        })
+    };
+
+    reader.readAsArrayBuffer(f);
+  }
+  checkUploadDone() {
+    if (this.uploadMessages.length == this.files.length) {
+      this.isUploading = false;
+      this.notifyService.success("Uploading done", "DISMISS");
+      this.resetImages();
+    }
   }
   resetImages() {
     
    
     this.imagesForm.reset({});
     this.files = [];
-    console.log(this.imagesLen)
+    this.uploadCount = 0;
+    this.uploadMessages = [];
+    //console.log(this.imagesLen)
   }
 
   

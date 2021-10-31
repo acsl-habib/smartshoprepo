@@ -8,7 +8,7 @@ namespace SmartShop.Web.ViewModels
 {
     public class CartVM
     {
-        //public ICollection<Cart> Carts { get; set; }
+        public ICollection<Cart> Carts { get; set; }
         public decimal Total { get; set; }
         public int Quantity { get; set; }
         public int ProductPrice { get; set; }

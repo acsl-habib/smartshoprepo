@@ -29,111 +29,111 @@ namespace SmartShop.Web.Controllers
 
         }
 
-         //public IActionResult Index()
-         //{
+         public IActionResult Index()
+         {
       
-         //    var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-         //    var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
-         //    var CustomerId = Customer.CustomerId;
-         //    var Carts = _db.Carts
-         //       .Where(x => x.CustomerId.Equals(CustomerId))
-         //       .Include(x => x.Product)
-         //       .Include(x => x.Product.ProductImages)
-         //       .Include(x => x.Product.ProductPrices)
-         //       .Include(x => x.Product.Brand)
-         //       .ToList();
-         //    var cartVM = new CartVM()
-         //    {         
-         //          Carts = Carts,
-         //           Total = _db.Carts
-         //           .Where(x => x.CustomerId.Equals(CustomerId)).Sum(x=>x.ProductPrice* x.Quantity),
-         //    };
-         //    return View(cartVM);
-         //}
+             var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+             var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+             var CustomerId = Customer.CustomerId;
+             var Carts = _db.Carts
+                .Where(x => x.CustomerId.Equals(CustomerId))
+                .Include(x => x.Product)
+                .Include(x => x.Product.ProductImages)
+                .Include(x => x.Product.ProductPrices)
+                .Include(x => x.Product.Brand)
+                .ToList();
+             var cartVM = new CartVM()
+             {         
+                   Carts = Carts,
+                    Total = _db.Carts
+                    .Where(x => x.CustomerId.Equals(CustomerId)).Sum(x=>x.ProductPrice* x.Quantity),
+             };
+             return View(cartVM);
+         }
 
-         //[HttpGet]
-         //public IActionResult AddToCart(int id)
-         //{
+         [HttpGet]
+         public IActionResult AddToCart(ProductViewVM model)
+         {
    
-         //   //user id
-         //    var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-         //   //customer
-         //    var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
-         //   //customer id
-         //    var CustomerId = Customer.CustomerId;
-         //   //product price
-         //    var ProductPrice = _db.ProductPrices.Where(x => x.ProductId.Equals(id)).First();
+            //user id
+             var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //customer
+             var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+            //customer id
+             var CustomerId = Customer.CustomerId;
+            //product price
+            var ProductPrice = model.Price;
 
-         //   //product 
-         //    var product = _db.Products.Where(x => x.ProductId.Equals(id)).FirstOrDefault();
-         //   //check product
-         //    var checkProduct = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId)).Where(x => x.ProductId.Equals(id)).FirstOrDefault();
-         //    if (checkProduct != null)
-         //    {
+            //product 
+             var product = _db.Products.Where(x => x.ProductId.Equals(model.ProductId)).FirstOrDefault();
+            //check product
+             var checkProduct = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId)).Where(x => x.ProductId.Equals(model.ProductId)).FirstOrDefault();
+             if (checkProduct != null)
+             {
 
-         //        checkProduct.Quantity = checkProduct.Quantity + 1;
+                 checkProduct.Quantity = checkProduct.Quantity + 1;
 
-         //        _db.SaveChanges();
-         //        _notyf.Success("Product added to your card", 2);
-         //        var total_cart = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId)).Count();
-         //       Json(total_cart);
-         //       return Json(total_cart);
-         //   }
-         //    else
-         //    {
-         //        var cart = new Cart()
-         //        {
-         //            CustomerId = CustomerId,
-         //            ProductId = id,
-         //            Quantity = 1,
-         //            ProductPrice= ProductPrice.Price,
-         //        };
-         //        _db.Carts.Add(cart);
+                 _db.SaveChanges();
+                 _notyf.Success("Product added to your card", 2);
+                 var total_cart = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId)).Count();
+                Json(total_cart);
+                return RedirectToAction("Index");
+            }
+             else
+             {
+                 var cart = new Cart()
+                 {
+                     CustomerId = CustomerId,
+                     ProductId = model.ProductId,
+                     Quantity = 1,
+                     ProductPrice= model.Price,
+                 };
+                 _db.Carts.Add(cart);
              
-         //        _db.SaveChanges();
-         //        _notyf.Success("Product added to your card", 2);
-         //        var total_cart = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId)).Count();
-         //      return Json(total_cart);
-            
-         //    }
+                 _db.SaveChanges();
+                 _notyf.Success("Product added to your card", 2);
+                 var total_cart = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId)).Count();
+                return RedirectToAction("Index");
 
-         //}
+            }
 
-
-          //public IActionResult RemoveCart(int id)
-          //{
-          //    var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-          //    var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
-          //    var CustomerId = Customer.CustomerId;
-
-          //    var carts = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId))
-          //        .Where(x => x.ProductId.Equals(id)).FirstOrDefault();
+         }
 
 
-          //    _db.Entry(carts).State = EntityState.Deleted;
+          public IActionResult RemoveCart(int id)
+          {
+              var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+              var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+              var CustomerId = Customer.CustomerId;
 
-          //    _db.SaveChanges();
-          //    _notyf.Success("Cart remove from your cart", 3);
-          //    return RedirectToAction("Index");
-          //}
+              var carts = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId))
+                  .Where(x => x.ProductId.Equals(id)).FirstOrDefault();
 
 
-         //public IActionResult AddQuantity(CartVM model, int id)
-         //{
-         //    var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-         //    var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
-         //    var CustomerId = Customer.CustomerId;
+              _db.Entry(carts).State = EntityState.Deleted;
 
-         //    //var checkProduct = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId)).Where(x => x.ProductId.Equals(id)).FirstOrDefault();
-         //    if (checkProduct != null)
-         //    {
+              _db.SaveChanges();
+              _notyf.Success("Cart remove from your cart", 3);
+              return RedirectToAction("Index");
+          }
 
-         //        checkProduct.Quantity = model.Quantity;
 
-         //        _db.SaveChanges();
-         //        return RedirectToAction("Index");
-         //    }
-         //    return RedirectToAction();
-         //}
+         public IActionResult AddQuantity(CartVM model, int id)
+         {
+             var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+             var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+             var CustomerId = Customer.CustomerId;
+
+             var checkProduct = _db.Carts.Where(x => x.CustomerId.Equals(CustomerId)).Where(x => x.ProductId.Equals(id)).FirstOrDefault();
+             if (checkProduct != null)
+             {
+
+                 checkProduct.Quantity = model.Quantity;
+
+                 _db.SaveChanges();
+                 return RedirectToAction("Index");
+             }
+             return RedirectToAction();
+         }
     }
 }

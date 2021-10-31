@@ -4,3 +4,13 @@
     grid-template-columns: 1fr 350px;
     grid-gap:16px;
 }
+.item-row {
+    width:100%;
+    display:grid;
+   grid-template-columns: 150px auto;
+   grid-gap:16px;
+   align-content:center;
+    margin: 12px 25px;
+    padding: 12px;
+    border-bottom:solid 1px #ddd;
+}

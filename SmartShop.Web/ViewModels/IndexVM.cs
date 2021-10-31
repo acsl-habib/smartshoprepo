@@ -14,6 +14,7 @@ namespace SmartShop.Web.ViewModels
         public ICollection<Brand> Brands { get; set; }
 
         public ICollection<Review> Reviews { get; set; }
+        public ICollection<ProductSpec> productSpecs { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-//using Syncfusion.Pdf;
-//using Syncfusion.Pdf.Graphics;
-//using Syncfusion.Drawing;
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using Syncfusion.Drawing;
 using System.IO;
 
 namespace SmartShop.Web.Controllers
@@ -29,12 +29,13 @@ namespace SmartShop.Web.Controllers
                 Products = _db.Products
                
                 .Include(x => x.Brand)
-                .Include(x => x.Subcategory)
                 .Include(x=>x.ProductPrices)
-                .Include(x=>x.ProductSpecs)
+               
                 .Include(x=>x.ProductImages)
                 .Include(x => x.Reviews)
                 .ThenInclude(x=>x.Customer)
+                 .Include(x => x.Subcategory)
+             
                 .ToList(),
                 Categories = _db.Categories.ToList(),
                 Subcategories = _db.Subcategories.ToList(),

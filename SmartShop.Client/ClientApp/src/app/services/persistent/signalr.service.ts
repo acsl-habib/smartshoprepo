@@ -24,7 +24,7 @@ export class SignalrService {
   initiateConnection(): Promise<void> {
     return new Promise((resolve, reject) => {
       this.connection = new HubConnectionBuilder()
-        .withUrl(`${AppConstants.apiUrl}/orderHub`) // the SignalR server url
+        .withUrl(`${AppConstants.webUrl}/orderHub`) // the SignalR server url
         .build();
       this.connection.on("orderCreated", data => {
         this.orderMessage.next("New order arrived");

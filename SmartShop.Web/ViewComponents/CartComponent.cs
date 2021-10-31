@@ -25,15 +25,28 @@ namespace SmartShop.Web.ViewComponents
          public async Task<IViewComponentResult> InvokeAsync()
          {
 
-             //var Id=  HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-             // var Customer = _db.Customers.Where(x => x.UserId.Equals(Id)).FirstOrDefault();
-             // var CusId = Customer.CustomerId;
+              var Id=  HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+           
+            if (Id != null)
+            {
+                var Customer = _db.Customers.Where(x => x.UserId.Equals(Id)).FirstOrDefault();
+                var CusId = Customer.CustomerId;
+                var count = _db.Carts
+              .Where(x => x.CustomerId.Equals(CusId))
+              .Count();
+                var item = await Task.FromResult<CartSummaryVM>(new CartSummaryVM { CartCount = count });
+                return View(item);
 
-             // var count = _db.Carts
-             //.Where(x=>x.CustomerId.Equals(CusId)) 
-             //.Count();
-             var item = await Task.FromResult<CartSummaryVM>(new CartSummaryVM { CartCount= 0 });
-             return View(item);
+            }
+            else
+            {
+                var count = 0;
+                var item = await Task.FromResult<CartSummaryVM>(new CartSummaryVM { CartCount = count });
+                return View(item);
+            }
+
+
+       
          }
     }
 }

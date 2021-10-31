@@ -160,8 +160,8 @@
 
                                                                                                 <tr>
                                                                                                     <td>@c.Product.ProductName</td>
-                                                                                              
-                                                                                                <td>    $@String.Format("{0:0.00}", c.ProductPrice)</td>
+
+                                                                                                    <td>    $@String.Format("{0:0.00}", c.ProductPrice)</td>
                                                                                                     <td>@c.Quantity</td>
                                                                                                     <td>
                                                                                                         @{
@@ -172,13 +172,14 @@
                                                                                                         $@String.Format("{0:0.00}", @subtotal)
 
                                                                                                     </td>
-                                                                                                    @if (c.Order.IsConfirmed == true)
+                                                                                                    @if (o.Customer.Reviews!=null)
                                                                                                     {
-                                                                                                        <td><a class="btn btn-info rounded-0 btn-sm" asp-action="Index" asp-controller="Review" asp-route-Id="@c.ProductId">Add Review</a></td>
+                                                                                                        <td><a class="btn btn-info rounded-0 btn-sm" asp-action="Index" asp-controller="Review" asp-route-Id="@c.ProductId">Update Review</a></td>
+                                                                                                        
                                                                                                     }
                                                                                                     else
                                                                                                     {
-                                                                                                        <td><a class="btn btn-info rounded-0 btn-sm" asp-action="Edit" asp-controller="Review" asp-route-Id="@c.ProductId">Update Review</a></td>
+                                                                                                <td><a class="btn btn-info rounded-0 btn-sm" asp-action="Index" asp-controller="Review" asp-route-Id="@c.ProductId">Add Review</a></td>
                                                                                                     }
                                                                                                 </tr>
 

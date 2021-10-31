@@ -9,4 +9,5 @@ D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.cs
 D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.dll
 D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.pdb
 D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.genruntimeconfig.cache
-D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.csprojAssemblyReference.cache
+D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.GeneratedMSBuildEditorConfig.editorconfig
+D:\OL04\SmartShop\SmartShop.DataLib\obj\Debug\netcoreapp3.1\SmartShop.DataLib.csproj.AssemblyReference.cache

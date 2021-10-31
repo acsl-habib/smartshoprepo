@@ -102,7 +102,7 @@
 <!-- by products-->
 <div class="by-product mt-5 mb-5">
     <div class="container ck-cart-info">
-        @if (Model != null)
+        @if (Model.Subcategories.Count>0)
         {
 
             @foreach (var c in Model.Subcategories)

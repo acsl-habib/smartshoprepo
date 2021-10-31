@@ -1,4 +1,4 @@
-﻿@model Product
+﻿@model ProductViewVM
 @{
     ViewData["Title"] = "ProductDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -15,7 +15,7 @@
                                 <div class="carousel-inner">
                                
                                         @{int i = 0;}
-                                        @foreach (var img in Model.ProductImages)
+                                        @foreach (var img in Model.Product.ProductImages)
                                         {
                                             i++;
                                             var active = i == 1 ? "active" : "";
@@ -43,17 +43,17 @@
                         <div class="col-lg-6">
 
                             <div>
-                                <h2>@Model.ProductName</h2>
+                                <h2>@Model.Product.ProductName</h2>
                                 <p>Some Description</p>
                             </div>
 
 
-                            @if (Model.ProductSpecs.Count() > 0)
+                            @if (Model.Product.ProductSpecs.Count() > 0)
                             {
-                                <p class="mt-2 mb-2"><strong>Specification of @Model.ProductName</strong> </p>
+                                <p class="mt-2 mb-2"><strong>Specification of @Model.Product.ProductName</strong> </p>
                                 <div class="row">
 
-                                    @foreach (var sp in Model.ProductSpecs)
+                                    @foreach (var sp in Model.Product.ProductSpecs)
                                     {
 
 
@@ -67,11 +67,13 @@
                             }
 
 
-                            @if (Model.ProductPrices.Count() > 0)
+
+
+                            @if (Model.Product.ProductPrices.Count() > 0)
                             {
                                 <p class="mt-2 mb-2"><strong>Price</strong> </p>
                                 <div class="row">
-                                    @foreach (var price in Model.ProductPrices)
+                                    @foreach (var price in Model.Product.ProductPrices)
                                     {
 
 
@@ -81,17 +83,31 @@
 
                                     }
                                 </div>
+                                <form method="get" asp-controller="Cart" asp-action="AddToCart" asp-route-Id="@Model.Product.ProductId">
+                                    <input type="hidden" asp-for="ProductId" value="@Model.Product.ProductId"/>
+                                    <div class="row">
+                                        <div class="form-group ck-form-style col-6 mr-auto">
+                                            <label for="pwd"><strong>Size</strong></label>
+                                            <select asp-for="Price" class="form-control" asp-items="@(new SelectList(@Model.Product.ProductPrices, "Price", "PropertyValue"))" required>
+                                                <option selected="selected" value="">Select Size</option>
+                                            </select>
+                                            <span asp-validation-for="Price" class="text-danger" />
+                                        </div>
+                                    </div>
+                                    <input type="submit" class="btn btn-default btn-dark text-white mt-2" value="Add to cart"/>
+                                </form>
 
                             }
 
 
-         
 
 
 
-                            <div class="">
-                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.ProductId" class="btn btn-default btn-dark text-white  mt-2"><strong>ADD TO CART</strong></a>
-                            </div>
+
+
+                            @*<div class="">
+                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Product.ProductId" class="btn btn-default btn-dark text-white  mt-2"><strong>ADD TO CART</strong></a>
+                            </div>*@
 
 
                         </div>
@@ -113,11 +129,11 @@
                                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                                     </div>
                                     <div id="review" class="tab-pane fade">
-                                        @if (Model.Reviews.Count > 0)
+                                        @if (Model.Product.Reviews.Count > 0)
                                         {
 
 
-                                            @foreach (var r in Model.Reviews)
+                                            @foreach (var r in Model.Product.Reviews)
                                             {
                                                 <div class="card mt-2 ">
                                                     <div class="card-body clearfix">

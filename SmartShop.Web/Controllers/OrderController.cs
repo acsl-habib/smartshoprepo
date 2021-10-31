@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using SmartShop.DataLib.Models.Data;
+using SmartShop.Web.Hubs;
 using SmartShop.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -15,10 +17,11 @@ namespace SmartShop.Web.Controllers
     public class OrderController : Controller
     {
         private readonly SmartShopDbContext _db;
-
-        public OrderController(SmartShopDbContext db)
+        private readonly IHubContext<OrderCreatedNotificationHub> _hubContext;
+        public OrderController(SmartShopDbContext db, IHubContext<OrderCreatedNotificationHub> hubContext)
         {
             _db = db;
+            this._hubContext = hubContext;
         }
 
          public IActionResult Index()
@@ -80,9 +83,10 @@ namespace SmartShop.Web.Controllers
        
                  _db.Orders.Add(NewOrder);
                  _db.SaveChanges();
-              
+                this.SendNotification(NewOrder).ContinueWith(t => { });
+
                 //check customer details
-                 var CheckCustomer = _db.Customers
+                var CheckCustomer = _db.Customers
                      .Where(x => x.CustomerId == CustomerId)
                       .Where(x => x.CustomerName == null)
                        .Where(x => x.Address == null)
@@ -130,5 +134,9 @@ namespace SmartShop.Web.Controllers
 
 
          }
+        private async Task SendNotification(Order NewOrder)
+        {
+            await this._hubContext.Clients.All.SendAsync("orderCreated", new NotificationMessage { OrderId = NewOrder.OrderId, CustomerId = NewOrder.CustomerId, Message = "Created" });
+        }
     }
 }

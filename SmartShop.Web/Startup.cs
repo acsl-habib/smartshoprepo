@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 using SmartShop.DataLib.Models.Data;
+using SmartShop.Web.Hubs;
 using SmartShop.Web.Models.Identity;
 using System;
 using System.Collections.Generic;
@@ -40,10 +40,20 @@ namespace SmartShop.Web
             });
 
             services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+            services.AddCors(options => {
+                options.AddPolicy("EnableCORS",
+                    builder => {
+                        builder
+                            .WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials()
+                            .Build();
+                    });
+            });
             services.AddControllersWithViews();
-    
+            services.AddSignalR();
         }
-
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -53,6 +63,7 @@ namespace SmartShop.Web
             }
 
             app.UseHttpsRedirection();
+            app.UseCors("EnableCORS");
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -66,9 +77,9 @@ namespace SmartShop.Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-          
+                endpoints.MapHub<OrderCreatedNotificationHub>("/orderHub");
 
-        });
+            });
          
         }
     }

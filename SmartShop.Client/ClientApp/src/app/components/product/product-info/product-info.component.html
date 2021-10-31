@@ -10,15 +10,51 @@
 
     <mat-card-content class="card-container">
       <div class="f-w product-row">
-        <div>
+        <div *ngIf="product!=null">
+          <mat-list role="list">
+            <mat-list-item role="listitem">
+              <div class="item-row">
+                <div>Brand</div><div>{{getBrandName(product.brandId)}}</div>
+              </div>
 
+            </mat-list-item>
+
+            <mat-list-item role="listitem">
+              <div class="item-row">
+                <div>Sub-category</div><div>{{getSubcategoryName(product.subcategoryId)}}</div>
+              </div>
+
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <div class="item-row">
+                <div>Brief Decription</div><div>{{product.productDescription}}</div>
+              </div>
+
+            </mat-list-item>
+            <mat-list-item role="listitem">
+              <div class="item-row">
+                <div>Price</div><div>{{getPrice()}}</div>
+              </div>
+
+            </mat-list-item>
+            <mat-list-item role="listitem" *ngFor="let sp of product.productSpecs">
+              <div class="item-row">
+                <div>{{sp.label}}</div><div>{{sp.value}}</div>
+              </div>
+
+            </mat-list-item>
+             
+          </mat-list>
         </div>
         <div>
-          <div #container [ngStyle]="{width: 300+'px'}" style="height: 5100px; text-align:center;margin:0; padding:0;">
+          <div #container [ngStyle]="{width: 300+'px'}" style="height: 510px; text-align:center;margin:0; padding:0;">
             <ng-image-slider #nav [images]="imageObject" [infinite]="false" [manageImageRatio]=true [autoSlide]="1"
                              [animationSpeed]="0.1" [imageSize]="{width: container.style.width, space:0}" slideImage="1"></ng-image-slider>
           </div>
         </div>
+      </div>
+      <div class="my-1">
+        <a mat-flat-button [routerLink]="['/products']" class="mt-1"><mat-icon>west</mat-icon> Back to product list</a>
       </div>
     </mat-card-content>
   </mat-card>
