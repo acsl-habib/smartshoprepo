@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormControl, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { NgForm } from '@angular/forms';
 import { throwError } from 'rxjs';
 import { CategoryModel } from '../../../models/data/category-model';
+import { CategoryInputModel } from '../../../models/data/input/category-input-model';
 import { NotifyService } from '../../../services/common/notify.service';
 import { CategoryService } from '../../../services/data/category.service';
 
@@ -12,19 +15,42 @@ import { CategoryService } from '../../../services/data/category.service';
 })
 export class CategoryCreateComponent implements OnInit {
 
-  category: CategoryModel = new CategoryModel();
+  category: CategoryModel = {};
 
+  categoryForm: FormGroup = new FormGroup({
+    categoryName: new FormControl('', Validators.required),
+    subcategories: new FormArray([])
+  })
   constructor(
     private categoryService: CategoryService,
     private notifyService: NotifyService
   ) { }
-
-  save(f: NgForm): void {
-    this.categoryService.create(this.category)
+  get f() {
+    return this.categoryForm.controls;
+  }
+  get subcategories() {
+    return this.categoryForm.controls.subcategories as FormArray;
+  }
+  addSubcategory() {
+    this.subcategories.push(new FormControl('', Validators.required));
+  }
+  removeSubcategory(index: number) {
+    this.subcategories.removeAt(index);
+  }
+  save(): void {
+    console.log(this.categoryForm.value);
+    console.log(this.subcategories.value)
+    let data: CategoryInputModel =   {
+      categoryName: this.categoryForm.value.categoryName,
+      subcategories: this.subcategories.value
+    };
+    console.log(data);
+    this.categoryService.craeteWithSubcategories(data)
       .subscribe(r => {
-        this.category = new CategoryModel();
-        f.form.markAsUntouched();
-        f.form.reset({});
+        this.category = {};
+        this.categoryForm.markAsPristine();
+        this.categoryForm.markAsUntouched();
+        this.categoryForm.reset({});
         this.notifyService.success("Succeeded to save data", "DISMISS");
       }
         , err => {
@@ -34,7 +60,7 @@ export class CategoryCreateComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    () => {/* */}
+    this.addSubcategory();
   }
 
 }

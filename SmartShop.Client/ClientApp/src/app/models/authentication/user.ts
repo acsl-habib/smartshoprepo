@@ -5,6 +5,7 @@ export class User {
     public userName?: string,
     public accessToken?: string,
     public role?: string[],
-    public tokenExipres?:Date 
+    public tokenExipres?: Date,
+    public refreshToken?: string
   ) { }
 }

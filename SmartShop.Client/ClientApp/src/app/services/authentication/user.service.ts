@@ -22,6 +22,10 @@ export class UserService {
       if (x === "logout") {
         this.user = new User();
       }
+      if (x === "refresh") {
+        console.log('refresh');
+        this.load();
+      }
     });
   }
   get isLogged() {

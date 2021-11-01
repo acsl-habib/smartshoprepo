@@ -38,6 +38,27 @@ export class AuthenticationService {
           return throwError(err);
         }));
   }
+  refreshToken() {
+    
+   /* let noTokenHeader = { headers: new HttpHeaders({ 'notoken': 'no token' }) }*/
+    return this.http.post<any>(`${AppConstants.apiUrl}/api/Account/RefreshToken/${this.currentUserValue.refreshToken}`, null)
+      //.subscribe(x => {
+      //  let user = this.save(x);
+      //  this.currentUserSubject.next(user);
+      //  this.loginEvent.emit('refresh');
+        
+      //});
+      .pipe(map(data => {
+        let user = this.save(data);
+        this.currentUserSubject.next(user);
+        this.loginEvent.emit('refresh');
+      }),
+        catchError((err, caught) => {
+
+          this.currentUserSubject.next(new User());
+          return throwError(err);
+        }));
+  }
   logout() {
     sessionStorage.removeItem("user-data");
     this.currentUserSubject.next(new User());
@@ -48,9 +69,11 @@ export class AuthenticationService {
     //console.log(new Date() >= new Date(data.expiration));
     userdata.accessToken = data.token;
     userdata.tokenExipres = new Date(data.expiration);
+    userdata.refreshToken = data.refreshToken;
     const payload = JSON.parse(window.atob(data.token.split('.')[1]));
     userdata.userName = payload.username;
     userdata.role = payload.role.split(",");
+    
     sessionStorage.setItem("user-data", JSON.stringify(userdata));
     return userdata;
   }

@@ -34,6 +34,10 @@ namespace SmartShop.DataLib.Models.Data
     }
     public class Category
     {
+        public Category()
+        {
+            this.Subcategories = new List<Subcategory>();
+        }
         public int CategoryId { get; set; }
         [Required, StringLength(30), Display(Name = "Category")]
         public string CategoryName { get; set; }

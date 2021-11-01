@@ -14,7 +14,7 @@ import { SubcategoryService } from '../../../services/data/subcategory.service';
 })
 export class SubcategoryCreateComponent implements OnInit {
   categories: CategoryModel[] = [];
-  subcategory: SubcategoryModel = new SubcategoryModel();
+  subcategory: SubcategoryModel = {};
   constructor(
     private subcategoryService: SubcategoryService,
     private categoryService: CategoryService,

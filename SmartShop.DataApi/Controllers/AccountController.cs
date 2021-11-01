@@ -107,5 +107,45 @@ namespace SmartShop.DataApi.Controllers
             }
             return Ok(new { Username = user.UserName });
         }
+        [Route("RefreshToken/{id}")]
+        [HttpPost]
+        public async Task<ActionResult> Login(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+
+            if (user != null)
+            {
+                var roles = await userManager.GetRolesAsync(user);
+                var signingKey =
+                  Encoding.UTF8.GetBytes(config["Jwt:SigningKey"]);
+                var expiryDuration = int.Parse(config["Jwt:ExpiryInMinutes"]);
+
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Issuer = null,              // Not required as no third-party is involved
+                    Audience = null,            // Not required as no third-party is involved
+                    IssuedAt = DateTime.UtcNow,
+                    NotBefore = DateTime.UtcNow,
+                    Expires = DateTime.UtcNow.AddMinutes(expiryDuration),
+                    Subject = new ClaimsIdentity(new List<Claim> {
+                        new Claim("username", user.UserName),
+                        new Claim("role",string.Join(',',roles))
+                    }
+                    ),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(signingKey), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var jwtTokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = jwtTokenHandler.CreateJwtSecurityToken(tokenDescriptor);
+                var token = jwtTokenHandler.WriteToken(jwtToken);
+                return Ok(
+                  new
+                  {
+                      token = token,
+                      expiration = jwtToken.ValidTo,
+                      refreshToken = user.Id
+                  });
+            }
+            return Unauthorized();
+        }
     }
 }

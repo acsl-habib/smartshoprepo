@@ -120,6 +120,7 @@ import { NgImageSliderModule } from 'ng-image-slider';
     NgImageSliderModule,
     MatImportModule,
     MatNativeDateModule
+   
   ],
   entryComponents: [ConfirmDialogComponent],
   providers: [
@@ -141,11 +142,11 @@ import { NgImageSliderModule } from 'ng-image-slider';
     ProductService,
     ProductConfigService,
     AuthGuard,
-    SignalrService, {
-      provide: APP_INITIALIZER, useFactory: (svc: SignalrService) => () => svc.initiateConnection(),
-      deps: [SignalrService],
-      multi: true
-    },
+    //SignalrService, {
+    //  provide: APP_INITIALIZER, useFactory: (svc: SignalrService) => () => svc.initiateConnection(),
+    //  deps: [SignalrService],
+    //  multi: true
+    //},
     { provide: HTTP_INTERCEPTORS, useClass: JwtTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     { provide: ErrorHandler, useClass: GlobalErrorHandler }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SmartShop.DataApi.ViewModels.Input;
 using SmartShop.DataLib.Models.Data;
 
 namespace SmartShop.DataApi.Controllers
@@ -28,7 +29,14 @@ namespace SmartShop.DataApi.Controllers
         {
             return await _context.Categories.ToListAsync();
         }
-
+        [HttpGet("Include")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetCategoriesWithSubcategories()
+        {
+            return await _context
+                .Categories
+                .Include(x=> x.Subcategories)
+                .ToListAsync();
+        }
         // GET: api/Categories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(int id)
@@ -86,7 +94,23 @@ namespace SmartShop.DataApi.Controllers
 
             return CreatedAtAction("GetCategory", new { id = category.CategoryId }, category);
         }
+        /*
+         * Custom to post category + subcategories
+         * 
+         * */
+        [HttpPost("WithSubcategories")]
+        public async Task<ActionResult<Category>> PostCategoryWithSubcateries(CategoryInputModel input)
+        {
+            var category = new Category { CategoryName = input.CategoryName };
+            foreach(var s in input.Subcategories)
+            {
+                category.Subcategories.Add(new Subcategory { SubcategoryName = s });
+            }
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
 
+            return CreatedAtAction("GetCategory", new { id = category.CategoryId }, category);
+        }
         // DELETE: api/Categories/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Category>> DeleteCategory(int id)

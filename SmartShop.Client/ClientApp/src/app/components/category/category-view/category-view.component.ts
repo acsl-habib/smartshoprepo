@@ -21,7 +21,7 @@ export class CategoryViewComponent implements OnInit {
 
   isLoading: boolean = false;
   categories: CategoryModel[] = [];
-  columnList = ["categoryName", "actions"]
+  columnList = ["categoryName","subcategories", "actions"]
   /*
    * Table items
    *
@@ -35,6 +35,15 @@ export class CategoryViewComponent implements OnInit {
     private notifyService: NotifyService,
     private matDialogRef: MatDialog
   ) { }
+  /*
+   * methods
+   * 
+   * */
+  getSubcategories(data: CategoryModel) {
+    return data
+      .subcategories?.map(x => `<span>${x.subcategoryName}</span>`)
+      .join(' ')
+  }
   /*
    * Handlers
    *
@@ -61,7 +70,7 @@ export class CategoryViewComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.categoryService.get()
+    this.categoryService.getInclude()
       .subscribe(
         r => {
           this.categories = r;

@@ -13,9 +13,13 @@
     <mat-card-content>
 
       <mat-table [dataSource]="dataSource" matSort>
-        <<ng-container matColumnDef="categoryName">
-           <mat-header-cell *matHeaderCellDef mat-sort-header>Category Name</mat-header-cell>
+        <ng-container matColumnDef="categoryName">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Category Name</mat-header-cell>
           <mat-cell *matCellDef="let element">{{element.categoryName}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="subcategories">
+          <mat-header-cell *matHeaderCellDef >Subcategories</mat-header-cell>
+          <mat-cell *matCellDef="let element"><div [innerHTML]="getSubcategories(element)"></div></mat-cell>
         </ng-container>
         <<ng-container matColumnDef="actions">
           <mat-header-cell *matHeaderCellDef> </mat-header-cell>

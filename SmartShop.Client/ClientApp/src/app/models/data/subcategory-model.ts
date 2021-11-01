@@ -1,7 +1,7 @@
-export class SubcategoryModel {
-  constructor(
-    public subcategoryId?: number,
-    public subcategoryName?: string,
-    public categoryId?: number
-  ) { }
+export interface SubcategoryModel {
+
+    subcategoryId?: number,
+    subcategoryName?: string,
+    categoryId?: number
+
 }

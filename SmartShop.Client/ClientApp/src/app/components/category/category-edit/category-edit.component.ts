@@ -11,7 +11,7 @@ import { CategoryService } from '../../../services/data/category.service';
   styleUrls: ['./category-edit.component.css']
 })
 export class CategoryEditComponent implements OnInit {
-  category: CategoryModel = new CategoryModel();
+  category: CategoryModel = {};
 
   constructor(
     private categoryService: CategoryService,
