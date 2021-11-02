@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SmartShop.DataApi.ViewModels.Edit;
 using SmartShop.DataApi.ViewModels.Input;
 using SmartShop.DataLib.Models.Data;
 
@@ -49,6 +50,35 @@ namespace SmartShop.DataApi.Controllers
             }
 
             return category;
+        }
+        /*
+         * Custom to get category edit model
+         * 
+         * */
+        [HttpGet("{id}/ForEdit")]
+        public async Task<ActionResult<CategoryEditModel>> GetCategoryForEdit(int id)
+        {
+            var category = await _context
+                .Categories
+                .Include(x=> x.Subcategories)
+                .ThenInclude(x=> x.Products)
+                .FirstOrDefaultAsync(c=> id== c.CategoryId);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+            CategoryEditModel model = new CategoryEditModel { CategoryId = category.CategoryId, CategoryName = category.CategoryName };
+            category.Subcategories.ToList().ForEach(s =>
+            {
+                model.Subcategories.Add(new SubcategoryEditModel
+                {
+                    SubcategoryId=s.SubcategoryId,
+                    SubcategoryName=s.SubcategoryName,
+                    ProductCount= s.Products.Count
+                });
+            });
+            return model;
         }
 
         // PUT: api/Categories/5

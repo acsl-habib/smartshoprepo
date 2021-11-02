@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConstants } from '../../config/app-constants';
 import { CategoryModel } from '../../models/data/category-model';
+import { CategoryEditModel } from '../../models/data/edit/category-edit-model';
 import { CategoryInputModel } from '../../models/data/input/category-input-model';
 import { SubcategoryModel } from '../../models/data/subcategory-model';
 
@@ -23,6 +24,9 @@ export class CategoryService {
   }
   getById(id: number): Observable<CategoryModel> {
     return this.http.get<CategoryModel>(`${AppConstants.apiUrl}/api/Categories/${id}`);
+  }
+  getByIdForEdit(id: number): Observable<CategoryEditModel> {
+    return this.http.get<CategoryEditModel>(`${AppConstants.apiUrl}/api/Categories/${id}/ForEdit`);
   }
   create(category: CategoryModel): Observable<CategoryModel> {
     return this.http.post<CategoryModel>(`${AppConstants.apiUrl}/api/Categories`, category);

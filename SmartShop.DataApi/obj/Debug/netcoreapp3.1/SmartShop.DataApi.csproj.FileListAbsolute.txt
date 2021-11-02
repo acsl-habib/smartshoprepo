@@ -140,6 +140,10 @@ D:\OL04\SmartShop\SmartShop.DataApi\obj\Debug\netcoreapp3.1\SmartShop.DataApi.Ra
 D:\OL04\SmartShop\SmartShop.DataApi\obj\Debug\netcoreapp3.1\SmartShop.DataApi.dll
 D:\OL04\SmartShop\SmartShop.DataApi\obj\Debug\netcoreapp3.1\SmartShop.DataApi.pdb
 D:\OL04\SmartShop\SmartShop.DataApi\obj\Debug\netcoreapp3.1\SmartShop.DataApi.genruntimeconfig.cache
-D:\OL04\SmartShop\SmartShop.DataApi\obj\Debug\netcoreapp3.1\SmartShop.DataApi.csproj.CopyComplete
+D:\OL04\SmartShop\SmartShop.DataApi\bin\Debug\netcoreapp3.1\Castle.Core.dll
+D:\OL04\SmartShop\SmartShop.DataApi\bin\Debug\netcoreapp3.1\Castle.Windsor.dll
+D:\OL04\SmartShop\SmartShop.DataApi\bin\Debug\netcoreapp3.1\Microsoft.DotNet.PlatformAbstractions.dll
+D:\OL04\SmartShop\SmartShop.DataApi\bin\Debug\netcoreapp3.1\Microsoft.Extensions.DependencyModel.dll
 D:\OL04\SmartShop\SmartShop.DataApi\bin\Debug\netcoreapp3.1\Properties\launchSettings.json
 D:\OL04\SmartShop\SmartShop.DataApi\obj\Debug\netcoreapp3.1\SmartShop.DataApi.csprojAssemblyReference.cache
+D:\OL04\SmartShop\SmartShop.DataApi\obj\Debug\netcoreapp3.1\SmartShop.DataApi.csproj.CopyComplete

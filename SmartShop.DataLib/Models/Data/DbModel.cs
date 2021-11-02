@@ -49,7 +49,7 @@ namespace SmartShop.DataLib.Models.Data
     {
         public Subcategory()
         {
-
+            this.Products = new List<Product>();
             this.ProductConfigurations = new List<ProductConfiguration>();
         }
         public int SubcategoryId { get; set; }
@@ -61,6 +61,7 @@ namespace SmartShop.DataLib.Models.Data
         public virtual Category Category { get; set; }
 
         public virtual ICollection<ProductConfiguration> ProductConfigurations { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
     public class Brand
     {

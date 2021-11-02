@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SmartShop.DataApi.ViewModels.Edit;
 using SmartShop.DataApi.ViewModels.Input;
 using SmartShop.DataLib.Models.Data;
 
@@ -62,6 +63,47 @@ namespace SmartShop.DataApi.Controllers
             }
 
             return product;
+        }
+        [HttpGet("{id}/ForEdit")]
+        public async Task<ActionResult<ProductEditModel>> GetProductForEdit(int id)
+        {
+            var product = await 
+                _context
+                .Products
+                .Include(x=> x.Subcategory)               
+                .Include(x => x.ProductPrices)
+                .Include(x => x.ProductImages)
+                .Include(x => x.ProductSpecs)
+                .FirstOrDefaultAsync(x=> x.ProductId == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            var model = new ProductEditModel
+            {
+                ProductId = product.ProductId,
+                ProductName = product.ProductName,
+                ProductDescription = product.ProductDescription,
+                PriceDeterminingProperty = product.PriceDeterminingProperty,
+                ProductStatus = product.ProductStatus,
+                BrandId = product.BrandId,
+                CategoryId=product.Subcategory.CategoryId,
+                SubcategoryId = product.SubcategoryId.Value
+            };
+            product.ProductPrices.ToList().ForEach(p =>
+            {
+                model.ProductPrices.Add(new ProductPriceEditModel { PropertyValue = p.PropertyValue, Price = p.Price, ProductPriceId=p.ProductPriceId });
+            });
+            product.ProductSpecs.ToList().ForEach(p =>
+            {
+                model.ProductSpecs.Add(new ProductSpecEditModel {ProductSpecId=p.ProductSpecId, IsChoosingLabel=p.IsChoosingLabel, Label=p.Label, Value=p.Value});
+            });
+            product.ProductImages.ToList().ForEach(p =>
+            {
+                model.ProductImages.Add(new ProductImageEditModel { ProductImageId=p.ProductImageId, ImageName=p.ImageName});
+            });
+            return model;
         }
         /*
          * Custom to get determining property 

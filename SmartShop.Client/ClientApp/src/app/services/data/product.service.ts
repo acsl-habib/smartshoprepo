@@ -2,9 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AppConstants } from '../../config/app-constants';
+import { ProductEditModel } from '../../models/data/edit/product-edit-model';
 import { ProductAndPriceInputModel } from '../../models/data/input/product-and-price-input-model';
 import { ProductConfigurationInputModel } from '../../models/data/input/product-configuration-input-model';
+import { ProductImageModel } from '../../models/data/product-image-model';
 import { ProductModel } from '../../models/data/product-model';
+import { ProductPriceModel } from '../../models/data/product-price-model';
 import { ImagePathResponse } from '../../models/data/viewmodels/image-path-response';
 
 
@@ -21,6 +24,9 @@ export class ProductService {
   }
   getById(id: number): Observable<ProductModel> {
     return this.http.get<ProductModel>(`${AppConstants.apiUrl}/api/Products/${id}`);
+  }
+  getByIdForEdit(id: number): Observable<ProductEditModel> {
+    return this.http.get<ProductEditModel>(`${AppConstants.apiUrl}/api/Products/${id}/ForEdit`);
   }
   getInclude(): Observable<ProductModel[]> {
     return this.http.get<ProductModel[]>(`${AppConstants.apiUrl}/api/Products/Include`);
@@ -43,11 +49,23 @@ export class ProductService {
   saveSpecs(data: ProductConfigurationInputModel): Observable<any> {
     return this.http.post<ProductModel>(`${AppConstants.apiUrl}/api/Products/Specs`, data);
   }
+  saveProductPrice(data: ProductPriceModel): Observable<ProductPriceModel> {
+    return this.http.post<ProductPriceModel>(`${AppConstants.apiUrl}/api/ProductPrices`, data);
+  }
   update(data: ProductModel): Observable<any> {
     return this.http.put<any>(`${AppConstants.apiUrl}/api/Products/${data.productId}`, data);
   }
+  updateProductPrice(data: ProductPriceModel):Observable<any> {
+    return this.http.put<any>(`${AppConstants.apiUrl}/api/ProductPrices/${data.productPriceId}`, data);
+  }
   delete(id: Number): Observable<ProductModel> {
     return this.http.delete<ProductModel>(`${AppConstants.apiUrl}/api/Products/${id}`);
+  }
+  deleteProductPrice(id: number): Observable<ProductPriceModel> {
+    return this.http.delete<ProductModel>(`${AppConstants.apiUrl}/api/ProductPrices/${id}`);
+  }
+  deleteProductImage(id: number): Observable<ProductImageModel> {
+    return this.http.delete<ProductImageModel>(`${AppConstants.apiUrl}/api/ProductImages/${id}`);
   }
   uploadImage(id: number, f: File): Observable<ImagePathResponse> {
     const formData = new FormData();

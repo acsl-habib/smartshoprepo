@@ -1,38 +1,49 @@
 <div class="view-container">
   <mat-card class="medium-form-card-container mat-elevation-z8">
     <mat-card-header>
-      
-      <mat-card-title>Edit Category</mat-card-title>
-      <mat-card-subtitle>Edit Category record</mat-card-subtitle>
+
+      <mat-card-title>Create Category</mat-card-title>
+      <mat-card-subtitle>Create Category record</mat-card-subtitle>
+      <img src="../../../../assets/category-management-svgrepo-com.svg" mat-card-avatar class="avatar" />
     </mat-card-header>
 
     <mat-divider></mat-divider>
 
     <mat-card-content class="medium-form-container">
 
-      <form #editFrm="ngForm" (ngSubmit)="update(editFrm)">
+      <form [formGroup]="categoryForm" (ngSubmit)="update()">
 
         <mat-form-field class="f-w" appearance="standard">
           <mat-label>Category Name</mat-label>
-          <input matInput type="text" name="name" id="name" [(ngModel)]="category.categoryName" #name="ngModel" required />
-          <mat-error *ngIf="name.touched && name.invalid">Name required</mat-error>
+          <input matInput formControlName="categoryName" />
+          <mat-error *ngIf="f.categoryName.touched && f.categoryName.invalid">Category name is <strong>required</strong></mat-error>
         </mat-form-field>
+        <div formArrayName="subcategories">
+          <div class="f-w right"><button mat-stroked-button  color="primary" (click)="addSubcategory()" type="button"><mat-icon>add</mat-icon></button></div>
+          <div *ngFor="let c of subcategories.controls; index as i" class="sub-row">
+            <mat-form-field class="f-w" >
+              <input matInput [formControlName]="i" placeholder="Subcategory name" />
+              <button type="button" matSuffix mat-icon-button aria-label="Clear" (click)="removeSubcategory(i)">
+                <mat-icon>close</mat-icon>
+              </button>
+              <mat-error *ngIf="c.touched && c.invalid">Subcategory name is <strong>required</strong></mat-error>
+            </mat-form-field>
+            <button type="button" mat-icon-button (click)="updateSubcategory(i)"><mat-icon>done</mat-icon></button>
+          </div>
+        </div>
 
-
-        <div style="display:flex; justify-content:flex-end" class="example-button-row">
+        <div class="f-w right my-1">
           <button class="circle-link" type="reset" mat-raised-button color="accent">Reset</button>
-         &nbsp;
-          <button class="circle-link" type="submit" mat-raised-button color="primary">Submit</button>
+          &nbsp;
+          <button class="circle-link" type="submit" mat-raised-button color="primary" [disabled]="categoryForm.invalid">Submit</button>
         </div>
 
       </form>
     </mat-card-content>
-    
-      <mat-card-actions class="medium-form-container">
-        <a mat-flat-button [routerLink]="['/categories']" class="mt-1"><mat-icon>west</mat-icon> back to list</a>
-      </mat-card-actions>
-   
+
+    <mat-card-actions class="medium-form-container">
+      <a mat-flat-button [routerLink]="['/categories']" class="mt-1"><mat-icon>west</mat-icon> back to list</a>
+    </mat-card-actions>
+
   </mat-card>
 </div>
-
-

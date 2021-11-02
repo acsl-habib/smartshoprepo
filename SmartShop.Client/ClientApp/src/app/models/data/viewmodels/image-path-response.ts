@@ -1,5 +1,6 @@
 export interface ImagePathResponse {
-
-  imagePath?: string
+  productImageId?: number;
+  imagePath?: string;
+  productId?: number;
 
 }

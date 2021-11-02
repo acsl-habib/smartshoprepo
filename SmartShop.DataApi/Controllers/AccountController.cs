@@ -140,7 +140,7 @@ namespace SmartShop.DataApi.Controllers
                 return Ok(
                   new
                   {
-                      token = token,
+                      token,
                       expiration = jwtToken.ValidTo,
                       refreshToken = user.Id
                   });

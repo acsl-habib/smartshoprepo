@@ -42,10 +42,10 @@ namespace SmartShop.DataApi.Controllers
               
                     file.CopyTo(filestream);
                     filestream.Flush();
-                    product.ProductImages.Add(new ProductImage { ImageName = f });
-                    await db.SaveChangesAsync();
+                    
                     filestream.Close();
-                    return new ImagePathResponse { ImagePath =  f };
+               var img = await this.DoAdd(f, product);
+                return new ImagePathResponse { ImagePath =  f, ProductImageId=img.ProductImageId, ProductId=product.ProductId };
                 
             }
             catch (Exception ex)
@@ -53,6 +53,13 @@ namespace SmartShop.DataApi.Controllers
                 return BadRequest(ex.Message);
             }
 
+        }
+        private async Task<ProductImage> DoAdd(string f, Product p)
+        {
+            var data = new ProductImage { ImageName = f, ProductId=p.ProductId };
+            db.ProductImages.Add(data);
+            await db.SaveChangesAsync();
+            return data;
         }
     }
 }

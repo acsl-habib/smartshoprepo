@@ -1,0 +1,40 @@
+.price-row {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto auto 50px;
+  gap: 8px;
+  align-items: center;
+  justify-items: self-end;
+}
+
+.price-row-1 {
+  display: grid;
+  grid-template-columns: auto 80px;
+  gap: 8px;
+  align-items: center;
+  justify-items: self-end;
+}
+.price-row-2 {
+  display: grid;
+  grid-template-columns: auto auto 100px;
+  gap: 12px;
+  align-items: center;
+  justify-items: self-end;
+}
+.img-row
+{
+    display:grid;
+    grid-template-columns: 210px 210px 210px;
+    grid-gap:25px;
+    justify-content:space-evenly;
+    align-content:center;
+    margin: 15px 25px;
+    width: calc(100% -50px);
+}
+.img-div {
+    width:210px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}

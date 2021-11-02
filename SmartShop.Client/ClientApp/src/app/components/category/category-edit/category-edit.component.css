@@ -1,0 +1,7 @@
+.sub-row{
+    display:grid;
+    grid-template-columns: auto 50px;
+    align-content:center;
+    align-items:center;
+    grid-gap:12px;
+}
