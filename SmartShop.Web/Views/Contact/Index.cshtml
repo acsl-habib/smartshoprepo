@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <section class="contact-section mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="d-flex justify-content-center  p-3 bg-white" style="box-shadow: 0 1rem 3rem rgba(0,0,0,.175)!important;">
+                        <div class="p-2 w-50">
+                            <div class="contact-form ">
+                                <div class="contact-form-container">
+                                    <form action="/action_page.php">
+                                        <div class="form-group">
+                                            <input type="email" class="rounded-0 form-control" placeholder="Enter email" id="email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="rounded-0 form-control" placeholder="Enter subject" id="email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea class="rounded-0 form-control" rows="4" placeholder="Your Message"></textarea>
+                                        </div>
+                                       
+                                        <button type="submit" class="rounded-0 btn btn-dark btn-sm btn-block  text-white  d-block" id=""><i class="fa fa-paper-plane"></i></button>
+                               </form>
+                                        </div>
+                            </div>
+                        </div>
+                        <div class="p-2  w-50">
+                            <ul class="contact-list">
+                                <li class="list-item"><i class="fa fa-map-marker fa-2x"><span class="contact-text place">City, State</span></i></li>
+                                <li class="list-item"><i class="fa fa-phone fa-2x"><span class="contact-text phone">(212) 555-2368</span></i></li>
+                                <li class="list-item"><i class="fa fa-envelope fa-2x"><span class="contact-text gmail">example@gmail.com</span></i></li>
+                            </ul>
+                            <hr>
+                            <ul class="social-media-list">
+                                <li>
+                                    <a href="#" target="_blank" class="contact-icon">
+                                        <i class="fa fa-github" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank" class="contact-icon">
+                                        <i class="fa fa-codepen" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank" class="contact-icon">
+                                        <i class="fa fa-twitter" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank" class="contact-icon">
+                                        <i class="fa fa-instagram" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

@@ -129,7 +129,7 @@
                     <mat-error *ngIf="productSpecs.controls[i].get('value')?.errors?.required">Price is <strong>required</strong></mat-error>
                   </mat-form-field>
                   <div class="f-w">
-                    <button type="button" mat-icon-button *ngIf="productSpecs.controls.length> 1" (click)="removeSpec(i)"><mat-icon>delete</mat-icon></button>
+                    <button type="button" mat-icon-button *ngIf="productSpecs.controls.length> 1" (click)="removeSpec(i)"><mat-icon>done</mat-icon></button>
                   </div>
                 </div>
               </ng-container>

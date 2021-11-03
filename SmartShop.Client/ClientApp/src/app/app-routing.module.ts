@@ -15,6 +15,8 @@ import { CategoryViewComponent } from './components/category/category-view/categ
 import { CustomerViewComponent } from './components/customer/customer-view/customer-view.component';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
+import { OrderSummaryComponent } from './components/order/order-summary/order-summary.component';
+import { OrderViewComponent } from './components/order/order-view/order-view.component';
 import { ProductCreateComponent } from './components/product/product-create/product-create.component';
 import { ProductEditComponent } from './components/product/product-edit/product-edit.component';
 import { ProductInfoComponent } from './components/product/product-info/product-info.component';
@@ -61,7 +63,9 @@ const routes: Routes = [
   { path: 'products', component: ProductViewComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
   { path: 'product-create', component: ProductCreateComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
   { path: 'product-edit/:id', component: ProductEditComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
-  { path: 'product-info/:id', component: ProductInfoComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } }
+  { path: 'product-info/:id', component: ProductInfoComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
+  { path: 'orders', component: OrderViewComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } },
+  { path: 'order-full/:id', component: OrderSummaryComponent, canActivate: [AuthGuard], data: { AllowedRoles: ["Admin", "Staff"] } }
 ];
 
 @NgModule({

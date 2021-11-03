@@ -8,11 +8,13 @@
     <div class="container ck-cart-info">
         <h5>Products</h5>
         <div class="row">
+            @if (Model != null)
+            {
             @foreach (var p in Model)
             {
                 <div class="col-lg-2 col-6 col-xs-6 mt-3">
                     <div class="border w-100 bx">
-                        <a asp-action="ProductDetails" asp-controller="Product" asp-route-Id="@p.ProductId"><img src="~/assets/img/@p.ProductImages.First().ImageName" alt="" class="w-100"></a>
+                        <a asp-action="ProductDetails" asp-controller="Product" asp-route-Id="@p.ProductId"><img src="http://localhost:5000/Images/@p.ProductImages.First().ImageName" alt="" class="w-100"></a>
                         <div class="text-center p-2">
                             <h6>@p.ProductName</h6>
 
@@ -28,9 +30,9 @@
                 </div>
 
 
-                
-            }
 
+            }
+            }
 
         </div>
 

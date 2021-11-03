@@ -26,5 +26,6 @@ namespace SmartShop.Web.ViewModels
         public string Phone { get; set; }
         public string PaymentName { get; set; }
         public int PaymentId { get; set; }
+        public string TrxId { get; set; }
     }
 }

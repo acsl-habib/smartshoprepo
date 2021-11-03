@@ -16,10 +16,12 @@ namespace SmartShop.Web.Controllers
         {
             this._db = db;
         }
+        //search page
         public IActionResult Index()
         {
             return View();
         }
+        //search by product
 
         public IActionResult SearchProduct(string search)
         {
@@ -34,17 +36,15 @@ namespace SmartShop.Web.Controllers
                     .Include(x=>x.Subcategory)
                     .ToList();
        
-                IndexVM SearchVM = new IndexVM()
-                {
-                    Products=SearchProduct
-                };
-                return View(SearchVM);
+   
+                return View(SearchProduct);
             }
     
             
             return View();
         }
 
+        //search by category
         public IActionResult CategoryProduct(int id)
         { 
             var Products = _db.Products.Where(x=>x.SubcategoryId.Equals(id))
@@ -54,11 +54,8 @@ namespace SmartShop.Web.Controllers
                     .Include(x => x.ProductImages)
                     .Include(x => x.Reviews)
                     .ToList();
-            IndexVM ProductVM = new IndexVM()
-            {
-                Products = Products
-            };
-            return View(ProductVM);
+
+            return View(Products);
        
         }
     }

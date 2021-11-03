@@ -30,7 +30,7 @@ background:#fff;
     margin: 0 auto;
 }
 .checked-star {
-    color: orange;
+    color: orange!important;
 }
 .div-center {
     margin: 0;

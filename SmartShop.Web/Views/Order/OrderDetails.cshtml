@@ -1,96 +1,162 @@
-﻿
-@{
-    ViewData["Title"] = "OrderDetails";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<section class="login-form mt-5">
+﻿@model Order
     <div class="container">
-        <div class="card">
-            <div class="card-body p-0 table-responsive ck-cart-info">
-                <h5 class=" p">Product Details</h5>
-                <table class="table mb-0 table-responsive">
-                    <thead class="btn-bg text-white">
-                        <tr>
-                            <th scope="col">Description</th>
-                            <th scope="col"></th>
-                            <th scope="col">Quantity</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>
-                                <img src="https://bootdey.com/img/Content/avatar/avatar6.png"
-                                     alt="product" class="" width="80">
-                            </th>
-                            <td>
-                                Lorem ipsum dolor, sit amet consectetur 
-                            </td>
-                            <td>$100 X 2</td>
-                            <td><strong>$200</strong></td>
-                            <td><span class="badge badge-warning">PENDING</span></td>
-                        </tr>
-                        <tr>
-                            <th colspan="2">
-                                <span>Status:</span>
-                                <span class="badge badge-success">PAID</span>
-                            </th>
-                            <td>
-                                <span class="text-muted">Total Price</span>
-                                <strong>$100</strong>
-                            </td>
-                            <td>
-                                <span class="text-muted">Total Paid</span>
-                                <strong>$100</strong>
-                            </td>
-                            <td>
-                                <span class="text-muted">Due</span>
-                                <strong>$100</strong>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+        <div class="col-lg-10 mx-auto mt-5">
+            <div class="card">
+                <div class="card-header"><strong>#0000 @Model.OrderId</strong></div>
+                <div class="card-body p-0 table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Price</th>
+
+                                <th scope="col" width="14%">Qty</th>
+                                <th scope="col">Sub Total</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                decimal total = 0;
+                            }
+                            @foreach (var c in Model.OrderDetails)
+                            {
+
+                                <tr>
+                                    <td>@c.Product.ProductName</td>
+
+                                    <td>    $@String.Format("{0:0.00}", c.ProductPrice)</td>
+                                    <td>@c.Quantity</td>
+                                    <td>
+                                        @{
+                                            var subtotal = c.ProductPrice * c.Quantity;
+                                            total = total + subtotal;
+                                        }
+
+                                        $@String.Format("{0:0.00}", @subtotal)
+
+                                    </td>
+
+                                    @if (c.Order.OrderStatus.Equals(6))
+                                    {
+                                        <td><a class="btn btn-info rounded-0 btn-sm" asp-action="Index" asp-controller="Review" asp-route-Id="@c.ProductId">Review</a></td>
+
+                                    }
+                                </tr>
+
+                            }
+
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td>Total</td>
+                                <td>
+                                    <p>
+                                        <strong>
+
+                                            $@String.Format("{0:0.00}", total)
+                                        </strong>
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="card mt-4 mb-4">
-            <div class="card-body">
-                <h4>Timeline</h4>
-                <ul class="timeline">
-                    <li class="active">
-                        <h6>PICKED</h6>
-                        <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque Lorem ipsum dolor</p>
-                        <o class="text-muted">
-                            21 March, 2014</p>
-                    </li>
-                    <li>
-                        <h6>PICKED</h6>
-                        <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
-                        <o class="text-muted">
-                            21 March, 2014</p>
-                    </li>
-                    <li>
-                        <h6>PICKED</h6>
-                        <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
-                        <o class="text-muted">
-                            21 March, 2014</p>
-                    </li>
-                    <li>
-                        <h6>PICKED</h6>
-                        <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
-                        <o class="text-muted">
-                            21 March, 2014</p>
-                    </li>
-                    <li>
-                        <h6>PICKED</h6>
-                        <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
-                        <o class="text-muted">
-                            21 March, 2014</p>
-                    </li>
-                </ul>
-            </div>
+                <div class="card-body">
+                                                <h4>Timeline</h4>
+                                                <ul class="timeline">
+
+
+
+                                                    <li class=@(
+                                                                        Convert.ToInt32( Model.OrderStatus )==1 ||
+                                                                         Convert.ToInt32( Model.OrderStatus )==2 ||
+                                                                          Convert.ToInt32( Model.OrderStatus )==3 ||
+                                                                           Convert.ToInt32( Model.OrderStatus )==4 ||
+                                                                           Convert.ToInt32( Model.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( Model.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                        <h6>PENDING</h6>
+                                                        <p class="mb-0 text-muted">Your is pending now</p>
+                                                        <o class="text-muted">
+                                                            21 March, 2014
+                                                        </o>
+                                                    </li>
+
+                                                    <li class=@(
+
+                                                                         Convert.ToInt32( Model.OrderStatus )==2 ||
+                                                                          Convert.ToInt32( Model.OrderStatus )==3 ||
+                                                                           Convert.ToInt32( Model.OrderStatus )==4 ||
+                                                                           Convert.ToInt32( Model.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( Model.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                        <h6>CONFIRMED</h6>
+                                                        <p class="mb-0 text-muted">Your order has been confirmed </p>
+                                                        <o class="text-muted">
+                                                            21 March, 2014
+                                                        </o>
+                                                    </li>
+
+                                                    <li class=@(
+
+
+                                                                          Convert.ToInt32( Model.OrderStatus )==3 ||
+                                                                           Convert.ToInt32( Model.OrderStatus )==4 ||
+                                                                           Convert.ToInt32( Model.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( Model.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                        <h6>PAID</h6>
+                                                        <p class="mb-0 text-muted">Your payment status paid</p>
+                                                        <o class="text-muted">
+                                                            21 March, 2014
+                                                        </o>
+                                                    </li>
+
+                                                    <li class=@(
+
+
+                                                                           Convert.ToInt32( Model.OrderStatus )==4 ||
+                                                                           Convert.ToInt32( Model.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( Model.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                        <h6>PICKED</h6>
+                                                        <p class="mb-0 text-muted">Your product has been picked</p>
+                                                        <o class="text-muted">
+                                                            21 March, 2014
+                                                        </o>
+                                                    </li>
+                                                    <li class=@(
+
+
+
+                                                                           Convert.ToInt32( Model.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( Model.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                        <h6>ON THE WAY</h6>
+                                                        <p class="mb-0 text-muted">Your product on the way/</p>
+                                                        <o class="text-muted">
+                                                            21 March, 2014
+                                                        </o>
+                                                    </li>
+                                                    <li class=@(
+
+
+                                                              
+                                                                        Convert.ToInt32( Model.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                        <h6>DELIVERED</h6>
+                                                        <p class="mb-0 text-muted">Your product has been delivered.</p>
+                                                        <o class="text-muted">
+                                                            21 March, 2014
+                                                        </o>
+                                                    </li>
+
+
+                                                </ul>
+                                            </div>
         </div>
     </div>
-</section>
-

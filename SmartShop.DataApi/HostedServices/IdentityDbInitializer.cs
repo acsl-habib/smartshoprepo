@@ -20,6 +20,7 @@ namespace SmartShop.DataApi.HostedServices
 
             await CreateRoleAsync(new IdentityRole { Name = "Admin", NormalizedName = "ADMIN" });
             await CreateRoleAsync(new IdentityRole { Name = "Staff", NormalizedName = "STAFF" });
+            await CreateRoleAsync(new IdentityRole { Name = "Customer", NormalizedName = "CUSTOMER" });
 
             var hasher = new PasswordHasher<IdentityUser>();
             var user = new IdentityUser { UserName = "admin", NormalizedUserName = "ADMIN" };

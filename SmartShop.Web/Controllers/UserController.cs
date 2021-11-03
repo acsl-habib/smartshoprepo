@@ -20,10 +20,14 @@ namespace SmartShop.Web.Controllers
         {
             _db = db;
         }
+
         public IActionResult Index()
         {
+            //find user id
             var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //find customer id by user id
             var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+            //find customer id
             var CustomerId = Customer.CustomerId;
             OrderVM orderVM = new OrderVM()
             {
@@ -36,10 +40,29 @@ namespace SmartShop.Web.Controllers
                 Total = _db.OrderDetails
                  .Where(x => x.OrderId.Equals(x.OrderId))
                  .Sum(x => x.ProductPrice * x.Quantity),
+                Customer =Customer
 
 
             };
             return View(orderVM);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateCustomer(OrderVM model)
+        {
+            var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+            var CustomerId = Customer.CustomerId;
+            var checkCustomer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+            if (ModelState.IsValid)
+            {
+                checkCustomer.CustomerName = model.CustomerName;
+                checkCustomer.Phone = model.Phone;
+                checkCustomer.Address = model.Address;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return RedirectToAction("Index");
         }
     }
 }

@@ -6,9 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Syncfusion.Pdf;
-using Syncfusion.Pdf.Graphics;
-using Syncfusion.Drawing;
+
 using System.IO;
 
 namespace SmartShop.Web.Controllers
@@ -22,29 +20,18 @@ namespace SmartShop.Web.Controllers
             _db = db;
         }
 
+        //for home page
         public IActionResult Index()
         {
-            IndexVM indexVM = new IndexVM()
-            {
-                Products = _db.Products
-               
-                .Include(x => x.Brand)
-                .Include(x=>x.ProductPrices)
-               
-                .Include(x=>x.ProductImages)
-                .Include(x => x.Reviews)
-                .ThenInclude(x=>x.Customer)
-                 .Include(x => x.Subcategory)
-             
-                .ToList(),
-                Categories = _db.Categories.ToList(),
-                Subcategories = _db.Subcategories.ToList(),
-                Brands = _db.Brands.ToList(),
-               
+            var Products = _db.Products
+             .Include(x => x.Subcategory.Category)
+             .Include(x => x.Brand)
+             .Include(x => x.ProductPrices)
           
-            };
-
-            return View(indexVM);
+             .Include(x => x.Subcategory)
+             .Include(x => x.ProductImages)
+             .ToList();
+            return View(Products);
         }
 
        

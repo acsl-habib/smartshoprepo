@@ -19,9 +19,10 @@
                                         {
                                             i++;
                                             var active = i == 1 ? "active" : "";
-                                            <div class=" carousel-item @active" style="border:1px solid #dddd;">
-                                                <img src="~/assets/img/@img.ImageName" class="img-fluid w-100" alt="...">
-                                            </div>
+                                    <div class=" carousel-item @active" style="border:1px solid #dddd;">
+                                  
+                                        <img src="http://localhost:5000/Images/@img.ImageName" class="img-fluid w-100" alt="...">
+                                    </div>
                                         }
                                     
 
@@ -75,10 +76,10 @@
                                 <div class="row">
                                     @foreach (var price in Model.Product.ProductPrices)
                                     {
-
+                                     
 
                                         <div class="col-lg-6 ">
-                                            <p> <span class="text-muted">@price.PropertyValue :</span>  @price.Price</p>
+                                            <p> <span class="text-muted">@price.PropertyValue :</span>@String.Format("{0:0.00}",price.Price)</p>
                                         </div>
 
                                     }
@@ -87,9 +88,9 @@
                                     <input type="hidden" asp-for="ProductId" value="@Model.Product.ProductId"/>
                                     <div class="row">
                                         <div class="form-group ck-form-style col-6 mr-auto">
-                                            <label for="pwd"><strong>Size</strong></label>
+                                            <label for="pwd"><strong>Select item</strong></label>
                                             <select asp-for="Price" class="form-control" asp-items="@(new SelectList(@Model.Product.ProductPrices, "Price", "PropertyValue"))" required>
-                                                <option selected="selected" value="">Select Size</option>
+                                                <option selected="selected" value="">Select one</option>
                                             </select>
                                             <span asp-validation-for="Price" class="text-danger" />
                                         </div>
@@ -136,17 +137,47 @@
                                             @foreach (var r in Model.Product.Reviews)
                                             {
                                                 <div class="card mt-2 ">
-                                                    <div class="card-body clearfix">
-                                                        <div class="float-left">
-                                                            <img src="~/assets/img/profile.png" height="50" width="50" />
-                                                            <h6 class="text-muted">  @r.Customer.CustomerName</h6>
-                                                        </div>
+                                                    <div class="card-body ">
+                                              
+                                                        <span class="fa fa-star @(
+                                                               Convert.ToInt32( r.Rating )==1 ||
+                                                                         Convert.ToInt32(r.Rating) ==2 ||
+                                                                          Convert.ToInt32(r.Rating) ==3 ||
+                                                                           Convert.ToInt32(r.Rating) ==4 ||
+                                                                           Convert.ToInt32(r.Rating) ==5 ? "checked-star" : ""
+                                                                     
+                                                        )"></span>
+                                                        <span class="fa fa-star           @(
+                                                              
+                                                                         Convert.ToInt32(r.Rating) ==2 ||
+                                                                          Convert.ToInt32(r.Rating) ==3 ||
+                                                                           Convert.ToInt32(r.Rating) ==4 ||
+                                                                           Convert.ToInt32(r.Rating) ==5 ? "checked-star" : ""
+                                                                     
+                                                        )"></span>
+                                                        <span class="fa fa-star           @(
+                                                         
+                                                                          Convert.ToInt32(r.Rating) ==3 ||
+                                                                           Convert.ToInt32(r.Rating) ==4 ||
+                                                                           Convert.ToInt32(r.Rating) ==5 ? "checked-star" : ""
+                                                                     
+                                                        )"></span>
+                                                        <span class="fa fa-star           @(
+                                                        
+                                                                           Convert.ToInt32(r.Rating) ==4 ||
+                                                                           Convert.ToInt32(r.Rating) ==5  ? "checked-star" : ""
+                                                                     
+                                                        )"></span>
+                                                        <span class="fa fa-star
+                                                                        @(
 
+                                                                           Convert.ToInt32(r.Rating) ==5 ? "checked-star" : ""
+                                                                     
+                                                        )"></span>
 
+                                                        <h6 class="text-muted">  @r.Customer.CustomerName</h6>
 
-
-
-                                                        <p class="float-left ml-2 ">@r.Comment</p>
+                                                        <p>@r.Comment</p>
 
 
 

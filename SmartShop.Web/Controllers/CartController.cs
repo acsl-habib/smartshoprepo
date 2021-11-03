@@ -28,7 +28,7 @@ namespace SmartShop.Web.Controllers
             _notyf = notyf;
 
         }
-
+        //show all cart
          public IActionResult Index()
          {
       
@@ -51,6 +51,7 @@ namespace SmartShop.Web.Controllers
              return View(cartVM);
          }
 
+        //add to cart
          [HttpGet]
          public IActionResult AddToCart(ProductViewVM model)
          {
@@ -99,7 +100,7 @@ namespace SmartShop.Web.Controllers
 
          }
 
-
+        //remove cart
           public IActionResult RemoveCart(int id)
           {
               var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -117,7 +118,7 @@ namespace SmartShop.Web.Controllers
               return RedirectToAction("Index");
           }
 
-
+        //add cart qty
          public IActionResult AddQuantity(CartVM model, int id)
          {
              var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

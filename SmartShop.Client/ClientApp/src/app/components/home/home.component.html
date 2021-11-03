@@ -10,9 +10,13 @@
   <div class="card-container">
     <h2>Resources</h2>
     <div class="link-container">
-      <a [routerLink]="['/products']" class="card-link"
-     >Products <mat-icon class="link-icon">chevron_right</mat-icon></a>
-      <a [routerLink]="['/brands']" class="card-link"  ><span matBadgeOverlap="false" matBadge="8" matBadgePosition="before"  matBadgeColor="accent" [matBadgeHidden]="false">Brands</span> <mat-icon class="link-icon">chevron_right</mat-icon></a>
+      <a [routerLink]="['/orders']" class="card-link">
+        <span matBadgeOverlap="false" [matBadge]="pendingOrders" matBadgePosition="before" matBadgeColor="accent" [matBadgeHidden]="false" *ngIf="pendingOrders>0">Orders</span>
+        <span *ngIf="pendingOrders==0">Orders</span>
+        <mat-icon class="link-icon">chevron_right</mat-icon>
+      </a>
+      <a [routerLink]="['/products']" class="card-link">Products <mat-icon class="link-icon">chevron_right</mat-icon></a>
+      <a [routerLink]="['/brands']" class="card-link"><span>Brands</span> <mat-icon class="link-icon">chevron_right</mat-icon></a>
       <a href="#" class="card-link">Categories <mat-icon class="link-icon">chevron_right</mat-icon></a>
       <a href="#" class="card-link">Subcategories <mat-icon class="link-icon">chevron_right</mat-icon></a>
       <a href="#" class="card-link">Sizes <mat-icon class="link-icon">chevron_right</mat-icon></a>

@@ -1,0 +1,30 @@
+.head {
+  width: 100%;
+  margin: 15px 25px;
+  
+}
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin: 15px 25px;
+  border-bottom: solid 1px #ddd;
+}
+.label{
+    width:150px;
+    margin-right:15px;
+}
+.tbl {
+    border-collapse:collapse;
+}
+.tbl tr {
+    border-bottom:solid 1px #ddd;
+    
+}
+  .tbl tr td {
+    padding: 15px 10px;
+  }
+  .tbl tr th {
+    padding: 15px 10px;
+  }

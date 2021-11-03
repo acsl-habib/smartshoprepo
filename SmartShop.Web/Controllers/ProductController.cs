@@ -17,6 +17,7 @@ namespace SmartShop.Web.Controllers
             this._db = db;
         }
 
+        //product page controller
         public IActionResult Index()
         {
             var Products = _db.Products
@@ -31,6 +32,7 @@ namespace SmartShop.Web.Controllers
                 .ToList();
             return View(Products);
         }
+        //product details page
         public IActionResult ProductDetails(int id)
         {
             ProductViewVM productViewVM = new ProductViewVM()
@@ -41,6 +43,7 @@ namespace SmartShop.Web.Controllers
                 .Include(x => x.ProductImages)
                 .Include(x => x.Subcategory)
                  .Include(x => x.ProductPrices)
+                   .Include(x => x.ProductSpecs)
 
                 .Include(x => x.Reviews)
 

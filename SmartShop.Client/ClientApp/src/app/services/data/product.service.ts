@@ -8,6 +8,7 @@ import { ProductConfigurationInputModel } from '../../models/data/input/product-
 import { ProductImageModel } from '../../models/data/product-image-model';
 import { ProductModel } from '../../models/data/product-model';
 import { ProductPriceModel } from '../../models/data/product-price-model';
+import { ProductSpecModel } from '../../models/data/product-spec-model';
 import { ImagePathResponse } from '../../models/data/viewmodels/image-path-response';
 
 
@@ -52,11 +53,17 @@ export class ProductService {
   saveProductPrice(data: ProductPriceModel): Observable<ProductPriceModel> {
     return this.http.post<ProductPriceModel>(`${AppConstants.apiUrl}/api/ProductPrices`, data);
   }
+  saveProductSpec(data: ProductSpecModel): Observable<ProductSpecModel> {
+    return this.http.post<ProductSpecModel>(`${AppConstants.apiUrl}/api/ProductSpecs`, data);
+  }
   update(data: ProductModel): Observable<any> {
     return this.http.put<any>(`${AppConstants.apiUrl}/api/Products/${data.productId}`, data);
   }
   updateProductPrice(data: ProductPriceModel):Observable<any> {
     return this.http.put<any>(`${AppConstants.apiUrl}/api/ProductPrices/${data.productPriceId}`, data);
+  }
+  updateProductSpec(data: ProductSpecModel): Observable<any> {
+    return this.http.put<any>(`${AppConstants.apiUrl}/api/ProductSpecs/${data.productSpecId}`, data);
   }
   delete(id: Number): Observable<ProductModel> {
     return this.http.delete<ProductModel>(`${AppConstants.apiUrl}/api/Products/${id}`);
@@ -66,6 +73,9 @@ export class ProductService {
   }
   deleteProductImage(id: number): Observable<ProductImageModel> {
     return this.http.delete<ProductImageModel>(`${AppConstants.apiUrl}/api/ProductImages/${id}`);
+  }
+  deleteProductSpec(id: number): Observable<ProductSpecModel> {
+    return this.http.delete<ProductSpecModel>(`${AppConstants.apiUrl}/api/ProductSpecs/${id}`);
   }
   uploadImage(id: number, f: File): Observable<ImagePathResponse> {
     const formData = new FormData();

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartShop.DataLib", "SmartS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartShop.Client", "SmartShop.Client\SmartShop.Client.csproj", "{0A35AB35-9DC9-4D9E-9778-19CC21834B3B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartShop.Web", "SmartShop.Web\SmartShop.Web.csproj", "{80C0D964-F8B6-44F0-9169-54AB0C96B261}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartShop.Web", "SmartShop.Web\SmartShop.Web.csproj", "{CE70B295-D9C0-4F1B-8D16-341EE023A410}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{0A35AB35-9DC9-4D9E-9778-19CC21834B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A35AB35-9DC9-4D9E-9778-19CC21834B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A35AB35-9DC9-4D9E-9778-19CC21834B3B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80C0D964-F8B6-44F0-9169-54AB0C96B261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80C0D964-F8B6-44F0-9169-54AB0C96B261}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80C0D964-F8B6-44F0-9169-54AB0C96B261}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80C0D964-F8B6-44F0-9169-54AB0C96B261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE70B295-D9C0-4F1B-8D16-341EE023A410}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE70B295-D9C0-4F1B-8D16-341EE023A410}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE70B295-D9C0-4F1B-8D16-341EE023A410}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE70B295-D9C0-4F1B-8D16-341EE023A410}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

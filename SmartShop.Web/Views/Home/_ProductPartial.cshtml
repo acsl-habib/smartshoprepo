@@ -1,8 +1,10 @@
 ﻿@model IEnumerable<Product>
 
-@if (Model != null )
+@if (Model != null)
 {
-    <h5>@Model.FirstOrDefault()?.Subcategory.SubcategoryName</h5>
+
+    <h5>@Model.FirstOrDefault()?.Subcategory.Category.CategoryName</h5>
+
     @foreach (var p in Model)
     {
         <div class="owl-carousel product-carousel  owl-theme owl-loaded mb-3 mt-2">
@@ -10,7 +12,7 @@
                 <div class="owl-stage product_img_item ">
                     <div class="owl-item border bx">
 
-                        <a asp-action="ProductDetails" asp-controller="Product" asp-route-Id="@p.ProductId"><img src="~/assets/img/@p.ProductImages.First().ImageName" alt="" class="image"></a>
+                        <a asp-action="ProductDetails" asp-controller="Product" asp-route-Id="@p.ProductId"><img src="http://localhost:5000/Images/@p.ProductImages.First().ImageName" alt="" class="image"></a>
                         <div class="text-center p-2">
                             <h6>@p.ProductName</h6>
 
@@ -20,10 +22,10 @@
                             }
 
                         </div>
-            
+
 
                     </div>
-                   
+
 
                 </div>
             </div>
@@ -31,6 +33,6 @@
 
 
 
-       
+
     }
 }

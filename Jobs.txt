@@ -1,0 +1,27 @@
+Brands => Moinul
+
+Category /Subcategory => eftheker
+
+Product View => Abdullah
+
+Product  info price Create => Nawaj
+Product  info price Edit => Arif
+
+Product Spec Create => Ajjaj
+Product Spec Edit => Shuvo
+
+Product Image Create/Edit => Hasan Mahmood
+
+Security =>  Sohel
+
+Orders => Abdullah & Imran
+
+Product Details => Tanjim
+
+SignalR => Manik
+
+
+
+
+
+

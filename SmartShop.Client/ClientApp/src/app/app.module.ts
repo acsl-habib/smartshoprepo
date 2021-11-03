@@ -70,6 +70,9 @@ import { DecimalPipe } from '@angular/common';
 import { NgxMatFileInputModule } from '@angular-material-components/file-input';
 import { ProductInfoComponent } from './components/product/product-info/product-info.component';
 import { NgImageSliderModule } from 'ng-image-slider';
+import { OrderViewComponent } from './components/order/order-view/order-view.component';
+import { OrderService } from './services/data/order.service';
+import { OrderSummaryComponent } from './components/order/order-summary/order-summary.component';
 
 @NgModule({
   declarations: [
@@ -104,7 +107,9 @@ import { NgImageSliderModule } from 'ng-image-slider';
     ProductEditComponent,
     BrandProductComponent,
     ConfigLabelComponent,
-    ProductInfoComponent
+    ProductInfoComponent,
+    OrderViewComponent,
+    OrderSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -141,12 +146,13 @@ import { NgImageSliderModule } from 'ng-image-slider';
     SignalrService,
     ProductService,
     ProductConfigService,
+    OrderService,
     AuthGuard,
-    //SignalrService, {
-    //  provide: APP_INITIALIZER, useFactory: (svc: SignalrService) => () => svc.initiateConnection(),
-    //  deps: [SignalrService],
-    //  multi: true
-    //},
+    SignalrService, {
+      provide: APP_INITIALIZER, useFactory: (svc: SignalrService) => () => svc.initiateConnection(),
+      deps: [SignalrService],
+      multi: true
+    },
     { provide: HTTP_INTERCEPTORS, useClass: JwtTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     { provide: ErrorHandler, useClass: GlobalErrorHandler }

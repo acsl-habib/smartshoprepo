@@ -40,6 +40,7 @@ namespace SmartShop.Web
             });
 
             services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
+
             services.AddCors(options => {
                 options.AddPolicy("EnableCORS",
                     builder => {
@@ -53,6 +54,7 @@ namespace SmartShop.Web
             });
             services.AddControllersWithViews();
             services.AddSignalR();
+
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -78,6 +80,7 @@ namespace SmartShop.Web
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapHub<OrderCreatedNotificationHub>("/orderHub");
+
 
             });
          

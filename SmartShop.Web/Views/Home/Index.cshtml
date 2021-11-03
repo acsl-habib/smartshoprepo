@@ -1,4 +1,4 @@
-﻿@model SmartShop.Web.ViewModels.IndexVM
+﻿@model IEnumerable<Product>
 <section class="slider">
     <div id="demo" class="carousel slide demo-slider" data-ride="carousel">
         <ul class="carousel-indicators">
@@ -38,88 +38,56 @@
         </a>
         <div class="slider-overlay"></div>
     </div>
-    @*<div class="owl-carousel home-carousel  owl-theme owl-loaded mb-3 mt-2 demo-slider">
-            <div class="owl-stage-outer">
-                <div class="owl-stage product_img_item ">
-                    <div class="owl-item border bx">
-                        <img src="~/assets/img/slider1.jpg" alt="New York" width="1100" height="500">
 
-                    </div>
-
-                    <div class="owl-item border bx">
-                        <img src="~/assets/img/slider3.jpg" alt="New York" width="1100" height="500">
-
-                    </div>
-
-
-                </div>
-            </div>
-            <div class="slider-overlay"></div>
-        </div>*@
 
 
 
 
 </section>
 <!-- mobile view-->
-<div class="by-shop mt-5 d-block d-lg-none d-md-none d-xl-none">
+<section class="products mt-4 mb-4">
     <div class="container ck-cart-info">
-        <h5>Menu</h5>
-        <div class="owl-carousel menu-carousel owl-theme owl-loaded">
-            <div class="owl-stage-outer">
-                <div class="owl-stage round-box">
-                    <div class="owl-item">
-                        <a href="product.html">
-                            <img src="~/assets/img/menu1.png" alt="">
-                        </a>
-                        <p class="text-center">Campaign</p>
-                    </div>
-                    <div class="owl-item">
-                        <a href="product.html">
-                            <img src="~/assets/img/menu2.png" alt="">
-                        </a>
-                        <p class="text-center">Gift Card</p>
-                    </div>
-                    <div class="owl-item">
-                        <a href="product.html">
-                            <img src="~/assets/img/menu3.png" alt="">
-                        </a>
-                        <p class="text-center">Order</p>
-                    </div>
-                    <div class="owl-item">
-                        <a href="product.html">
-                            <img src="~/assets/img/menu1.png" alt="">
-                        </a>
-                        <p class="text-center">News Feed</p>
+        <h5>Products</h5>
+        <div class="row">
+            @if (Model!=null) {
+            @foreach (var p in Model)
+            {
+                <div class="col-lg-2 col-6 col-xs-6 mt-3">
+                    <div class="border w-100 bx">
+                        <a asp-action="ProductDetails" asp-controller="Product" asp-route-Id="@p.ProductId"><img src="http://localhost:5000/Images/@p.ProductImages.First().ImageName" alt="" class="w-100"></a>
+                        <div class="text-center p-2">
+                            <h6>@p.ProductName</h6>
+
+                            <p><strong>$ @p.ProductPrices.First().Price</strong></p>
+                        </div>
+
+
+
+
+                        @*<a asp-route-Id="@p.ProductId" onclick="addToCart(@p.ProductId)" class="btn btn-outline-danger rounded-0 border-0 btn-block"><i class="fa fa-shopping-cart"> Add to cart</i></a>*@
+
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 
-<!-- by products-->
-<div class="by-product mt-5 mb-5">
-    <div class="container ck-cart-info">
-        @if (Model.Subcategories.Count>0)
-        {
-
-            @foreach (var c in Model.Subcategories)
-            {
+                }
 
 
-                <partial name="_ProductPartial" model="@Model.Products.Where(x => x.Subcategory.SubcategoryName.Equals(c.SubcategoryName))" />
 
             }
-        }
+            else
+            {
+                <p class="text-center text-danger">No product found!</p>
+            }
 
+
+        </div>
 
     </div>
-</div>
+</section>
 
 
 @section scripts {
 
-   
+
 }

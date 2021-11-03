@@ -96,7 +96,37 @@
           </form>
         </mat-tab>
         <mat-tab label="Configuration" >
-          
+          <form [formGroup]="productConfigForm" class="medium-form-container" >
+            <div class="f-w right"><button mat-raised-button (click)="addSpec()" type="button"><mat-icon>add</mat-icon></button></div>
+            <ng-container formArrayName="productSpecs">
+              <ng-container *ngFor="let p of productSpecs.controls; let i = index">
+                <div [formGroupName]="i" class="price-row-2">
+                  <mat-form-field class="f-w" appearance="standard">
+                    <mat-label>Label</mat-label>
+                    <input matInput [matAutocomplete]="auto"
+                           formControlName="label">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of specLabels" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="productSpecs.controls[i].get('label')?.errors?.required">Property value is <strong>required</strong></mat-error>
+                  </mat-form-field>
+                  <mat-form-field class="f-w" appearance="standard">
+                    <mat-label>Value</mat-label>
+                    <input matInput
+                           formControlName="value">
+                    <mat-error *ngIf="productSpecs.controls[i].get('value')?.errors?.required">Price is <strong>required</strong></mat-error>
+                  </mat-form-field>
+                  <div class="f-w">
+                    <button type="button" mat-icon-button *ngIf="productSpecs.controls.length> 1" (click)="removeSpec(i)"><mat-icon>clear</mat-icon></button>
+                    <button [disabled]="productSpecs.controls[i].get('value')?.invalid || productSpecs.controls[i].get('label')?.invalid" type="button" mat-icon-button (click)="saveSpec(i)"><mat-icon>done</mat-icon></button>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+            
+          </form>
         </mat-tab>
         <mat-tab label="Images">
 

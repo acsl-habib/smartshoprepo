@@ -21,6 +21,7 @@ namespace SmartShop.Web.Controllers
             _db = db;
         }
 
+        //checkout page
          public IActionResult Index()
          {
              var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);

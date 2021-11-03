@@ -17,7 +17,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="~/assets/css/slider/owl.carousel.min.css">
     <link rel="stylesheet" href="~/assets/css/slider/owl.theme.default.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
     @await RenderSectionAsync("styles", false)
 </head>
 <body>
@@ -99,7 +99,7 @@
                             <a class="nav-link" asp-action="Index" asp-controller="Product">Products</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Campaign</a>
+                            <a class="nav-link" asp-action="Index" asp-controller="Campaign">Campaign</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-action="Index" asp-controller="Contact">Contact</a>
@@ -309,38 +309,7 @@
 
 
 
-    <script>
 
-        function addToCart(product_id) {
-            event.preventDefault();
-
-            let id = product_id;
-
-            console.log(id);
-
-
-            $.ajax({
-                url: `http://localhost:18276/Cart/AddToCart/${id}`,
-                type: "GET",
-                dataType: 'json',
-                success: function (response) {
-
-                    if (response.success) {
-                       
-                        $('#total_cart').html(response.total_cart);
-                      
-                    } else {
-                        console.log(response);
-                      
-                    }
-
-
-
-
-                },
-            });
-        }
-    </script>
 
 
 

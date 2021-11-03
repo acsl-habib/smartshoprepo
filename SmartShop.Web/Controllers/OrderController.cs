@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using SmartShop.DataLib.Models.Constants;
 using SmartShop.DataLib.Models.Data;
 using SmartShop.Web.Hubs;
 using SmartShop.Web.ViewModels;
@@ -18,12 +19,14 @@ namespace SmartShop.Web.Controllers
     {
         private readonly SmartShopDbContext _db;
         private readonly IHubContext<OrderCreatedNotificationHub> _hubContext;
+
         public OrderController(SmartShopDbContext db, IHubContext<OrderCreatedNotificationHub> hubContext)
         {
             _db = db;
             this._hubContext = hubContext;
         }
 
+        //order index
          public IActionResult Index()
          {
              var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -47,12 +50,24 @@ namespace SmartShop.Web.Controllers
              return View(orderVM);
          }
 
-         public IActionResult OrderDetails()
+        //order details
+
+         public IActionResult OrderDetails(int id)
          {
-             return View();
-         }
+            var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
+            var CustomerId = Customer.CustomerId;
+            var order = _db.Orders.Where(x => x.OrderId.Equals(id))
+                .Include(x => x.OrderDetails)
+                .ThenInclude(x=>x.Product)
+            .FirstOrDefault();
+
+            return View(order);
+        }
 
 
+
+        //order store
          [HttpPost]
          public IActionResult OrderStore(CheckoutVM model)
          {
@@ -75,8 +90,8 @@ namespace SmartShop.Web.Controllers
                      OrderDate = DateTime.Now,
                      ShippingId = model.ShippingId,
                      IsConfirmed=false,
-                     TrxId= "12334",
-                   
+                     TrxId= model.TrxId,
+                      OrderStatus=OrderStatus.Pending
 
 
                  };
@@ -134,6 +149,8 @@ namespace SmartShop.Web.Controllers
 
 
          }
+       
+        
         private async Task SendNotification(Order NewOrder)
         {
             await this._hubContext.Clients.All.SendAsync("orderCreated", new NotificationMessage { OrderId = NewOrder.OrderId, CustomerId = NewOrder.CustomerId, Message = "Created" });

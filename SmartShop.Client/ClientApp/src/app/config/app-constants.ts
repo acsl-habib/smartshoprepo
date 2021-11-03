@@ -69,6 +69,11 @@ export class AppConstants {
       ]
     },
     {
+      "label": "Orders",
+      "icon": "shopping_cart_checkout",
+      "link": "/orders"
+    },
+    {
       "label": "Users",
       "icon": "group",
       "items": [

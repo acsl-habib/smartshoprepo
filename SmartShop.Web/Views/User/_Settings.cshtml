@@ -1,0 +1,30 @@
+﻿@model OrderVM
+    <h5 class="mb-3">Change Password</h5>
+    <div class="card p-2 shadow-lg">
+        <div class="card-body">
+            <div class="form-style">
+                <form method="post" asp-action="UpdateCustomer" asp-controller="User">
+                    <div class="row">
+
+                        <div class="col-lg-10 mx-auto">
+                            <div class="form-group ck-form-style">
+                                <label for="name">Name *</label>
+                                <input asp-for="CustomerName" type="text" class="rounded-0 form-control" id="name" value="@Model.Customer.CustomerName">
+                            </div>
+                            <div class="form-group ck-form-style">
+                                <label for="phone">Phone *</label>
+                                <input asp-for="Phone" type="number" class="rounded-0 form-control" id="phone" value="@Model.Customer.Phone">
+                            </div>
+                            <div class="form-group ck-form-style">
+                                <label for="address">Address</label>
+                                <textarea asp-for="Address" class="rounded-0 form-control" id="address">@Model.Customer.Address</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-25 mx-auto">
+                        <input type="submit" value="Save" class="btn btn-dark btn-block  text-white">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

@@ -13,7 +13,6 @@ namespace SmartShop.Web
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("WebFront starting...");
             CreateHostBuilder(args).Build().Run();
         }
 

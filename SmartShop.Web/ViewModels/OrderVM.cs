@@ -11,5 +11,10 @@ namespace SmartShop.Web.ViewModels
         public ICollection<Order> Orders { get; set; }
 
         public decimal Total { get; set; }
+        public virtual Customer Customer { get; set; }
+        public string CustomerName { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+   
     }
 }

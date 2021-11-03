@@ -1,0 +1,81 @@
+<div class="view-container">
+  <!--<mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>-->
+  <mat-card class="table-card mat-elevation-z9">
+    <mat-card-header>
+      <mat-card-title>Orders</mat-card-title>
+      <mat-card-subtitle>Order list</mat-card-subtitle>
+      <img src="../../../../assets/cash-register-purchase-svgrepo-com.svg" mat-card-avatar class="avatar" />
+
+      
+    </mat-card-header>
+    <mat-card-content>
+      <div class="f-w right">
+       
+          
+        <mat-form-field class="f-w-30" appearance="standard">
+          <mat-label>Order Status</mat-label>
+          <mat-select [(ngModel)]="currentStatusOption" (selectionChange)="orderStatusCanged($event)">
+            <mat-option *ngFor="let op of orderStatusOptions" [value]="op.value">{{op.label}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+      </div>
+      <mat-table [dataSource]="dataSource" matSort>
+        <ng-container matColumnDef="orderDate">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Order Date</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{element.orderDate | date: 'yyyy-MM--dd'}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="customerName">
+          <mat-header-cell *matHeaderCellDef>Customer Name</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{getCustomerName(element.customerId)}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="phone">
+          <mat-header-cell *matHeaderCellDef mat-sort-header>Customer Phone</mat-header-cell>
+          <mat-cell *matCellDef="let element">{{getCustomerPhone(element.customerId)}}</mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="isConfirmed">
+          <mat-header-cell *matHeaderCellDef>Confirmed?</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span style="margin-right:15px" *ngIf="!getIsConfirmEdit(element.orderId)">{{element.isConfirmed ? 'Yes': 'No'}}</span>
+            <mat-form-field class="select-100"  appearance="standard" *ngIf="getIsConfirmEdit(element.orderId)">
+              <mat-select [(ngModel)]="element.isConfirmed">
+                <mat-option [value]="options[0]">Yes</mat-option>
+                <mat-option [value]="options[1]">No</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <button type="button" mat-icon-button (click)="clearIsConfirmEditMode(element.orderId)" *ngIf="getIsConfirmEdit(element.orderId)"><mat-icon>clear</mat-icon></button>
+            <button type="button" mat-icon-button (click)="changeIsConfirm(element.orderId)"  *ngIf="getIsConfirmEdit(element.orderId)"><mat-icon>done</mat-icon></button>
+            <button type="button" mat-icon-button (click)="setIsConfirmEditMode(element.orderId)" *ngIf="!getIsConfirmEdit(element.orderId)"><mat-icon>edit</mat-icon></button>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="orderStatus">
+          <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <span style="margin-right:15px" *ngIf="!getOrderStatusEdit(element.orderId)">{{getStatus(element.orderStatus)}}</span>
+            <mat-form-field class="select-100" appearance="standard" *ngIf="getOrderStatusEdit(element.orderId)">
+              <mat-select [(ngModel)]="element.orderStatus">
+                <mat-option *ngFor="let op of orderStatusOptions" [value]="op.value">{{op.label}}</mat-option>
+
+              </mat-select>
+            </mat-form-field>
+            <button type="button" mat-icon-button (click)="clearOrderStatusEditMode(element.orderId)" *ngIf="getOrderStatusEdit(element.orderId)"><mat-icon>clear</mat-icon></button>
+            <button type="button" mat-icon-button (click)="changeOrderStatus(element.orderId)" *ngIf="getOrderStatusEdit(element.orderId)"><mat-icon>done</mat-icon></button>
+            <button type="button" mat-icon-button (click)="setOrderStatusEditMode(element.orderId)" *ngIf="!getOrderStatusEdit(element.orderId)"><mat-icon>edit</mat-icon></button>
+          </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="full">
+          <mat-header-cell *matHeaderCellDef> Details</mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <a mat-button  [routerLink]="['/order-full', element.orderId]"><mat-icon>summarize</mat-icon> Details</a>
+            
+          </mat-cell>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="columnList"></mat-header-row>
+        <mat-row *matRowDef="let row;columns:columnList"></mat-row>
+      </mat-table>
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+
+
+    </mat-card-content>
+  </mat-card>
+</div>

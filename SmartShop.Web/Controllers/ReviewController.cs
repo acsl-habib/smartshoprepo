@@ -18,23 +18,26 @@ namespace SmartShop.Web.Controllers
             this._db = db;
         }
 
+        //review index
         public IActionResult Index(int id)
         {
             var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
             var CustomerId = Customer.CustomerId;
-            ViewBag.Product = _db.Products.Where(x=>x.ProductId==id).FirstOrDefault();
+            var Review = _db.Reviews.Where(x => x.CustomerId.Equals(CustomerId)).FirstOrDefault();
+            var Product = _db.Products.Where(x => x.ProductId == id).FirstOrDefault();
+            var reviewVM = new ReviewVM()
+            {
+                Product =Product,
+                Review = Review,
+        };
 
-           
-     
-            return View(
-                _db.Reviews.Where(x => x.ProductId.Equals(id))
-                .Where(x => x.CustomerId.Equals(CustomerId)).
-                Include(x=>x.Product)
-                .FirstOrDefault()
-                );
+
+
+            return View(reviewVM);
         }
-        public IActionResult ReviewStore(ProductReviewVM model)
+        //add review
+        public IActionResult ReviewStore(ReviewVM model)
         {
             if (ModelState.IsValid)
             {
@@ -79,44 +82,6 @@ namespace SmartShop.Web.Controllers
         }
 
 
-        //public IActionResult Edit(int id)
-        //{
-
-        //    var UserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var Customer = _db.Customers.Where(x => x.UserId.Equals(UserId)).FirstOrDefault();
-        //    var CustomerId = Customer.CustomerId;
-        //    var review = _db.Reviews.Where(x => x.ProductId.Equals(id)).Where(x => x.CustomerId.Equals(CustomerId)).FirstOrDefault();
-        //    var reviewVM = new ProductReviewVM
-        //    {
-        //        ReviewId = review.ReviewId,
-        //        ProductId = review.ProductId,
-        //        CustomerId = review.CustomerId,
-        //        Comment = review.Comment,
-        //        Rating = review.Rating
-
-        //    };
-        //    return View(reviewVM);
-
-        //}
-
-        //public IActionResult UpdateReview(ProductReviewVM model)
-        //{
-
-        //    if (ModelState.IsValid)
-        //    {
-
-        //        var Review = _db.Reviews.Where(x => x.ReviewId.Equals(model.ReviewId)).FirstOrDefault();
-        //        if (Review != null)
-        //        {
-        //            Review.Comment = model.Comment;
-        //            Review.Rating = model.Rating;
-        //            _db.SaveChanges();
-        //            return RedirectToAction("Index", "Order");
-        //        }
-
-
-        //    }
-        //    return RedirectToAction("Index", "Order");
-        //}
+     
     }
 }

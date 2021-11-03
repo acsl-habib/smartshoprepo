@@ -8,9 +8,11 @@ import { CategoryModel } from '../../../models/data/category-model';
 import { ProductEditModel } from '../../../models/data/edit/product-edit-model';
 import { ProductImageEditModel } from '../../../models/data/edit/product-image-edit-model';
 import { ProductPriceEditModel } from '../../../models/data/edit/product-price-edit-model';
+import { ProductSpecEditModel } from '../../../models/data/edit/product-spec-edit-model';
 import { ProductImageModel } from '../../../models/data/product-image-model';
 import { ProductModel } from '../../../models/data/product-model';
 import { ProductPriceModel } from '../../../models/data/product-price-model';
+import { ProductSpecModel } from '../../../models/data/product-spec-model';
 import { SubcategoryModel } from '../../../models/data/subcategory-model';
 import { ImagePathResponse } from '../../../models/data/viewmodels/image-path-response';
 import { NotifyService } from '../../../services/common/notify.service';
@@ -75,13 +77,18 @@ export class ProductEditComponent implements OnInit {
   get prices() {
     return this.productForm.controls.prices as FormArray;
   }
+  //image
   get fimg() {
     return this.imagesForm.controls;
   }
   get imagesLen() {
     return this.files.length;
   }
-  
+  //specs
+  //specs
+  get productSpecs() {
+    return this.productConfigForm.controls.productSpecs as FormArray;
+  }
   /*
    * Methods
    *
@@ -95,6 +102,16 @@ export class ProductEditComponent implements OnInit {
         throwError(err.error || err);
       });
   }
+  loadSpecLabels(id: number) {
+    this.subcategoryService.getSpecLabels(id)
+      .subscribe(r => {
+        this.specLabels = r;
+        console.log(r);
+      }, err => {
+        this.notifyService.fail("Falied to save spec labels", "DISMISS");
+        throwError(err.error || err);
+      });
+  }
   //price
   addPrice(data?: ProductPriceEditModel) {
     this.prices.push(new FormGroup({
@@ -102,19 +119,10 @@ export class ProductEditComponent implements OnInit {
       price: new FormControl(data?.price ?? undefined, Validators.required)
     }));
   }
-  removePrice(index: number) {
-    if (this.prices.controls.length > 1) {
-      this.prices.removeAt(index);
-    }
-    else {
-      this.notifyService.fail("Product must have on price", "DISMISS");
-    }
-  }
-  //images
   removeImage(index: number) {
     let img: ProductImageEditModel | undefined = this.product?.productImages?.length ? this.product?.productImages[index] : undefined;
     if (img) {
-      
+
       this.productService.deleteProductImage(<number>img.productImageId)
         .subscribe(r => {
           this.notifyService.success("Product image deleted", "DISMISS");
@@ -125,7 +133,98 @@ export class ProductEditComponent implements OnInit {
         });
     }
   }
-  
+  //images
+  removeSpec(index: number) {
+    let spec: ProductSpecModel | undefined = this.product?.productSpecs?.length ? this.product?.productSpecs[index] : undefined;
+    if (spec) {
+
+      this.productService.deleteProductSpec(<number>spec.productSpecId)
+        .subscribe(r => {
+          this.notifyService.success("Product spec deleted", "DISMISS");
+          this.product?.productSpecs?.splice(index, 1);
+          this.productSpecs.removeAt(index);
+        }, err => {
+          this.notifyService.fail("Falied to delete product spec", "DISMISS");
+          throwError(err.error || err);
+        });
+    }
+  }
+  addSpec(spec?: ProductSpecEditModel) {
+    this.productSpecs.push(new FormGroup({
+      label: new FormControl(spec?.label ?? '', Validators.required),
+      value: new FormControl(spec?.value ?? '', Validators.required)
+    }));
+  }
+  removePrice(index: number) {
+    if (this.prices.controls.length < 2) {
+
+      this.notifyService.fail("Product must have on price", "DISMISS");
+      return;
+    }
+    if (index > <number>this.product.productPrices?.length - 1) {
+      this.prices.removeAt(index);
+    }
+    else {
+      let p: ProductPriceEditModel | undefined = this.product?.productPrices?.length ? this.product?.productPrices[index] : undefined;
+
+      if (p) {
+        console.log(p);
+        this.productService.deleteProductPrice(<number>p.productPriceId)
+          .subscribe(r => {
+            this.notifyService.success("Product price deleted", "DISMISS");
+            this.product.productPrices?.splice(index, 1);
+            this.prices.removeAt(index);
+          }, err => {
+            this.notifyService.fail("Failed to delete product price", "DISMISS");
+            throwError(err.error || err);
+          });
+      }
+    }
+    
+  }
+  saveSpec(index: number) {
+    if (index > <number>this.product.productSpecs?.length - 1) {
+      //new
+      let data: ProductSpecModel = {
+        
+        productId: this.product.productId,
+        label: this.productSpecs.controls[index].get('label')?.value,
+        value: this.productSpecs.controls[index].get('value')?.value
+      };
+      this.productService.saveProductSpec(data)
+        .subscribe(r => {
+          this.product.productSpecs?.push(r);
+          this.notifyService.success("Product spec saved", "DISMISS");
+        }, err => {
+          this.notifyService.fail("Falied to update product spec", "DISMISS");
+          throwError(err.error || err);
+        });
+    }
+    else {
+      //existing
+      let spec: ProductSpecEditModel | undefined = this.product.productSpecs?.length ? this.product.productSpecs[index] : undefined;
+      if (spec) {
+        let data: ProductSpecModel = {
+          productSpecId: spec.productSpecId,
+          productId: this.product.productId,
+          label: this.productSpecs.controls[index].get('label')?.value,
+          value: this.productSpecs.controls[index].get('value')?.value
+        };
+        console.log(data);
+        this.productService.updateProductSpec(data)
+          .subscribe(r => {
+            if (this.product?.productSpecs?.length) {
+              this.product.productSpecs[index].label = data.label;
+              this.product.productSpecs[index].value = data.value;
+            }
+            this.notifyService.success("Product spec update", "DISMISS");
+          }, err => {
+            this.notifyService.fail("Falied to update product spec", "DISMISS");
+            throwError(err.error || err);
+          });
+      }
+    }
+  }
   /*
    * Handlers
    *
@@ -262,9 +361,13 @@ export class ProductEditComponent implements OnInit {
       .subscribe(r => {
         this.product = r;
         console.log(this.product);
+        this.loadSpecLabels(<number>this.product.productId);
         this.productForm.patchValue(this.product);
         this.product.productPrices?.forEach(p => {
           this.addPrice(p);
+        });
+        this.product.productSpecs?.forEach(sp => {
+          this.addSpec(sp);
         });
         this.productImages = this.product?.productImages ?? [];
         if (this.product.priceDeterminingProperty == "None") {

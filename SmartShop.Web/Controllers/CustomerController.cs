@@ -30,16 +30,14 @@ namespace SmartShop.Web.Controllers
         {
             return View();
         }
+
+        //register page
         public IActionResult Register()
         {
             return View();
         }
 
-
-
-
-
-
+        //register customer
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
@@ -88,6 +86,7 @@ namespace SmartShop.Web.Controllers
             return View(model);
         }
 
+        //login page controller
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
@@ -96,7 +95,7 @@ namespace SmartShop.Web.Controllers
         }
 
 
-
+        //login controller
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel user)
@@ -118,6 +117,8 @@ namespace SmartShop.Web.Controllers
         }
 
 
+
+        //logout controller
 
         public async Task<IActionResult> Logout()
         {
