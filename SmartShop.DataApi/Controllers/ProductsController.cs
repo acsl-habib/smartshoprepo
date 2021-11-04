@@ -51,6 +51,16 @@ namespace SmartShop.DataApi.Controllers
                 .Include(x=> x.ProductSpecs)
                 .FirstOrDefaultAsync(x => x.ProductId == id);
         }
+        [HttpGet("Brand/{id}/Include")]
+        public async Task<ActionResult<Product>> GetProductByBrandWithPriceAndPic(int id)
+        {
+            return await _context
+                .Products
+                .Include(x => x.ProductPrices)
+                .Include(x => x.ProductImages)
+                .Include(x => x.ProductSpecs)
+                .FirstOrDefaultAsync(x => x.BrandId == id);
+        }
         // GET: api/Products/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)

@@ -31,9 +31,10 @@ namespace SmartShop.Web.Controllers
                     .Where(x => x.ProductName.Contains(search))
                
                     .Include(x=>x.Brand)
-                       .Include(x => x.ProductImages)
-                .Include(x => x.Reviews)
+                     .Include(x => x.ProductImages)
+                    .Include(x => x.Reviews)
                     .Include(x=>x.Subcategory)
+                      .Include(x => x.ProductPrices)
                     .ToList();
        
    
@@ -47,12 +48,13 @@ namespace SmartShop.Web.Controllers
         //search by category
         public IActionResult CategoryProduct(int id)
         { 
-            var Products = _db.Products.Where(x=>x.SubcategoryId.Equals(id))
+            var Products = _db.Products.Where(x=>x.Subcategory.CategoryId.Equals(id))
                   
                     .Include(x => x.Brand)
                     .Include(x => x.Subcategory)
                     .Include(x => x.ProductImages)
                     .Include(x => x.Reviews)
+                          .Include(x => x.ProductPrices)
                     .ToList();
 
             return View(Products);

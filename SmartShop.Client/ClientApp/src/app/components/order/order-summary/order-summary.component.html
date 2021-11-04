@@ -6,47 +6,60 @@
       </div>
       <mat-card-title>Order Summary</mat-card-title>
       <mat-card-subtitle>Order details</mat-card-subtitle>
-      <span class="filler"></span>
-      <a mat-mini-fab matRipple [routerLink]="['/category-create']" [title]="'Create new categories'"><mat-icon>add</mat-icon></a>
+     
     </mat-card-header>
-    <mat-card-content class="card-container">
+    <mat-card-content>
       <div class="head">
-        <h3>Order</h3>
+        <h2>Order</h2>
       </div>
 
       <mat-list role="list">
         <mat-list-item role="listitem" class="f-w item">
 
           <div class="label">Order</div>
-          <div class="f-w">{{order?.orderDate| date:'yyyy-MM-dd'}}</div>
+          <div class="f-w-1">{{order?.orderDate| date:'yyyy-MM-dd'}}</div>
 
 
         </mat-list-item>
         <mat-list-item role="listitem" class="f-w item">
 
           <div class="label">Customer</div>
-          <div class="f-w">{{order?.customer?.customerName}}</div>
+          <div class="f-w-1">{{order?.customer?.customerName}}</div>
 
 
         </mat-list-item>
         <mat-list-item role="listitem" class="f-w item">
 
           <div class="label">Address</div>
-          <div class="f-w">{{order?.customer?.address}}</div>
+          <div class="f-w-1">{{order?.customer?.address}}</div>
 
 
         </mat-list-item>
         <mat-list-item role="listitem" class="f-w item">
 
           <div class="label">Phone</div>
-          <div class="f-w">{{order?.customer?.phone}}</div>
+          <div class="f-w-1">{{order?.customer?.phone}}</div>
 
 
         </mat-list-item>
         <mat-list-item role="listitem" class="f-w item">
 
           <div class="label">Status</div>
-          <div class="f-w">{{order?.orderStatus}}</div>
+          <div class="f-w-1">{{order?.orderStatus}}</div>
+
+          
+        </mat-list-item>
+        <mat-list-item role="listitem" class="f-w item">
+
+          <div class="label">Payment mode</div>
+          <div class="f-w-1">{{order?.paymentName}}</div>
+
+          
+        </mat-list-item>
+        <mat-list-item role="listitem" class="f-w item">
+
+          <div class="label">TrxId</div>
+          <div class="f-w-1">{{order?.trxId ?? ''}}</div>
 
 
         </mat-list-item>
@@ -54,28 +67,33 @@
       <div class="head">
         <h2>Order items</h2>
       </div>
-      <table style="width:100%" class="tbl">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Unit Prixce</th>
-            <th>Sub-total</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let od of order?.orderDetails">
-            <td>{{od?.product?.productName}}</td>
-            <td>
-              {{od?.productPrice}}
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-        </tbody>
-      </table>
+      <mat-list>
+        <mat-list-item role="listitem" class="item-row">
+          <div class="f-w">Item</div>
+          <div class="f-w">Quantity</div>
+          <div class="f-w">Unit Price</div>
+          <div class="f-w">Sub-total</div>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="item-row" *ngFor="let od of order?.orderDetails">
+          <div class="f-w">{{od?.product?.productName}}</div>
+          <div class="f-w">{{od?.quantity}}</div>
+          <div class="f-w">{{od?.productPrice | number:'2.2-2'}}</div>
+          <div class="f-w">{{(od?.quantity ?? 1) * (od?.productPrice ?? 1) | number:'2.2-2'}}</div>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="item-row">
+          <div class="f-w"></div>
+          <div class="f-w"></div>
+          <div class="f-w">Total</div>
+          <div class="f-w">{{getTotal()|number: '2.2-2'}}</div>
+        </mat-list-item>
+      </mat-list>
+      
 
     </mat-card-content>
+    <mat-card-actions class="my-1">
+      
+        <a mat-flat-button [routerLink]="['/orders']" class="mt-1"><mat-icon>chevron_left</mat-icon> Back to list</a>
+      
+    </mat-card-actions>
   </mat-card>
 </div>

@@ -35,6 +35,9 @@ export class ProductService {
   getIncludeById(id: number): Observable<ProductModel> {
     return this.http.get<ProductModel>(`${AppConstants.apiUrl}/api/Products/${id}/Include`);
   }
+  getByBrandInclude(id: number): Observable<ProductModel[]> {
+    return this.http.get<ProductModel[]>(`${AppConstants.apiUrl}/api/Products/Brand/${id}/Include`);
+  }
   getProptertyNames(): Observable<string[]> {
     return this.http.get<string[]>(`${AppConstants.apiUrl}/api/Products/PropNames`);
   }

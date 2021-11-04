@@ -41,6 +41,7 @@ namespace SmartShop.Web.Controllers
                  .Where(x => x.CustomerId.Equals(CustomerId))
                  .Include(x => x.OrderDetails)
                  .ThenInclude(x => x.Product)
+                 .ThenInclude(x=>x.ProductPrices)
                  .ToList(),
 
                  Total = _db.OrderDetails
@@ -81,17 +82,19 @@ namespace SmartShop.Web.Controllers
                  var CustomerId = Customer.CustomerId;
 
                 //order
-                 var NewOrder = new Order()
-                 {
-          
-                     PaymentName = model.PaymentName,
-                     Comment = model.Message,
-                     CustomerId = CustomerId,
-                     OrderDate = DateTime.Now,
-                     ShippingId = model.ShippingId,
-                     IsConfirmed=false,
-                     TrxId= model.TrxId,
-                      OrderStatus=OrderStatus.Pending
+                var NewOrder = new Order()
+                {
+
+                    PaymentName = model.PaymentName,
+                    Comment = model.Message,
+                    CustomerId = CustomerId,
+                    OrderDate = DateTime.Now,
+                    ShippingId = model.ShippingId,
+                    IsConfirmed = false,
+                    TrxId = model.TrxId,
+                    OrderStatus = OrderStatus.Pending
+
+
 
 
                  };
@@ -141,7 +144,7 @@ namespace SmartShop.Web.Controllers
 
 
 
-                 return RedirectToAction("Index");
+                 return RedirectToAction("Index","User");
 
              }
 

@@ -1,0 +1,48 @@
+<div class="view-container">
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+    <mat-card class="table-card mat-elevation-z9">
+      <mat-card-header>
+        <mat-card-title>Payment</mat-card-title>
+        <mat-card-subtitle>Payment method</mat-card-subtitle>
+        <span class="filler"></span>
+        <a mat-mini-fab [routerLink]="['/payment-create']" [title]="'Create new shipping'"><mat-icon>add</mat-icon></a>
+      </mat-card-header>
+      <mat-card-content >
+  
+        <mat-table [dataSource]="dataSource" matSort>
+
+          <ng-container matColumnDef="paymentName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Payment Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.paymentName}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="shortName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Short Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.shortName}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="paymentType">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Payment Type</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.paymentType}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="accountNo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Account No</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.accountNo}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <a [routerLink]="['/payment-edit', element.paymentId]" mat-icon-button><mat-icon>edit</mat-icon></a>
+              <button (click)="delete(element)" mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="columnList"></mat-header-row>
+          <mat-row *matRowDef="let row;columns:columnList"></mat-row>
+        </mat-table>
+          <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+        
+      </mat-card-content>
+    </mat-card>
+  </div>

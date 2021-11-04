@@ -1,0 +1,46 @@
+<div class="view-container">
+    <mat-card class="medium-form-card-container mat-elevation-z8">
+      <mat-card-header>
+        <mat-card-title>Create payment</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="medium-form-container">
+        <form #addFrm="ngForm" (ngSubmit)="insert(addFrm)">
+
+          <mat-form-field class="f-w" appearance="standard">
+            <mat-label>Payment Name</mat-label>
+            <input matInput type="text" name="paymentName" id="paymentName" [(ngModel)]="payment.paymentName" #paymentName="ngModel" required />
+            <mat-error *ngIf="paymentName.touched && paymentName.invalid">Required</mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field class="f-w" appearance="standard">
+            <mat-label>Payment Short Name</mat-label>
+            <input matInput type="text" name="shortName" id="shortName" [(ngModel)]="payment.shortName" #shortName="ngModel" required />
+            <mat-error *ngIf="shortName.touched && shortName.invalid">Required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="f-w" appearance="standard">
+            <mat-label>Payment Type</mat-label>
+            <input matInput type="text" name="paymentType" id="paymentType" [(ngModel)]="payment.paymentType" #paymentType="ngModel" required />
+            <mat-error *ngIf="paymentType.touched && paymentType.invalid">Required</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="f-w" appearance="standard">
+            <mat-label>Account No</mat-label>
+            <input matInput type="text" name="accountNo" id="accountNo" [(ngModel)]="payment.accountNo" #accountNo="ngModel" required />
+            <mat-error *ngIf="accountNo.touched && accountNo.invalid">Required</mat-error>
+          </mat-form-field>
+
+          <div class="f-w" align="end">
+            <button type="reset" mat-raised-button color="accent"><mat-icon style="margin-right:12px">restart_alt</mat-icon>Reset</button>
+            &nbsp;
+            <button type="submit" mat-raised-button color="primary" [disabled]="addFrm.invalid"><mat-icon style="margin-right:12px">save_alt</mat-icon>Create</button>
+          </div>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-flat-button [routerLink]="['/payments']" class="mt-1"><mat-icon>west</mat-icon> Back to List</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+  

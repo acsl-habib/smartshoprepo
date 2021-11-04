@@ -56,9 +56,9 @@
                     <div class="border w-100 bx">
                         <a asp-action="ProductDetails" asp-controller="Product" asp-route-Id="@p.ProductId"><img src="http://localhost:5000/Images/@p.ProductImages.First().ImageName" alt="" class="w-100"></a>
                         <div class="text-center p-2">
-                            <h6>@p.ProductName</h6>
+                            <h6 class="text-muted">@p.ProductName</h6>
 
-                            <p><strong>$ @p.ProductPrices.First().Price</strong></p>
+                            <p class="text-info"><strong>$ @String.Format("{0:0.00}", p.ProductPrices.First().Price) </strong></p>
                         </div>
 
 

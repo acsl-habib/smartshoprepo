@@ -19,7 +19,7 @@
                                         {
                                             i++;
                                             var active = i == 1 ? "active" : "";
-                                    <div class=" carousel-item @active" style="border:1px solid #dddd;">
+                                    <div class=" carousel-item @active">
                                   
                                         <img src="http://localhost:5000/Images/@img.ImageName" class="img-fluid w-100" alt="...">
                                     </div>
@@ -45,7 +45,7 @@
 
                             <div>
                                 <h2>@Model.Product.ProductName</h2>
-                                <p>Some Description</p>
+                        
                             </div>
 
 
@@ -58,7 +58,7 @@
                                     {
 
 
-                                        <div class="col-lg-6 ">
+                                        <div class="col-lg-12 ">
                                             <p> <span class="text-muted">@sp.Label :</span> @sp.Value</p>
                                         </div>
 
@@ -78,7 +78,7 @@
                                     {
                                      
 
-                                        <div class="col-lg-6 ">
+                                        <div class="col-lg-12 ">
                                             <p> <span class="text-muted">@price.PropertyValue :</span>@String.Format("{0:0.00}",price.Price)</p>
                                         </div>
 
@@ -106,9 +106,6 @@
 
 
 
-                            @*<div class="">
-                                <a asp-controller="Cart" asp-action="AddToCart" asp-route-id="@Model.Product.ProductId" class="btn btn-default btn-dark text-white  mt-2"><strong>ADD TO CART</strong></a>
-                            </div>*@
 
 
                         </div>
@@ -127,7 +124,7 @@
                                 <div class="tab-content">
                                     <div id="home" class="tab-pane fade in active">
 
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                        <p>@Model.Product.ProductDescription</p>
                                     </div>
                                     <div id="review" class="tab-pane fade">
                                         @if (Model.Product.Reviews.Count > 0)

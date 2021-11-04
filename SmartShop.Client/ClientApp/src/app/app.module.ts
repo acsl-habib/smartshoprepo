@@ -73,6 +73,10 @@ import { NgImageSliderModule } from 'ng-image-slider';
 import { OrderViewComponent } from './components/order/order-view/order-view.component';
 import { OrderService } from './services/data/order.service';
 import { OrderSummaryComponent } from './components/order/order-summary/order-summary.component';
+import { PaymentService } from './services/data/payment.service';
+import { PaymentCreateComponent } from './components/payment/payment-create/payment-create.component';
+import { PaymentEditComponent } from './components/payment/payment-edit/payment-edit.component';
+import { PaymentViewComponent } from './components/payment/payment-view/payment-view.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +113,10 @@ import { OrderSummaryComponent } from './components/order/order-summary/order-su
     ConfigLabelComponent,
     ProductInfoComponent,
     OrderViewComponent,
-    OrderSummaryComponent
+    OrderSummaryComponent,
+    PaymentCreateComponent,
+    PaymentEditComponent,
+    PaymentViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -147,6 +154,7 @@ import { OrderSummaryComponent } from './components/order/order-summary/order-su
     ProductService,
     ProductConfigService,
     OrderService,
+    PaymentService,
     AuthGuard,
     SignalrService, {
       provide: APP_INITIALIZER, useFactory: (svc: SignalrService) => () => svc.initiateConnection(),

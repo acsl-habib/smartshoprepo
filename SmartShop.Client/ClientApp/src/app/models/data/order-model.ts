@@ -8,6 +8,7 @@ export interface OrderModel {
   deliveryDate?: Date;
   customerId?: number;
   shippingId: number;
+  trxId?: string;
   paymentName?: string;
   isConfirmed?: boolean;
   orderStatus?: OrderStatus;

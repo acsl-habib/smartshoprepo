@@ -11,12 +11,24 @@
   margin: 15px 25px;
   border-bottom: solid 1px #ddd;
 }
+.item-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr ifr;
+  grid-gap: 12px;
+  border-bottom: solid 1px #ddd;
+  margin: 8px 15px;
+  padding: 8px;
+}
 .label{
-    width:150px;
+    width:170px;
     margin-right:15px;
 }
+.f-w-1
+{
+    width:calc(100%-190px);
+}
 .tbl {
-    border-collapse:collapse;
+  border-collapse: collapse;
 }
 .tbl tr {
     border-bottom:solid 1px #ddd;
@@ -26,5 +38,6 @@
     padding: 15px 10px;
   }
   .tbl tr th {
+      font-weight: normal;
     padding: 15px 10px;
   }

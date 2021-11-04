@@ -36,6 +36,11 @@ export class AppConstants {
           label: "Shipping",
           icon: "local_shipping",
           link: "/shipping"
+        },
+        {
+          label: 'Payment modes',
+          icon: 'payments',
+          link: '/payments'
         }
       ]
     },

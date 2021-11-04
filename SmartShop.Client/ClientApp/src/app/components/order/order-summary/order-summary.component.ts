@@ -17,12 +17,19 @@ export class OrderSummaryComponent implements OnInit {
     private notifyService: NotifyService,
     private activatedRoute: ActivatedRoute
   ) { }
-
+  getTotal() {
+    let sum = 0;
+    this.order.orderDetails?.forEach(o => {
+      sum += (o.productPrice ?? 0) * (o.quantity ?? 0);
+    });
+    return sum;
+  }
   ngOnInit(): void {
     let id: number = this.activatedRoute.snapshot.params.id;
     this.orderService.getOrderSummary(id)
       .subscribe(r => {
         this.order = r;
+        console.log(this.order);
         this.order.orderDetails?.forEach(x => {
           console.log(x.productPrice)
         })

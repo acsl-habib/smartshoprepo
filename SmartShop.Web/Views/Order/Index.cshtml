@@ -31,13 +31,16 @@
 
                                     <div class="col-lg-4 col-4">
                                         <p class="text-center">
-                                            <span class="badge badge-warning">
-                                               
-                                                    <span class="badge badge-sccess">Unpaid</span>
-                                            
-                                                    <span class="badge badge-danger">Unpaid</span>
-                                                
-                                            </span>
+                                            @if (Convert.ToInt32(o.OrderStatus) >= 3 && Convert.ToInt32(o.OrderStatus) <= 6)
+                                            {
+
+
+                                                <span class="badge badge-success">Paid </span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-warning">Unpaid </span>
+                                            }
 
                                         </p>
                                         <p class="text-center"><small>Expected delivery by: To be Determined</small></p>
@@ -91,7 +94,8 @@
                                                                 {
 
                                                                 <tr>
-                                                                    <td>@c.Product.ProductName</td>
+
+                                                                    <td>@c.Product.ProductName </td>
 
                                                                     <td>  @String.Format("{0:0.00}", c.ProductPrice) </td>
                                                                     <td>@c.Quantity</td>
@@ -105,10 +109,11 @@
 
                                                                     </td>
 
-                                                            @if (c.Order.OrderStatus.Equals(6)) {
+                                                                    @if (c.Order.OrderStatus.Equals(6))
+                                                                    {
                                                                         <td><a class="btn btn-info rounded-0 btn-sm" asp-action="Index" asp-controller="Review" asp-route-Id="@c.ProductId">Review</a></td>
 
-                                                            }
+                                                                    }
 
                                                                 </tr>
 
@@ -121,7 +126,7 @@
                                                                     <td>
                                                                         <p>
                                                                             <strong>
-                                                                             
+
                                                                                 @String.Format("{0:0.00}", Model.Total)
                                                                             </strong>
                                                                         </p>
@@ -135,41 +140,94 @@
                                                     <div class="card-body">
                                                         <h4>Timeline</h4>
                                                         <ul class="timeline">
-                                                            <li class="active">
-                                                                <h6>PICKED</h6>
-                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque Lorem ipsum dolor</p>
+
+
+
+                                                            <li class=@(
+                                                                        Convert.ToInt32( o.OrderStatus )==1 ||
+                                                                         Convert.ToInt32( o.OrderStatus )==2 ||
+                                                                          Convert.ToInt32( o.OrderStatus )==3 ||
+                                                                           Convert.ToInt32( o.OrderStatus )==4 ||
+                                                                           Convert.ToInt32( o.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( o.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                                <h6>PENDING</h6>
+                                                                <p class="mb-0 text-muted">Your is pending now</p>
                                                                 <o class="text-muted">
                                                                     21 March, 2014
                                                                 </o>
                                                             </li>
-                                                            <li>
-                                                                <h6>PICKED</h6>
-                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
+
+                                                            <li class=@(
+
+                                                                         Convert.ToInt32( o.OrderStatus )==2 ||
+                                                                          Convert.ToInt32( o.OrderStatus )==3 ||
+                                                                           Convert.ToInt32( o.OrderStatus )==4 ||
+                                                                           Convert.ToInt32( o.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( o.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                                <h6>CONFIRMED</h6>
+                                                                <p class="mb-0 text-muted">Your order has been confirmed </p>
                                                                 <o class="text-muted">
                                                                     21 March, 2014
                                                                 </o>
                                                             </li>
-                                                            <li>
-                                                                <h6>PICKED</h6>
-                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
+
+                                                            <li class=@(
+
+
+                                                                          Convert.ToInt32( o.OrderStatus )==3 ||
+                                                                           Convert.ToInt32( o.OrderStatus )==4 ||
+                                                                           Convert.ToInt32( o.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( o.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                                <h6>PAID</h6>
+                                                                <p class="mb-0 text-muted">Your payment status paid</p>
                                                                 <o class="text-muted">
                                                                     21 March, 2014
                                                                 </o>
                                                             </li>
-                                                            <li>
+
+                                                            <li class=@(
+
+
+                                                                           Convert.ToInt32( o.OrderStatus )==4 ||
+                                                                           Convert.ToInt32( o.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( o.OrderStatus )==6 ? "active" : ""
+                                                        )>
                                                                 <h6>PICKED</h6>
-                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
+                                                                <p class="mb-0 text-muted">Your product has been picked</p>
                                                                 <o class="text-muted">
                                                                     21 March, 2014
                                                                 </o>
                                                             </li>
-                                                            <li>
-                                                                <h6>PICKED</h6>
-                                                                <p class="mb-0 text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque</p>
+                                                            <li class=@(
+
+
+
+                                                                           Convert.ToInt32( o.OrderStatus )==5 ||
+                                                                        Convert.ToInt32( o.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                                <h6>ON THE WAY</h6>
+                                                                <p class="mb-0 text-muted">Your product on the way/</p>
                                                                 <o class="text-muted">
                                                                     21 March, 2014
                                                                 </o>
                                                             </li>
+                                                            <li class=@(
+
+
+
+                                                                        Convert.ToInt32( o.OrderStatus )==6 ? "active" : ""
+                                                        )>
+                                                                <h6>DELIVERED</h6>
+                                                                <p class="mb-0 text-muted">Your product has been delivered.</p>
+                                                                <o class="text-muted">
+                                                                    21 March, 2014
+                                                                </o>
+                                                            </li>
+
+
                                                         </ul>
                                                     </div>
                                                 </div>
